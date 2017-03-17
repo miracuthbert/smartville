@@ -1,0 +1,9 @@
+.navbar-default .navbar-brand {
+    font-size: 2em;
+    padding: 25px 15px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}

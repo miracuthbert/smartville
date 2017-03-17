@@ -1,0 +1,596 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /*padding-top: 100px;*/
+    /* Margin bottom by footer height */
+    margin-bottom: 100px;
+    background-color: #f0f0f0;
+}
+
+footer {
+    padding: 30px 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 100px;
+    color: #FFFFFF;
+    background-color: #2C3E50;
+}
+
+/* Section text */
+.section-lg {
+    font-size: 20px;
+}
+
+/* Custom buttons */
+.btn-rounded {
+    border-radius: 100%;
+    padding: 8px 10px;
+    width: auto;
+    height: auto;
+}
+
+/* breadcrumb*/
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 0;
+}
+
+.progress {
+    height: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+/* Unresizable textarea */
+.text-box {
+    resize: none;
+}
+
+/* Style to reverse the caret icon from pointing downwards to upwards */
+.caret.caret-up {
+    border-top-width: 0;
+    border-bottom: 4px solid #fff;
+}
+
+/**  Sections */
+.section {
+    margin: 0 0 30px;
+    /*border: solid 1px #e6e6e6;*/
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+    /*-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);*/
+    /*box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);*/
+}
+
+.section-blank {
+    padding: 50px;
+}
+
+.section-pad {
+    padding: 25px 50px;
+    margin-bottom: 50px;
+    background-color: #FFFFFF;
+}
+
+.section .section-header, .section-pad .section-header {
+    background: #f7f7f7;
+    margin: -20px -20px 20px;
+    padding: 20px;
+    border-bottom: solid 1px #eeeeee;
+}
+
+.section .section-footer, .section-pad .section-footer {
+    background: #f7f7f7;
+    margin: 30px -20px -20px;
+    padding: 20px;
+    border-top: solid 1px #eeeeee;
+}
+
+.section-top {
+    margin-top: 50px;
+}
+
+.section-btm {
+    margin-bottom: 50px;
+}
+
+@media (max-width: 991px) {
+    .section .section-footer .btn {
+        margin-bottom: 20px;
+    }
+}
+
+/*
+ * Sidebar
+ */
+.stores-sidebar.affix {
+    position: static;
+}
+
+@media (min-width: 1200px) {
+    .stores-sidebar.affix, .stores-sidebar.affix-bottom {
+        width: 263px;
+    }
+}
+
+@media (min-width: 992px) {
+    .stores-sidebar.affix {
+        position: fixed;
+        top: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .stores-sidebar.affix, .stores-sidebar.affix-bottom {
+        width: 213px;
+    }
+}
+
+@media (min-width: 768px) {
+    .stores-sidebar {
+        padding-left: 20px;
+    }
+}
+
+.jumbotron {
+    background-color: transparent;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 350px;
+}
+
+/* Sign In Form */
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* End of Sign In Form */
+/* Tabs */
+.tab-wrapper {
+    position: relative;
+    padding: 45px 15px 15px;
+    margin: 0 -15px 15px;
+    /*    border-color: #e5e5e5 #eee #eee;*/
+    /*    border-style: solid;*/
+    /*    border-width: 1px 0;*/
+    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+}
+
+@media (min-width: 768px) {
+    .tab-wrapper {
+        margin-right: 0;
+        margin-left: 0;
+        background-color: #fff;
+        /*		border-color: #ddd;*/
+        /*		border-width: 1px;*/
+        border-radius: 4px 4px 0 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.tab-wrapper .nav-tabs {
+    margin-bottom: 15px;
+}
+
+.nav-tabs > li > a.btn:hover {
+    color: #333;
+}
+
+/* Navbar */
+/* Do Not Add Any Navbar Styles Beyond this block */
+.navbar-brand {
+    float: left;
+    padding: 25px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    height: 70px;
+}
+
+#navbar .dropdown-submenu a:hover {
+    color: #3494DB;
+    background-color: #f5f5f5;
+}
+
+.navbar-default .navbar-form {
+    padding-bottom: 10px;
+    padding-top: 9px;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+}
+
+.navbar-custom .navbar-brand, .navbar-custom .navbar-brand.active, .navbar-custom .navbar-brand:active, .navbar-custom .navbar-brand:focus, .navbar-custom .navbar-brand:hover, .navbar-custom .navbar-nav li a {
+    color: #FFFFFF;
+}
+
+.navbar-custom .navbar-nav .dropdown-menu li a {
+    color: #3c3c3c;
+}
+
+.navbar-custom .navbar-nav li a:active,
+.navbar-custom .navbar-nav li a:focus, .navbar-custom .navbar-nav li a:hover,
+.navbar-custom .navbar-nav li.active a, .navbar-custom .navbar-nav li.active a:active,
+.navbar-custom .navbar-nav li.active a:focus, .navbar-custom .navbar-nav li.active a:hover {
+    color: #FFFFFF;
+    background-color: #18BC9C;
+    outline: 0;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    color: #FFFFFF;
+    background-color: #18BC9C;
+}
+
+.navbar-custom {
+    background-color: #2C3E50;
+    padding: 15px 0;
+    margin-bottom: 0;
+}
+
+.navbar-custom.affix {
+    padding: 5px 0;
+}
+
+#top {
+    padding: 12px 15px;
+    font-size: 12px;
+    background-color: #16A085;
+    color: #FFFFFF;
+}
+
+#top ul.menu {
+    padding-top: 10px;
+    margin: 0;
+    text-align: right;
+    font-size: 12px;
+    list-style: none;
+}
+
+#top ul.menu > li {
+    display: inline-block;
+}
+
+#top ul.menu > li > a {
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #dff0d8;
+}
+
+@media (max-width: 768px) {
+
+    #top {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+
+    #top ul.menu {
+        padding: 0;
+    }
+
+    #top ul.menu > li > a {
+        display: block;
+        padding: 15px;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+}
+
+#top ul.menu-xs {
+    padding: 0;
+}
+
+#top ul.menu-xs > li {
+    display: inline-block;
+}
+
+#top ul.menu-xs li > a {
+    display: block;
+    padding: 15px 10px;
+    font-size: 14px;
+}
+
+#top ul.menu-xs li > a:hover, #top ul.menu-xs li > a:focus, #top ul.menu-xs li > a:active {
+    background-color: #333333;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#top ul.menu-xs .dropdown-menu {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    margin: 0 0 1px;
+    padding: 0;
+    position: static;
+    width: 100%;
+}
+
+/*
+ * Sidebar
+ */
+#header.affix {
+    position: static;
+}
+
+@media (min-width: 1200px) {
+    #header.affix, #header.affix-bottom {
+        width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    #header.affix {
+        position: fixed;
+        top: 0px;
+    }
+}
+
+@media (min-width: 992px) {
+    #header.affix, #header.affix-bottom {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    #header {
+        width: 100%;
+        /*padding-left: 20px;*/
+    }
+}
+
+/** Do Not Add Any Styles Beyond This Line */
+/* Flat UI Colors and Bckgd*/
+/* * colors */
+.white {
+    color: #FFFFFF;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.cornflowerblue {
+    color: cornflowerblue;
+}
+
+.emerald {
+    color: #2ECC71;
+}
+
+.green-sea {
+    color: #16A085;
+}
+
+.sunflower {
+    color: #F1C40F;
+}
+
+.orange {
+    color: #F39C12;
+}
+
+.silver {
+    color: #BDC3C7;
+}
+
+.clouds {
+    color: #ECF0F1;
+}
+
+.belize-hole {
+    color: #2980B9;
+}
+
+.dark-gray {
+    color: #333333;
+}
+
+.crimson {
+    color: #DC143C;
+}
+
+.manganese-blue {
+    color: #03A89E;
+}
+
+.carrot {
+    color: #E67E22;
+}
+
+.turquoise {
+    color: #1ABC9C;
+}
+
+.honeydew {
+    color: #F0FFF0;
+}
+
+.mint {
+    color: #BDFCC9;
+}
+
+.lawngreen {
+    color: #7CFC00;
+}
+
+.ivoryblack {
+    color: #292421;
+}
+
+/* *  background colors */
+.bg-turquoise {
+    background-color: #1ABC9C;
+}
+
+.bg-emerald {
+    background-color: #2ECC71;
+}
+
+.bg-peter-river {
+    background-color: #3494DB;
+}
+
+.bg-amethyst {
+    background-color: #9B59B6;
+}
+
+.bg-wet-asphalt {
+    background-color: #34495E;
+}
+
+.bg-green-sea {
+    background-color: #16A085;
+}
+
+.bg-nephritis {
+    background-color: #27AE60;
+}
+
+.bg-belize-hole {
+    background-color: #2980B9;
+}
+
+.bg-wisteria {
+    background-color: #8E44AD;
+}
+
+.bg-midnight-blue {
+    background-color: #2C3E50;
+}
+
+.bg-sunflower {
+    background-color: #F1C40F;
+}
+
+.bg-carrot {
+    background-color: #E67E22;
+}
+
+.bg-alizarin {
+    background-color: #E74C3C;
+}
+
+.bg-clouds {
+    background-color: #ECF0F1;
+}
+
+.bg-concrete {
+    background-color: #95A5A6;
+}
+
+.bg-orange {
+    background-color: #F39C12;
+}
+
+.bg-pumpkin {
+    background-color: #D35400;
+}
+
+.bg-pomgrenate {
+    background-color: #C0392B;
+}
+
+.bg-silver {
+    background-color: #BDC3C7;
+}
+
+.bg-asbestos {
+    background-color: #7F8C8D;
+}
+
+.bg-white {
+    background-color: #FFFFFF;
+}
+
+.bg-dark-gray {
+    background-color: #333333;
+}
+
+.bg-crimson {
+    background-color: #DC143C;
+}
+
+.bg-manganese-blue {
+    background-color: #03A89E;
+}
+
+.bg-honeydew {
+    background-color: #F0FFF0;
+}
+
+.bg-mint {
+    background-color: #BDFCC9;
+}
+
+.bg-lawngreen {
+    background-color: #7CFC00;
+}
+
+.bg-ivoryblack {
+    background-color: #292421;
+}

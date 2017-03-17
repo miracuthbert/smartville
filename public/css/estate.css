@@ -1,0 +1,16 @@
+#page-wrapper {
+    padding-bottom: 30px;
+}
+
+.box {
+    padding: 25px 0;
+}
+
+.box-all {
+    padding: 25px;
+}
+
+footer {
+    padding: 30px 0;
+    background-color: #f8f8f8;
+}

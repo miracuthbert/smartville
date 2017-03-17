@@ -1,0 +1,203 @@
+/** Do Not Add Any Styles Beyond This Line */
+/* Flat UI Colors and Bckgd*/
+/* * colors */
+.white {
+    color: #FFFFFF;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.cornflowerblue {
+    color: cornflowerblue;
+}
+
+.emerald {
+    color: #2ECC71;
+}
+
+.green-sea {
+    color: #16A085;
+}
+
+.sunflower {
+    color: #F1C40F;
+}
+
+.orange {
+    color: #F39C12;
+}
+
+.silver {
+    color: #BDC3C7;
+}
+
+.clouds {
+    color: #ECF0F1;
+}
+
+.belize-hole {
+    color: #2980B9;
+}
+
+.dark-gray {
+    color: #333333;
+}
+
+.crimson {
+    color: #DC143C;
+}
+
+.manganese-blue {
+    color: #03A89E;
+}
+
+.carrot {
+    color: #E67E22;
+}
+
+.turquoise {
+    color: #1ABC9C;
+}
+
+.honeydew {
+    color: #F0FFF0;
+}
+
+.mint {
+    color: #BDFCC9;
+}
+
+.lawngreen {
+    color: #7CFC00;
+}
+
+.ivoryblack {
+    color: #292421;
+}
+
+/* *  background colors */
+.bg-yellow-sun {
+    background-color: #ffcc33;
+}
+
+.bg-blue-sky {
+    background-color: #3c93d0;
+}
+
+.bg-monarch {
+    background-color: #333366;
+}
+
+.bg-turquoise {
+    background-color: #1ABC9C;
+}
+
+.bg-emerald {
+    background-color: #2ECC71;
+}
+
+.bg-peter-river {
+    background-color: #3494DB;
+}
+
+.bg-amethyst {
+    background-color: #9B59B6;
+}
+
+.bg-wet-asphalt {
+    background-color: #34495E;
+}
+
+.bg-green-sea {
+    background-color: #16A085;
+}
+
+.bg-nephritis {
+    background-color: #27AE60;
+}
+
+.bg-belize-hole {
+    background-color: #2980B9;
+}
+
+.bg-wisteria {
+    background-color: #8E44AD;
+}
+
+.bg-midnight-blue {
+    background-color: #2C3E50;
+}
+
+.bg-sunflower {
+    background-color: #F1C40F;
+}
+
+.bg-carrot {
+    background-color: #E67E22;
+}
+
+.bg-alizarin {
+    background-color: #E74C3C;
+}
+
+.bg-clouds {
+    background-color: #ECF0F1;
+}
+
+.bg-concrete {
+    background-color: #95A5A6;
+}
+
+.bg-orange {
+    background-color: #F39C12;
+}
+
+.bg-pumpkin {
+    background-color: #D35400;
+}
+
+.bg-pomgrenate {
+    background-color: #C0392B;
+}
+
+.bg-silver {
+    background-color: #BDC3C7;
+}
+
+.bg-asbestos {
+    background-color: #7F8C8D;
+}
+
+.bg-white {
+    background-color: #FFFFFF;
+}
+
+.bg-dark-gray {
+    background-color: #333333;
+}
+
+.bg-crimson {
+    background-color: #DC143C;
+}
+
+.bg-manganese-blue {
+    background-color: #03A89E;
+}
+
+.bg-honeydew {
+    background-color: #F0FFF0;
+}
+
+.bg-mint {
+    background-color: #BDFCC9;
+}
+
+.bg-lawngreen {
+    background-color: #7CFC00;
+}
+
+.bg-ivoryblack {
+    background-color: #292421;
+}

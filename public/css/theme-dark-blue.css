@@ -1,0 +1,50 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 70px;
+    /* Margin bottom by footer height */
+    margin-bottom: 100px;
+}
+
+footer {
+    padding: 30px 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 100px;
+    background-color: #ECF0F1;
+}
+
+/**
+  * Jumbotron styles
+  */
+.jumbotron {
+    background-color: #ECF0F1;
+    color: #2C3E50;
+}
+
+/**
+  * Navbar styles
+  */
+.navbar-default {
+    background-color: #2C3E50;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
