@@ -13,8 +13,7 @@
         "paypal/rest-api-sdk-php": "*",
         "barryvdh/laravel-dompdf": "^0.7.0",
         "monarobase/country-list": "^2.0",
-        "pragmarx/countries": "^0.1.0",
-        "barryvdh/laravel-snappy": "^0.3.3"
+        "pragmarx/countries": "^0.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
