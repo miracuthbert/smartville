@@ -42,11 +42,24 @@ class PaypalSubscriptionController extends Controller
     {
         $this->middleware('company.admin');
 
+        //paypal config
+        $paypal_conf = config('paypal');
+
         //paypal
-        $paypal = new PayPalRest();
+//        $paypal = new PayPalRest();
 
         //api
-        $this->api = $paypal->getApi();
+//        $this->api = $paypal->getApi();
+
+        // setup PayPal api context
+        $this->api = new ApiContext(
+            new OAuthTokenCredential(
+                config('paypal.client_id'),
+                config('paypal.secret')
+            )
+        );
+
+        $this->api->setConfig($paypal_conf);
 
     }
 
