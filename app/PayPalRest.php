@@ -3,33 +3,35 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 
 class PayPalRest extends Model
 {
 
-    protected $api;
+    /**
+     * @var ApiContext
+     */
+    protected $apiContext;
 
     /**
      * PayPalRest constructor.
      */
     public function __construct()
     {
+        //get paypal config settings
         $paypal_conf = config('paypal');
 
-//        dd($paypal_conf);
-
         // setup PayPal api context
-        $this->api = new ApiContext(
+        $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
                 config('paypal.client_id'),
                 config('paypal.secret')
             )
         );
 
-        $this->api->setConfig($paypal_conf);
+        //set config settings
+        $this->apiContext->setConfig($paypal_conf);
     }
 
     /**
@@ -37,6 +39,6 @@ class PayPalRest extends Model
      */
     public function getApi()
     {
-        return $this->api;
+        return $this->apiContext;
     }
 }

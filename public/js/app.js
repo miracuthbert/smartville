@@ -948,10 +948,10 @@ $(document).ready(function () {
                     },
                 }).done(function (data) {
                     if (data.status == 1) {
-                    //assign plan id
-                    $plan = data.plan.id;
+                        //assign plan id
+                        $plan = data.plan.id;
 
-                    $('input#plan').val($plan);
+                        $('input#plan').val($plan);
 
                         $('#btnSubscribe').prop('disabled', false);
 
@@ -960,7 +960,8 @@ $(document).ready(function () {
                         $price = data.plan.price;
 
                         //total
-                        $total = ($price * $props);
+                        // $total = ($price * $props);
+                        $total = data.totalAmount;
 
                         //assign values
                         $('#plan-wrapper input#price').val($price);
@@ -971,7 +972,7 @@ $(document).ready(function () {
                         $('#plan-wrapper span.limit').html(data.plan.limit);
 
                         //slide down plan wrapper
-                        $('#amount-wrapper input.price').val(data.plan.price);
+                        $('#amount-wrapper input.price').val($total);
                         $('#amount-wrapper input.duration').val(data.plan.duration_type);
                         $('#amount-wrapper .amount').html($total);
                         $('#amount-wrapper .duration').html(data.plan.duration_type);
@@ -979,9 +980,7 @@ $(document).ready(function () {
 
                         //clear
                         $this.parent().next('span.help-block').addClass('text-info').html('You can now proceed to payment');
-                    }
-
-                    else {
+                    } else {
                         $this.parent().next('span.help-block').html(data.message);
                         $('div#amount-wrapper').slideUp();
                     }

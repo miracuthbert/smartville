@@ -1,9 +1,9 @@
 <?php
 return array(
     // set your paypal credential
-    'client_id' => config('services.paypalrest.client'),
+    'client_id' => 'AV1n6EiE8Rgo0PJ0niYcKVuxWSU3tPgZAf0m0tGYcOxIKU6Jb_mj6K6aZMhFLQ0ILUs0ifl8DjZfYXss',
     
-    'secret' => config('services.paypalrest.secret'),
+    'secret' => 'EH5-Au6MJ4Qewql8eIxabrn8SxYZRCJO5H-r74MP1PbdAIyuL4-eXWEKYZP4oFY7mdM4b9OSsBys7mDS',
 
     /**
      * SDK configuration

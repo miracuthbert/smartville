@@ -29,37 +29,17 @@ class PaypalSubscriptionController extends Controller
     protected $api;
 
     /**
-     * @param mode
-     * Holds paypal env mode
-     * live, sandbox
-     */
-    protected $mode = 'sandbox';
-
-    /**
      * PaypalSubscriptionController constructor.
      */
     public function __construct()
     {
         $this->middleware('company.admin');
 
-        //paypal config
-        $paypal_conf = config('paypal');
-
-        //paypal
-//        $paypal = new PayPalRest();
+        //paypal rest api init
+        $paypalRest = new PayPalRest();
 
         //api
-//        $this->api = $paypal->getApi();
-
-        // setup PayPal api context
-        $this->api = new ApiContext(
-            new OAuthTokenCredential(
-                config('paypal.client_id'),
-                config('paypal.secret')
-            )
-        );
-
-        $this->api->setConfig($paypal_conf);
+        $this->api = $paypalRest->getApi();
 
     }
 
@@ -99,10 +79,13 @@ class PaypalSubscriptionController extends Controller
 
         $plan = ProductPlan::where('minimum', '<=', $properties)->where('limit', '>=', $properties)->first();
 
-        if ($plan != null)
-            return response()->json(['status' => 1, 'plan' => $plan]);
+        if ($plan != null) {
+            //total amount
+            $totalAmount = doubleval(ceil($plan->price * $properties));
 
-            return response()->json(['status' => 0, 'message' => 'Sorry, we currently do not cover a plan to suit your needs.']);
+            return response()->json(['status' => 1, 'plan' => $plan, 'totalAmount' => $totalAmount]);
+        }
+        return response()->json(['status' => 0, 'message' => 'Sorry, we currently do not cover a plan to suit your needs.']);
 
     }
 
@@ -130,13 +113,14 @@ class PaypalSubscriptionController extends Controller
         //properties
         $properties = $request->input('properties');
         $price = $request->input('price');
+        $features = $request->input('feature');
 
         //plan
         $plan_id = $request->input('plan');
         $plan = ProductPlan::find($plan_id);
 
         //total
-        $total = ($plan->price * $properties);
+        $total = ceil($plan->price * $properties);
 
         //summary
         $summary = "Payment for one month subscription for " . $properties . " properties.";
@@ -165,7 +149,8 @@ class PaypalSubscriptionController extends Controller
 
         //Transaction
         $transaction->setAmount($amount)
-            ->setDescription($summary);
+            ->setDescription($summary)
+            ->setInvoiceNumber(uniqid());
 
         //Payment
         $payment->setIntent('authorize')
@@ -210,11 +195,17 @@ class PaypalSubscriptionController extends Controller
                 ->with('bulk_error', $_error);
         }
 
-        foreach ($payment->getLinks() as $link) {
-            if ($link->getRel() == 'approval_url') {
-                $redirectUrl = $link->getHref();
-            }
-        }
+//        foreach ($payment->getLinks() as $link) {
+//            if ($link->getRel() == 'approval_url') {
+//                $redirectUrl = $link->getHref();
+//            }
+//        }
+
+        // ### Get redirect url
+        // The API response provides the url that you must redirect
+        // the buyer to. Retrieve the url from the $payment->getApprovalLink()
+        // method
+        $redirectUrl = $payment->getApprovalLink();
 
         return redirect()->to($redirectUrl);
     }

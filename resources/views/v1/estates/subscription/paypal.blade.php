@@ -88,43 +88,6 @@
                                 <input type="hidden" name="_properties" class="_properties">
                             </div>
                         </div>
-
-                        <div id="cc-info" class="hidden">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="company">Company details:</label>
-                                        <address>
-                                            <h3>
-                                                {{ $company->title }}
-                                            </h3>
-                                            <strong>
-                                                {{ $company->zipcode }} -
-                                                {{ $company->address }}
-                                            </strong>
-                                            <br>
-                                            <strong>
-                                                {{ $company->city }},
-                                                {{ $company->country }}
-                                            </strong>
-                                        </address>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Paid via:</label>
-                                        <input type="hidden" name="name" id="name" class="form-control"
-                                               value="{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}"
-                                               required>
-                                        <input type="hidden" name="email" id="email" class="form-control"
-                                               value="{{ Auth::user()->email }}" required>
-                                        <p>
-                                            {{ Auth::user()->firstname }} {{ Auth::user()->lastname }}
-                                            <br>
-                                            {{ Auth::user()->email }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
