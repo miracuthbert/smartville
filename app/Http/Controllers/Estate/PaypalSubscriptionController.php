@@ -303,12 +303,14 @@ class PaypalSubscriptionController extends Controller
         $product = $app->product;
 
         //plan
-        $plan = $app->paypalSubscription;
+        $planSubscribed = $app->paypal()->latest()->first();
+        $plan = $planSubscribed->plan;
 
         return view('v1.estates.subscription.complete')
             ->with('company', $company)
             ->with('product', $product)
             ->with('plan', $plan)
+            ->with('subscription', $planSubscribed)
             ->with('app', $app);
 
     }

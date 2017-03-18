@@ -25,6 +25,14 @@ class AppPaypal extends Model
     ];
 
     /**
+     * Get Company App Plan
+     */
+    public function plan()
+    {
+        return $this->belongsTo(ProductPlan::class, 'payment_plan', 'id');
+    }
+
+    /**
      * Get Company App
      */
     public function app()
@@ -71,7 +79,7 @@ class AppPaypal extends Model
     public function active()
     {
         if (!is_null($this->ends_at)) {
-            return Carbon::today()->lt($this->trial_ends_at);
+            return Carbon::today()->lt($this->ends_at);
         } else {
             return false;
         }

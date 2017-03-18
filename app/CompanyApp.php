@@ -20,7 +20,7 @@ class CompanyApp extends Model
      */
     public function paypal()
     {
-        return $this->hasOne(AppPaypal::class, 'company_app_id')->where('ends_at');
+        return $this->hasMany(AppPaypal::class, 'company_app_id');
     }
 
     /**
