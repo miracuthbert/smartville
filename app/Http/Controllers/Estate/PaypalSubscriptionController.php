@@ -10,8 +10,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
@@ -119,8 +122,9 @@ class PaypalSubscriptionController extends Controller
         $plan_id = $request->input('plan');
         $plan = ProductPlan::find($plan_id);
 
-        //total
-        $total = ceil($plan->price * $properties);
+        //totals
+        $totalPlan = ceil($plan->price * $properties);
+        $total = $totalPlan + 10;
 
         //summary
         $summary = "Payment for one month subscription for " . $properties . " properties.";
@@ -137,6 +141,23 @@ class PaypalSubscriptionController extends Controller
         //Payer
         $payer->setPaymentMethod('paypal');
 
+        //Items
+        $item1 = new Item();
+        $item1->setName($plan->title)
+            ->setCurrency('USD')
+            ->setQuantity(1)
+            ->setSku($plan->id)// Similar to `item_number` in Classic API
+            ->setPrice($totalPlan);
+        $item2 = new Item();
+        $item2->setName('Export Invoices To PDF')
+            ->setCurrency('USD')
+            ->setQuantity(1)
+            ->setSku("321321")// Similar to `item_number` in Classic API
+            ->setPrice(10);
+
+        $itemList = new ItemList();
+        $itemList->setItems(array($item1, $item2));
+
         //Details
         $details
             ->setTax('0.00')
@@ -149,6 +170,7 @@ class PaypalSubscriptionController extends Controller
 
         //Transaction
         $transaction->setAmount($amount)
+            ->setItemList($itemList)
             ->setDescription($summary)
             ->setInvoiceNumber(uniqid());
 
@@ -185,13 +207,17 @@ class PaypalSubscriptionController extends Controller
             $store->save();
 
         } catch (PayPalConnectionException $e) {
+            //message
             Storage::append(
                 'logs/paypal.log',
-                [
-                    'message' => $e->getMessage(),
-                    'data' => $e->getData(),
-                ]
+                array_flatten(['message' => $e->getMessage(), 'message_data' => $e->getData()])
             );
+
+            //data
+//            Storage::append(
+//                'logs/paypal.log',
+//                'message_data' => $e->getData()
+//            );
 
             //errors
             $_error = array_add($_error, $z++, 'Whoops! Some error occured.');
@@ -326,8 +352,23 @@ class PaypalSubscriptionController extends Controller
     /**
      * PaypalSubscriptionController cancel.
      */
-    public function cancel()
+    public function cancel($id)
     {
-        return view('v1.paypal.cancel');
+        //app
+        $app = CompanyApp::find($id);
+
+        //check app
+        if ($app == null)
+            abort(404);
+
+        //authorize
+        $this->authorize('view', $app);
+
+        //company
+        $company = $app->company;
+
+        return view('v1.paypal.cancel')
+            ->with('app', $app)
+            ->with('company', $company);
     }
 }

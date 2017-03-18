@@ -373,7 +373,7 @@ Route::group(['prefix' => 'estate'], function () {
         ]);
 
         //Cancelled Subscription Route
-        Route::get('paypal/cancel', [
+        Route::get('paypal/cancel/{id}', [
             'uses' => 'Estate\PaypalSubscriptionController@cancel',
             'as' => 'estate.subscribe.paypal.cancel'
         ]);

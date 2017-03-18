@@ -94,4 +94,6 @@
             </div>
         </div>
     </div>
+
+    @include('v1.includes.footers.default')
 @endsection

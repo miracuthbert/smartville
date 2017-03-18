@@ -99,7 +99,7 @@
                 <div class="row">
                     <div class="box">
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-primary btn-lg" id="btnSubscribe">
+                            <button type="submit" class="btn btn-primary btn-lg" id="btnSubscribe" disabled>
                                 Subscribe
                             </button>
                         </div>
