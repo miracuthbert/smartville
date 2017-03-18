@@ -48,9 +48,14 @@
                                 <div class="col-lg-12">
                                     <label for="plan">Enter number of properties:</label>
                                     <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <strong># of properties</strong>
+                                        </span>
                                         <input type="text" name="properties" min="1" id="plan-properties"
                                                class="form-control" value="{{ Request::old('properties') }}" required>
-                                        <span class="input-group-addon">properties</span>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" id="btnSubsCalculate">Calculate</button>
+                                        </div>
                                     </div>
                                     <span class="help-block"></span>
                                     <input type="hidden" name="plan" id="plan" value="{{ Request::old('plan') }}">
@@ -76,7 +81,7 @@
                                 </div>
 
                                 <div id="amount-wrapper" style="display: {{ Request::old('properties') == null ? 'none' : ''}};">
-                                    <h1> Total: $. <strong class="amount">{{ (Request::old('properties') * Request::old('price')) }}</strong>
+                                    <h1> Total: $. <strong class="amount">{{ ceil(Request::old('properties') * Request::old('price')) }}</strong>
                                         <small><em class="duration">{{ Request::old('duration') }}</em></small>
                                     </h1>
 

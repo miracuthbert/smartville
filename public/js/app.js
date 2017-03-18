@@ -877,13 +877,13 @@ $(document).ready(function () {
      * ------------------------------------------------------------------------------
      */
     //plan details
-    $(document).on('keyup', 'input#plan-properties', function () {
+    $(document).on('click', '#btnSubsCalculate', function () {
         var $id;
 
         $this = $(this);
 
         //properties
-        $props = $this.val();
+        $props = $('input#plan-properties').val();
 
         if ($props > 0) {
 
@@ -942,8 +942,12 @@ $(document).ready(function () {
                     cache: false,
                     'beforeSend': function () {
                         //disable input
+                        $('input#plan-properties').prop('disabled', true);
+
                         $('#btnSubscribe').prop('disabled', true);
+
                         $this.prop('disabled', true);
+
                         $('div#amount-wrapper').slideUp();
                     },
                 }).done(function (data) {
@@ -972,7 +976,7 @@ $(document).ready(function () {
                         $('#plan-wrapper span.limit').html(data.plan.limit);
 
                         //slide down plan wrapper
-                        $('#amount-wrapper input.price').val($total);
+                        $('#amount-wrapper input.price').val(data.plan.price);
                         $('#amount-wrapper input.duration').val(data.plan.duration_type);
                         $('#amount-wrapper .amount').html($total);
                         $('#amount-wrapper .duration').html(data.plan.duration_type);
@@ -993,6 +997,7 @@ $(document).ready(function () {
 
                 //enable
                 $this.prop('disabled', false);
+                $('input#plan-properties').prop('disabled', false);
 
             }, 500);
         }

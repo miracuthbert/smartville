@@ -140,7 +140,7 @@ class PaypalSubscriptionController extends Controller
         //Details
         $details
             ->setTax('0.00')
-            ->setSubtotal($plan->price);
+            ->setSubtotal($total);
 
         //Amount
         $amount->setCurrency('USD')
@@ -178,12 +178,21 @@ class PaypalSubscriptionController extends Controller
             $store->payment_plan = $plan->id;
             $store->quantity = $properties;
             $store->payment_hash = $hash;
-            $store->trial_ends_at = $when->addDays($plan->trial_days);
+            $store->trial_ends_at = Carbon::now()->addDays($plan->trial_days);
 
             //save
-            Auth::user()->appPaypal($store);
+            $store->user_id = (Auth::user()->id);
+            $store->save();
 
         } catch (PayPalConnectionException $e) {
+            Storage::append(
+                'logs/paypal.log',
+                [
+                    'message' => $e->getMessage(),
+                    'data' => $e->getData(),
+                ]
+            );
+
             //errors
             $_error = array_add($_error, $z++, 'Whoops! Some error occured.');
             $_error = array_add($_error, $z++, 'Subscription failed.');
@@ -242,7 +251,7 @@ class PaypalSubscriptionController extends Controller
 
             //update transaction
             $updateTransaction = $paymentId;
-            $updateTransaction->complete = 1;
+            $updateTransaction->completed = 1;
             $updateTransaction->ends_at = Carbon::now()->addDays($plan->trial_days)->addMonths($plan->duration);
             $updateTransaction->save();
 
@@ -262,7 +271,12 @@ class PaypalSubscriptionController extends Controller
             }
 
         } else {
-            return redirect()->route('estate.subscribe.paypal.cancel')
+
+            //get payment id from database
+            $paymentId = AppPaypal::where('payment_hash', $hash)->first();
+            $app = $paymentId->app;
+
+            return redirect()->route('estate.subscribe.paypal.cancel', ['app' => $app->id])
                 ->with('success', 'Subscription cancelled.');
         }
     }
@@ -312,6 +326,6 @@ class PaypalSubscriptionController extends Controller
      */
     public function cancel()
     {
-        return view('paypal.cancel');
+        return view('v1.paypal.cancel');
     }
 }

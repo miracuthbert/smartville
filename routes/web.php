@@ -355,7 +355,7 @@ Route::group(['prefix' => 'estate'], function () {
         ]);
 
         //Redirect Subscription Route
-        Route::post('paypal/pay', [
+        Route::get('paypal/pay', [
             'uses' => 'Estate\PaypalSubscriptionController@pay',
             'as' => 'estate.subscribe.paypal.pay'
         ]);
