@@ -37,6 +37,11 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     /**
+     * Popover
+     */
+    $(function () { $('[data-toggle="popover"]').popover() });
+
+    /**
      * Off canvas sidebar
      */
     $(document).ready(function () {

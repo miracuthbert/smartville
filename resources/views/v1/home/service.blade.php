@@ -22,7 +22,14 @@
                             <i class="fa {{ $product->icon }} fa-stack-1x fa-inverse"></i>
                         </span>
                     </div>
-                    <h2 class="section-heading">{{ $product->title }}</h2>
+                    <h2 class="section-heading">{{ $product->title }}
+                        @if(!$product->mode == 1)
+                            <small data-toggle="tooltip"
+                                   title="{{ AppModeInfo($product->mode) }}">
+                                <span class="label label-warning">Beta</span>
+                            </small>
+                        @endif
+                    </h2>
                     <hr class="star-primary">
                     <h3 class="section-subheading text-muted">{{ $product->summary }}</h3>
                 </div>

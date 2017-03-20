@@ -10,8 +10,8 @@ return [
      */
     'send_activation_email' => env('SETTINGS_SEND_ACTIVATION_EMAIL', true),
 
-    'avatar_storage_user' => 'images/avatars/user',
+    'avatar_storage_user' => 'images/avatars/users',
 
-    'avatar_storage_company' => 'images/avatars/company',
+    'avatar_storage_company' => 'images/avatars/companies',
 
 ];

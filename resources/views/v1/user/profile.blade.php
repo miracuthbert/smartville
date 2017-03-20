@@ -27,30 +27,45 @@
                         <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading clearfix">
-                                        <img src="{{ url('images/site/logos/thumbs/default.jpg') }}"
-                                             alt="{{ Auth::user()->firstname }} avatar" class="img-thumbnail">
-                                        Last changed: {{ 'a month ago' }}
-
-                                        <div class="pull-right">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="#avatar" class="btn btn-default">
-                                                    <i class="fa fa-file-image-o"></i>
-                                                    Change Logo
-                                                </a>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                @if($avatar != null)
+                                                    <img src="{{ url($avatar->data['thumbUrl']) }}" alt=""
+                                                         class="img-circle">
+                                                    <p>
+                                                        <strong>Changed:</strong>
+                                                        {{ $avatar->updated_at != null ? $avatar->updated_at->diffForHumans() : $avatar->created_at->diffForHumans() }}
+                                                    </p>
+                                                @else
+                                                    <img src="{{ url('images/site/logos/thumbs/default.jpg') }}"
+                                                         alt="{{ Auth::user()->firstname }} avatar"
+                                                         class="img-thumbnail">
+                                                @endif
                                             </div>
-                                            <div class="btn-group btn-group-sm">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <i class="caret"></i>
-                                                </button>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li>
-                                                        <a href="#">Set Default</a>
-                                                    </li>
-                                                </ul>
+                                            <div class="col-md-4">
+                                                <div class="pull-right">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="{{ route('user.avatar') }}" class="btn btn-default">
+                                                            <i class="fa fa-camera-retro"></i>
+                                                            Change Logo
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                                data-toggle="dropdown" aria-expanded="false">
+                                                            Actions
+                                                            <i class="caret"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li>
+                                                                <a href="#">Set Default</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -43,12 +43,20 @@ class MainComposer
             ->with('property_types', $property_types);
 
         if (Auth::check()) {
+            //user
+            $user = Auth::user();
+
+            //avatar
+            $avatar = $user->avatar;
+
+            //notifications
             $notifications = Auth::user()->notifications()->orderBy('created_at', 'DESC')->paginate();
             $mini_notifications = Auth::user()->notifications()->orderBy('created_at', 'DESC')->paginate(4);
             $unread_notifications = Auth::user()->unreadNotifications()->orderBy('created_at', 'DESC')->paginate();
 
             //view
             $view
+                ->with('avatar', $avatar)
                 ->with('notifications', $notifications)
                 ->with('unread_notifications', $unread_notifications)
                 ->with('mini_notifications', $mini_notifications);

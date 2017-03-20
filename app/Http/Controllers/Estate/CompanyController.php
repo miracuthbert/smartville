@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Image;
-use Ramsey\Uuid\Uuid;
 
 class CompanyController extends Controller
 {
@@ -30,6 +29,9 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        //
+        $this->middleware('company.admin')->except('create');
     }
 
     /**

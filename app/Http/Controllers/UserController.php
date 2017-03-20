@@ -82,11 +82,14 @@ class UserController extends Controller
     }
 
     /*
-     * Method : getUserProfile
+     * Method : profile
      * Handles User General Profile
      * */
     public function profile()
     {
+        //user
+        $user = Auth::user();
+
         return view('v1.user.profile');
     }
 

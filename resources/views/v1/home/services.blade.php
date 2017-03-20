@@ -29,7 +29,14 @@
                             <i class="fa {{ $app->icon }} fa-stack-1x fa-inverse"></i>
                         </span>
                         </div>
-                        <h4 class="service-heading">{{ $app->title }}</h4>
+                        <h4 class="service-heading">{{ $app->title }}
+                            @if(!$product->mode == 1)
+                                <small data-toggle="tooltip"
+                                       title="{{ AppModeInfo($product->mode) }}">
+                                    <span class="label label-warning">Beta</span>
+                                </small>
+                            @endif
+                        </h4>
 
                         <p class="text-muted">{{ $app->summary }}
                             <a href="{{ route('service', ['id' => $app->id]) }}" class="btn btn-link">Read more...</a>

@@ -54,6 +54,16 @@ Route::post('/date-generator', [
 ]);
 
 /**
+ * Support Resource Route
+ */
+Route::resource('support', 'Support\Test\SupportController');
+
+/**
+ * Questions Resource Route
+ */
+Route::resource('support/questions', 'Support\Test\TestQuestionController');
+
+/**
  * -----------------------------------------------------------------
  * Admin Routes Group
  * -----------------------------------------------------------------
@@ -993,9 +1003,34 @@ Route::group(['prefix' => 'user'], function () {
         'as' => 'user.profile'
     ]);
 
+    //user profile update
     Route::post('profile-update', [
         'uses' => 'UserController@update',
         'as' => 'user.profile.update'
+    ]);
+
+    //user avatar upload view
+    Route::get('profile/avatar', [
+        'uses' => 'User\AvatarController@avatar',
+        'as' => 'user.avatar'
+    ]);
+
+    //user avatar store
+    Route::post('avatar/store', [
+        'uses' => 'User\AvatarController@store',
+        'as' => 'user.avatar.store'
+    ]);
+
+    //user avatar update
+    Route::get('avatar/update/{id}', [
+        'uses' => 'User\AvatarController@update',
+        'as' => 'user.avatar.update'
+    ]);
+
+    //user avatar update
+    Route::get('avatar/delete/{id}', [
+        'uses' => 'User\AvatarController@delete',
+        'as' => 'user.avatar.delete'
     ]);
 
     Route::get('settings', [

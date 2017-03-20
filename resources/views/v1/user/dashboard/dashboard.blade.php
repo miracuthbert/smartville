@@ -64,6 +64,6 @@
         </div>
     </div>
 
-    @include('includes.footers.default')
+    @include('v1.includes.footers.default')
 
 @endsection

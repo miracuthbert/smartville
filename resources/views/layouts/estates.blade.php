@@ -240,6 +240,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
 
+<!-- Custom Text Editor -->
+<script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
+
 <!-- Custom Js -->
 <script src="{{ url('js/app.js') }}"></script>
 

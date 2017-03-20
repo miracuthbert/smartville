@@ -53,8 +53,8 @@
                                        id="profile-image" required>
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-upload"></i>
                                         Upload
+                                        <i class="fa fa-upload"></i>
                                     </button>
                                 </div>
                             </div>
@@ -76,8 +76,10 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h3 class="page-header"><i class="fa fa-image"></i> Company Logos</h3>
-                <p class="text-muted">Logos you upload will appear here.</p>
+                <h3 class="page-header">
+                    <i class="fa fa-image"></i> Company Logos
+                </h3>
+                <p class="lead">Logos you upload will appear here.</p>
             </div>
         </div>
 

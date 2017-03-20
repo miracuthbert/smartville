@@ -155,10 +155,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get User's Logo's/Avatars
+     * Get User's Logos/Avatars
      */
     public function avatars()
     {
         return $this->morphMany(Avatar::class, 'avatarable');
+    }
+
+    /**
+     * Get User's Logo/Avatar
+     */
+    public function avatar()
+    {
+        return $this->morphOne(Avatar::class, 'avatarable')->where('status', 1);
     }
 }

@@ -124,3 +124,12 @@ function AppModeText($mode)
         echo 'Development';
     }
 }
+
+function AppModeInfo($mode)
+{
+    if ($mode == 1) {
+        return null;
+    } else {
+        echo 'App is under going development. Some features may be buggy. You can report whenever a problem occurs.';
+    }
+}

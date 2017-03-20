@@ -79,7 +79,7 @@
                                 <!-- subscription details link -->
                                 <li class="">
                                     @if($app->subscribed)
-                                        <a href="" class="btn btn-default" data-toggle="tooltip"
+                                        <a href="" class="" data-toggle="tooltip"
                                            title="Subscription info">
                                             <i class="fa fa-info-circle"></i>
                                             Subscription
