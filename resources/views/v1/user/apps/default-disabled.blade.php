@@ -37,14 +37,14 @@
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href="{{ route('app.status', ['id' => $app->id]) }}" data-toggle="tooltip"
+                                    <a href="{{ route('estate.rental.status', ['id' => $app->id]) }}" data-toggle="tooltip"
                                        title="{{ AppStatusToggleText($app->status) }} App">
                                         <i class="{{ AppStatusIcon($app->status) }}"></i>
                                         {{ AppStatusToggleText($app->status) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('app.delete', ['id' => $app->id]) }}" data-toggle="tooltip"
+                                    <a href="{{ route('estate.rental.delete', ['id' => $app->id]) }}" data-toggle="tooltip"
                                        title="Remove App">
                                         <i class="fa fa-remove"></i>
                                         Remove App

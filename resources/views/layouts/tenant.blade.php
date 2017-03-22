@@ -22,6 +22,8 @@
 
     <link href="{{ url('css/tenant-light.css') }}" rel="stylesheet">
 
+    <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
+
     <!-- Bootstrap Social CSS -->
     <link href="{{ url('css/bootstrap-social.css') }}" rel="stylesheet">
 
@@ -93,26 +95,18 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>Coming soon</strong>
-                            <i class="fa fa-hourglass-o"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-alerts -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
                         <a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> User Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user.notifications') }}">
+                            <i class="fa fa-bell fa-fw"></i> Notifications
+                            <span class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                        </a>
                     </li>
                     <li>
                         <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -189,10 +183,13 @@
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
+
+        <!-- /.stats -->
         @yield('stats')
-                <!-- /.stats -->
+
         @yield('content')
                 <!-- /.content -->
+
         @include('includes.forms.logout')
     </div>
     <!-- /#page-wrapper -->

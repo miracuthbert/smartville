@@ -62,8 +62,14 @@ hr {
     font-size: 2em;
 }
 
+.dropdown-menu {
+    border: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
 .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
-    color: #2c3e50
+    color: #2c3e50;
 }
 
 #content .btn.btn-primary {

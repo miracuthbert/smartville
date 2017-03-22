@@ -14,7 +14,7 @@
         <tbody>
         @foreach($properties as $property)
             <tr class="{{ $property->status == 1 ? 'info' : '' }}">
-                <td>{{ $property->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $property->title }}</td>
                 <td>
                     @if($property->property_group != null)
@@ -30,34 +30,36 @@
                     <small>sq.feet</small>
                 </td>
                 <td>
-                                    <span data-toggle="tooltip"
-                                          title="{{ PropertyStatusText($property->status) }}">
+                    <span data-toggle="tooltip"
+                          title="{{ PropertyStatusText($property->status) }}">
                                         <i class="{{ AppStatusIcon($property->status) }}"></i>
                                     </span>
                 </td>
                 <td>
                     <div class="btn-group btn-group-xs">
                         @if($sort != "trashed")
-                            <a href="{{ route('estate.property.edit', ['id' => $property->id]) }}"
+                            <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}"
                                role="button"
                                class="btn btn-primary" data-toggle="tooltip"
                                title="edit property">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a href="{{ route('estate.property.delete', ['id' => $property->id]) }}"
-                               role="button"
-                               class="btn btn-warning" data-toggle="tooltip"
-                               title="move to trash">
-                                <i class="fa fa-remove"></i>
-                            </a>
+                            @if(!$property->status)
+                                <a href="{{ route('estate.rental.property.delete', ['id' => $property->id]) }}"
+                                   role="button"
+                                   class="btn btn-warning" data-toggle="tooltip"
+                                   title="move to trash">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            @endif
                         @else
-                            <a href="{{ route('estate.property.restore', ['id' => $property->id]) }}"
+                            <a href="{{ route('estate.rental.property.restore', ['id' => $property->id]) }}"
                                role="button"
                                class="btn btn-success" data-toggle="tooltip"
                                title="restore property">
                                 <i class="fa fa-refresh"></i>
                             </a>
-                            <a href="{{ route('estate.property.destroy', ['id' => $property->id]) }}"
+                            <a href="{{ route('estate.rental.property.destroy', ['id' => $property->id]) }}"
                                role="button"
                                class="btn btn-danger" data-toggle="tooltip"
                                title="delete completely">

@@ -41,6 +41,10 @@
 <body>
 
 @yield('content')
+
+@include('includes.modals.success-modal')
+@include('includes.modals.error-modal')
+
 @include('includes.forms.logout')
 <!-- Bootstrap core JavaScript
 ================================================== -->

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\Amenity;
-use App\CompanyApp;
-use App\EstateProperty;
-use App\PropertyAmenity;
-use App\PropertyFeature;
-use App\PropertyPrice;
+use App\Models\v1\Shared\Amenity;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateProperty;
+use App\Models\v1\Property\PropertyAmenity;
+use App\Models\v1\Property\PropertyFeature;
+use App\Models\v1\Property\PropertyPrice;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -39,7 +39,7 @@ class PropertyController extends Controller
             return $validate = Validator::make($data, [
                 'id' => 'required|exists:estate_properties,id',
                 'title' => 'required|min:2|max:255',
-                'summary' => 'required|min:3|max:255',
+                'summary' => 'required',
                 'description' => 'nullable|min:3|max:2500',
                 'type' => 'required|integer|exists:categories,id',
                 'group' => 'nullable|integer|exists:estate_groups,id',
@@ -50,9 +50,9 @@ class PropertyController extends Controller
             ]);
         } else if ($type == "features") {
             return $validate = Validator::make($data, [
-                'feature.*' => 'string',
-                'details.*' => 'string',
-                'value.*' => 'numeric',
+                'feature.*' => 'required|string',
+                'details.*' => 'required|string',
+                'value.*' => 'required|numeric',
             ]);
         } else if ($type == "featuresUpdate") {
             return $validate = Validator::make($data, [
@@ -65,7 +65,7 @@ class PropertyController extends Controller
             return $validate = Validator::make($data, [
                 '_app' => 'required|integer|exists:company_apps,id',
                 'title' => 'required|min:2|max:255',
-                'summary' => 'required|min:3|max:255',
+                'summary' => 'required',
                 'description' => 'nullable|min:3|max:2500',
                 'type' => 'required|integer|exists:categories,id',
                 'group' => 'nullable|integer|exists:estate_groups,id',
@@ -98,7 +98,7 @@ class PropertyController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.properties.new')
+        return view('v1.estates.properties.create')
             ->with('amenities', $app->amenities()->where('status', 1)->get())
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('app', $app);
@@ -162,7 +162,7 @@ class PropertyController extends Controller
         //TODO: use for debug only
         //dd($property->prices()->where('status',1)->first());
 
-        return view('v1.estates.properties.property')
+        return view('v1.estates.properties.edit')
             ->with('app', $app)
             ->with('old_prices', $property->prices()->where('status', 0)->get())
             ->with('property_price', $property->prices()->where('status', 1)->first())
@@ -193,7 +193,7 @@ class PropertyController extends Controller
         //TODO: use for debug only
         //dd($property->prices()->where('status',1)->first());
 
-        return view('v1.estates.properties.property-amenities')
+        return view('v1.estates.properties.amenities.index')
             ->with('app', $app)
             ->with('old_prices', $property->prices()->where('status', 0)->get())
             ->with('property_price', $property->prices()->where('status', 1)->first())
@@ -224,7 +224,7 @@ class PropertyController extends Controller
         //TODO: use for debug only
         //dd($property->prices()->where('status',1)->first());
 
-        return view('v1.estates.properties.property-features')
+        return view('v1.estates.properties.features.index')
             ->with('app', $app)
             ->with('old_prices', $property->prices()->where('status', 0)->get())
             ->with('property_price', $property->prices()->where('status', 1)->first())
@@ -339,7 +339,7 @@ class PropertyController extends Controller
 
                 //amenities added
                 if ($amenity_success > 0)
-                    $success = array_add($success, 'Amenities', 'Only ' . $amenity_success . ' of ' . $amenities_length . ' amenities added successfully!');
+                    $success = array_add($success, 'Amenities', $amenity_success . ' of ' . $amenities_length . ' amenities added successfully!');
 
                 //amenities failed
                 if ($amenity_fails > 0)
@@ -380,7 +380,7 @@ class PropertyController extends Controller
                     $error = array_add($error, 'Features', $feature_fails . " features not added.");
             }
 
-            return redirect()->route('estate.properties', ['id' => $app->id, 'sort' => 'all'])
+            return redirect()->route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all'])
                 ->with('bulk_error', $error)
                 ->with('bulk_success', $success)
                 ->with('success', 'Property added successfully.');
@@ -517,6 +517,7 @@ class PropertyController extends Controller
         $feature_fails = 0;
         $success = array();
         $error = array();
+        $errMsg = null;
 
         //check if feature is empty
         if ($features_length > 0) {
@@ -551,11 +552,15 @@ class PropertyController extends Controller
                 $error = array_add($error, 'Features', "Only " . $feature_fails . ' of ' . $features_length . ' features not added.');
         }
 
+        if ($features_length <= 0) {
+            $errMsg = 'Whoops, looks like you did not add any feature. Add at least 1 and try again!';
+        }
+
         return redirect()->back()
             ->withInput()
+            ->with('error', $errMsg)
             ->with('bulk_error', $error)
-            ->with('bulk_success', $success)
-            ->with('success', 'Property added successfully.');
+            ->with('bulk_success', $success);
 
     }
 

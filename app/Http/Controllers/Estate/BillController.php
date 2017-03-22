@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\EstateBill;
-use App\EstateProperty;
-use App\TenantBill;
-use App\TenantProperty;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateBill;
+use App\Models\v1\Estate\EstateProperty;
+use App\Models\v1\Tenant\TenantBill;
+use App\Models\v1\Tenant\TenantProperty;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,8 +44,8 @@ class BillController extends Controller
                 '_bill' => 'required|integer|exists:tenant_bills,id',
                 'bill_plan' => 'required|boolean',
                 'bill_from_date' => 'required|date',
-                'bill_to_date' => 'required|date',
-                'bill_due' => 'required|date',
+                'bill_to_date' => 'required|date|after:bill_from_date.*',
+                'bill_due' => 'required|date|after:bill_from_date.*',
                 'bill_total' => 'required|numeric',
                 'bill_status' => 'required|boolean',
             ]);
@@ -57,7 +57,7 @@ class BillController extends Controller
                 'bill_plan' => 'required|boolean',
                 'bill_from_date.*' => 'required|date',
                 'bill_to_date.*' => 'required|date|after:bill_from_date.*',
-                'bill_due.*' => 'required|date|after:bill_to_date.*',
+                'bill_due.*' => 'required|date|after:bill_from_date.*',
                 'bill_total.*' => 'required|numeric',
                 'bill_status.*' => 'required|boolean',
             ],
@@ -161,7 +161,7 @@ class BillController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.bills.add-invoice')
+        return view('v1.estates.bills.create')
             ->with('app', $app)
             ->with('bill', $bill)
             ->with('from_date', $from)
@@ -278,7 +278,7 @@ class BillController extends Controller
         $pdf = PDF::setOptions(['defaultMediaType' => 'all', 'defaultFont' => 'sans-serif']);
 
         //view render
-        $pdf->loadView('reports.bills.default', [
+        $pdf->loadView('v1.reports.bills.default', [
             'app' => $app,
             'bills' => $bills,
             'sort' => $sort,
@@ -303,6 +303,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = $this->validator($request->all(), null);
 
         //check for errors
@@ -480,7 +481,7 @@ class BillController extends Controller
             if ($invoice_gen > 0) {
                 $success = array_add($success, $z++, $invoice_gen . " out of " . $invoice_total . " " . $bill->title . " bill invoices generated successfully.");
 
-                return redirect()->route('estate.bills.tenants', ['id' => $app->id, 'sort' => 'all'])
+                return redirect()->route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'all'])
                     ->with('bulk_success', $success);
             } else {
                 $error = array_add($error, $z++, "Failed creating any bill invoice.");

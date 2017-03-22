@@ -53,15 +53,132 @@ Route::post('/date-generator', [
     'as' => 'parse.date',
 ]);
 
+////Date generator
+//Route::get('/billing/reminders', [
+//    'uses' => 'Estate\Rental\Bills\ReminderController@store',
+//    'as' => 'billing.reminders',
+//]);
+
 /**
  * Support Resource Route
  */
 Route::resource('support', 'Support\Test\SupportController');
 
 /**
- * Questions Resource Route
+ * Support Bugs Resource Route
  */
-Route::resource('support/questions', 'Support\Test\TestQuestionController');
+Route::resource('support/bug', 'Support\Test\BugController', ['except' => [
+    'destroy'
+]]);
+
+/**
+ * Support Manuals Resource Route
+ */
+Route::resource('support/docs//manuals', 'Support\Documentation\ManualController', ['except' => [
+    'create', 'store', 'edit', 'update', 'destroy',
+]]);
+
+/**
+ * Support Manual Chapter Resource Route
+ */
+Route::resource('support/docs/{manual}/man_chapter', 'Support\Documentation\ManualChapterController', ['except' => [
+    'index', 'create', 'store', 'edit', 'update', 'destroy',
+]]);
+
+/**
+ * Support Manual Page Resource Route
+ */
+Route::resource('support/docs/{manual}/{chapter}/man_page', 'Support\Documentation\ManualPageController', ['except' => [
+    'index', 'create', 'store', 'edit', 'update', 'destroy',
+]]);
+
+
+/**
+ * ----------------------------------------------------------------
+ * Forum Resource Route
+ * ----------------------------------------------------------------
+ */
+
+//edit forum topic
+Route::get('forum/{forum}/edit', [
+    'uses' => 'Forum\User\PostController@edit',
+    'as' => 'forum.edit',
+]);
+
+//update forum topic
+Route::put('forum/{forum}', [
+    'uses' => 'Forum\User\PostController@update',
+    'as' => 'forum.update',
+]);
+
+//search
+Route::get('forum/results', [
+    'uses' => 'Forum\Search\SearchController@index',
+    'as' => 'forum.search',
+]);
+
+//update forum topic status
+Route::get('forum/status/{forum}', [
+    'uses' => 'Forum\User\PostController@status',
+    'as' => 'forum.status',
+]);
+
+//delete forum topic
+Route::get('forum/delete/{forum}', [
+    'uses' => 'Forum\User\PostController@destroy',
+    'as' => 'forum.destroy',
+]);
+
+//forum resource routes
+Route::resource('forum', 'Forum\ForumController', ['except' => [
+    'edit', 'update', 'destroy'
+]]);
+
+/**
+ * ----------------------------------------------------------------
+ * Forum Author Route
+ * ----------------------------------------------------------------
+ */
+Route::group(['prefix' => 'forum/author'], function () {
+
+    //author posts
+    Route::get('/index/{author?}', [
+        'uses' => 'Forum\User\PostController@index',
+        'as' => 'forum.author.index',
+    ]);
+});
+
+/**
+ * ----------------------------------------------------------------
+ * Forum Comments Route
+ * ----------------------------------------------------------------
+ */
+Route::group(['prefix' => 'forum/comments'], function () {
+
+    //store comment
+    Route::post('/', [
+        'uses' => 'Forum\Comment\CommentController@store',
+        'as' => 'forum.comment.store',
+    ]);
+
+    //comment vote
+    Route::post('vote/{id}', [
+        'uses' => 'Forum\Comment\VoteController@vote',
+        'as' => 'forum.comment.vote',
+    ]);
+
+    //update comment
+    Route::post('/update', [
+        'uses' => 'Forum\Comment\CommentController@update',
+        'as' => 'forum.comment.update',
+    ]);
+
+    //destroy comment
+    Route::get('/destroy/{id}', [
+        'uses' => 'Forum\Comment\CommentController@destroy',
+        'as' => 'forum.comment.destroy',
+    ]);
+});
 
 /**
  * -----------------------------------------------------------------
@@ -77,15 +194,21 @@ Route::group(['prefix' => 'admin'], function () {
     ]);
 
     //Get Admin Notifications
-    Route::get('notifications', [
-        'uses' => 'Admin\AdminController@notifications',
+    Route::get('user/notifications', [
+        'uses' => 'Admin\User\NotificationController@index',
         'as' => 'admin.notifications'
     ]);
 
     //Mark Admin Notification As Read
-    Route::get('notification/toggle/read/{id}', [
-        'uses' => 'Admin\AdminController@notificationRead',
+    Route::get('user/notification/toggle/read/{id}', [
+        'uses' => 'Admin\User\NotificationController@toggleRead',
         'as' => 'admin.notification.read'
+    ]);
+
+    //Admin Notification Destroy
+    Route::get('user/notification/destroy/{id}', [
+        'uses' => 'Admin\User\NotificationController@destroy',
+        'as' => 'admin.notification.destroy'
     ]);
 
     //Get Admin Settings
@@ -288,9 +411,10 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     /**
+     * -----------------------------------------------------------------
      * Admin App Plan Features
+     * -----------------------------------------------------------------
      */
-
     Route::group(['prefix' => 'app/plan/features'], function () {
         //Post Admin Add App Plan Features
         Route::post('add-features', [
@@ -299,32 +423,215 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
     });
 
+    /**
+     * -----------------------------------------------------------------
+     * Support Bug Routes
+     * -----------------------------------------------------------------
+     */
+    Route::resource('bugs', 'Admin\Support\BugController');
+
+    /**
+     * -----------------------------------------------------------------
+     * Manuals Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'docs/manual'], function () {
+        //restore manual
+        Route::get('restore/{manual}', [
+            'uses' => 'Admin\Documentation\ManualController@restore',
+            'as' => 'manual.restore'
+        ]);
+
+        //delete manual
+        Route::get('delete/{manual}', [
+            'uses' => 'Admin\Documentation\ManualController@delete',
+            'as' => 'manual.delete'
+        ]);
+
+        //destroy manual
+        Route::get('destroy/{manual}', [
+            'uses' => 'Admin\Documentation\ManualController@destroy',
+            'as' => 'manual.destroy'
+        ]);
+
+        //update status for manual
+        Route::get('status/{manual}', [
+            'uses' => 'Admin\Documentation\ManualController@status',
+            'as' => 'manual.status'
+        ]);
+    });
+
+    Route::resource('docs//manual', 'Admin\Documentation\ManualController', ['except' => [
+        'destroy',
+    ]]);
+
+    /**
+     * -----------------------------------------------------------------
+     * Manuals Chapters Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'docs/manual/manchapter'], function () {
+
+        //manual chapters
+        Route::get('/{manual?}/index', [
+            'uses' => 'Admin\Documentation\ManualChapterController@index',
+            'as' => 'manchapter.index'
+        ]);
+
+        //restore manual chapter
+        Route::get('restore/{manual}', [
+            'uses' => 'Admin\Documentation\ManualChapterController@restore',
+            'as' => 'manchapter.restore'
+        ]);
+
+        //delete manual chapter
+        Route::get('delete/{manchapter}', [
+            'uses' => 'Admin\Documentation\ManualChapterController@delete',
+            'as' => 'manchapter.delete'
+        ]);
+
+        //destroy manual chapter
+        Route::get('destroy/{manchapter}', [
+            'uses' => 'Admin\Documentation\ManualChapterController@destroy',
+            'as' => 'manchapter.destroy'
+        ]);
+
+        //update status for manual chapter
+        Route::get('status/{manchapter}', [
+            'uses' => 'Admin\Documentation\ManualChapterController@status',
+            'as' => 'manchapter.status'
+        ]);
+    });
+
+    Route::resource('docs/manual/manchapter', 'Admin\Documentation\ManualChapterController', ['except' => [
+        'index', 'destroy',
+    ]]);
+
+    /**
+     * -----------------------------------------------------------------
+     * Manuals Chapters Pages Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'docs/manual/chapter/manpage'], function () {
+
+        //chapter pages
+        Route::get('/{manchapter?}/index', [
+            'uses' => 'Admin\Documentation\ManualPageController@index',
+            'as' => 'manpage.index'
+        ]);
+
+        //restore manual page
+        Route::get('restore/{manpage}', [
+            'uses' => 'Admin\Documentation\ManualPageController@restore',
+            'as' => 'manpage.restore'
+        ]);
+
+        //delete manual page
+        Route::get('delete/{manpage}', [
+            'uses' => 'Admin\Documentation\ManualPageController@delete',
+            'as' => 'manpage.delete'
+        ]);
+
+        //destroy manual page
+        Route::get('destroy/{manpage}', [
+            'uses' => 'Admin\Documentation\ManualPageController@destroy',
+            'as' => 'manpage.destroy'
+        ]);
+
+        //update status for manual page
+        Route::get('status/{manpage}', [
+            'uses' => 'Admin\Documentation\ManualPageController@status',
+            'as' => 'manpage.status'
+        ]);
+    });
+
+    Route::resource('docs/manual/chapter/manpage', 'Admin\Documentation\ManualPageController', ['except' => [
+        'index', 'destroy',
+    ]]);
+
 });
 
 /**
  * -----------------------------------------------------------------
- * Estate App Routes Group
+ * Estate Rental App Routes Group
  * -----------------------------------------------------------------
  */
-Route::group(['prefix' => 'estate'], function () {
+Route::group(['prefix' => 'estate/rental'], function () {
 
     //dashboard
     Route::get('dashboard/{id}', [
-        'uses' => 'Estate\AdminController@getDashboard',
-        'as' => 'estate.dashboard'
+        'uses' => 'Estate\Company\CompanyAppController@index',
+        'as' => 'estate.rental.dashboard'
     ]);
 
     //profile
     Route::get('profile/{id}', [
-        'uses' => 'Estate\AdminController@getProfile',
-        'as' => 'estate.profile'
+        'uses' => 'Estate\Company\CompanyAppController@edit',
+        'as' => 'estate.rental.profile'
     ]);
 
-    //settings
-    Route::get('settings/{id}', [
-        'uses' => 'Estate\AdminController@getSettings',
-        'as' => 'estate.settings'
-    ]);
+    /**
+     * -----------------------------------------------------------------
+     * App Settings Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'settings'], function () {
+        //settings
+        Route::get('/index/{id}', [
+            'uses' => 'Estate\Rental\App\SettingsController@index',
+            'as' => 'estate.rental.settings'
+        ]);
+
+        //settings
+        Route::post('/update/{id}', [
+            'uses' => 'Estate\Rental\App\SettingsController@index',
+            'as' => 'estate.rental.settings.update'
+        ]);
+
+    });
+
+    /**
+     * -----------------------------------------------------------------
+     * App Admin Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'admin', 'middleware' => 'company.app.admin'], function () {
+
+        /**
+         * -----------------------------------------------------------------
+         * App Admin Routes
+         * -----------------------------------------------------------------
+         */
+        //Post Update App
+        Route::post('update/app', [
+            'uses' => 'Estate\Company\CompanyAppController@update',
+            'as' => 'estate.rental.update'
+        ]);
+
+        //Post Update App Status
+        Route::get('status/{id}', [
+            'uses' => 'Estate\Company\CompanyAppController@toggleStatus',
+            'as' => 'estate.rental.status'
+        ]);
+
+        //Get Delete App Feature
+        Route::get('delete/{id}', [
+            'uses' => 'Estate\Company\CompanyAppController@delete',
+            'as' => 'estate.rental.delete'
+        ]);
+
+        //Get Restore App Feature
+        Route::get('restore/{id}', [
+            'uses' => 'Estate\Company\CompanyAppController@restore',
+            'as' => 'estate.rental.restore'
+        ]);
+
+        //Get Destroy App Feature
+        Route::get('destroy/{id}', [
+            'uses' => 'Estate\Company\CompanyAppController@destroy',
+            'as' => 'estate.rental.destroy'
+        ]);
+    });
 
     /**
      * -----------------------------------------------------------------
@@ -336,7 +643,7 @@ Route::group(['prefix' => 'estate'], function () {
         //notifications
         Route::get('index/{id}', [
             'uses' => 'Estate\NotificationController@index',
-            'as' => 'estate.notifications'
+            'as' => 'estate.rental.notifications'
         ]);
     });
 
@@ -346,13 +653,26 @@ Route::group(['prefix' => 'estate'], function () {
      * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'subscription'], function () {
+
+        //Trial Subscription Activation Route
+        Route::get('trial/activation/{id}', [
+            'uses' => 'Estate\Rental\Subscription\TrialController@store',
+            'as' => 'estate.trial.activate'
+        ]);
+
+        //Trial Subscription Activation Route
+        Route::get('trial/update/{id}/{subscription}', [
+            'uses' => 'Estate\Rental\Subscription\TrialController@update',
+            'as' => 'estate.trial.update'
+        ]);
+
         //Create Subscription Route
         Route::get('create/{id}', [
             'uses' => 'Estate\PaypalSubscriptionController@create',
             'as' => 'estate.subscription.add'
         ]);
 
-        //Store Subscription Route
+        //Retrieve Passed Subscription Plan Route
         Route::post('retrieve/plan', [
             'uses' => 'Estate\PaypalSubscriptionController@plan',
             'as' => 'estate.subscribe.plan'
@@ -400,49 +720,49 @@ Route::group(['prefix' => 'estate'], function () {
         //Get Amenities Route
         Route::get('index/{id}', [
             'uses' => 'Estate\AmenityController@index',
-            'as' => 'estate.amenities'
+            'as' => 'estate.rental.amenities'
         ]);
 
         //Get Amenity Route
         Route::get('amenity/{id}', [
             'uses' => 'Estate\AmenityController@edit',
-            'as' => 'estate.amenity.edit'
+            'as' => 'estate.rental.amenity.edit'
         ]);
 
         //Post Add Amenity Route
         Route::post('amenity/add', [
             'uses' => 'Estate\AmenityController@store',
-            'as' => 'estate.amenity.store'
+            'as' => 'estate.rental.amenity.store'
         ]);
 
         //Post Update Amenity Route
         Route::post('amenity/update', [
             'uses' => 'Estate\AmenityController@update',
-            'as' => 'estate.amenity.update'
+            'as' => 'estate.rental.amenity.update'
         ]);
 
         //Get Update Amenity Status Route
         Route::get('amenity/status/{id}', [
             'uses' => 'Estate\AmenityController@toggleStatus',
-            'as' => 'estate.amenity.status'
+            'as' => 'estate.rental.amenity.status'
         ]);
 
         //Get Delete Amenity Route
         Route::get('amenity/delete/{id}', [
             'uses' => 'Estate\AmenityController@delete',
-            'as' => 'estate.amenity.delete'
+            'as' => 'estate.rental.amenity.delete'
         ]);
 
         //Get Restore Amenity Route
         Route::get('amenity/restore/{id}', [
             'uses' => 'Estate\AmenityController@restore',
-            'as' => 'estate.amenity.restore'
+            'as' => 'estate.rental.amenity.restore'
         ]);
 
         //Get Destroy Amenity Route
         Route::get('amenity/destroy/{id}', [
             'uses' => 'Estate\AmenityController@destroy',
-            'as' => 'estate.amenity.destroy'
+            'as' => 'estate.rental.amenity.destroy'
         ]);
     });
 
@@ -455,55 +775,55 @@ Route::group(['prefix' => 'estate'], function () {
         //Add Group Route
         Route::get('group/add-estate-group/{id}', [
             'uses' => 'Estate\GroupController@create',
-            'as' => 'estate.group.add'
+            'as' => 'estate.rental.group.add'
         ]);
 
         //Get Groups Route
         Route::get('index/{id}/{sort}', [
             'uses' => 'Estate\GroupController@index',
-            'as' => 'estate.groups.index'
+            'as' => 'estate.rental.groups.index'
         ]);
 
         //Get Group Route
         Route::get('group/{id}', [
             'uses' => 'Estate\GroupController@edit',
-            'as' => 'estate.group.edit'
+            'as' => 'estate.rental.group.edit'
         ]);
 
         //Post Add Group Route
         Route::post('group/add', [
             'uses' => 'Estate\GroupController@store',
-            'as' => 'estate.group.store'
+            'as' => 'estate.rental.group.store'
         ]);
 
         //Post Update Group Route
         Route::post('group/update', [
             'uses' => 'Estate\GroupController@update',
-            'as' => 'estate.group.update'
+            'as' => 'estate.rental.group.update'
         ]);
 
         //Get Update Group Status Route
         Route::get('group/status/{id}', [
             'uses' => 'Estate\GroupController@toggleStatus',
-            'as' => 'estate.group.status'
+            'as' => 'estate.rental.group.status'
         ]);
 
         //Get Delete Group Route
         Route::get('group/delete/{id}', [
             'uses' => 'Estate\GroupController@delete',
-            'as' => 'estate.group.delete'
+            'as' => 'estate.rental.group.delete'
         ]);
 
         //Get Restore Group Route
         Route::get('group/restore/{id}', [
             'uses' => 'Estate\GroupController@restore',
-            'as' => 'estate.group.restore'
+            'as' => 'estate.rental.group.restore'
         ]);
 
         //Get Destroy Group Route
         Route::get('group/destroy/{id}', [
             'uses' => 'Estate\GroupController@destroy',
-            'as' => 'estate.group.destroy'
+            'as' => 'estate.rental.group.destroy'
         ]);
     });
 
@@ -512,102 +832,113 @@ Route::group(['prefix' => 'estate'], function () {
      * Company Properties Routes
      * -----------------------------------------------------------------
      */
+
     Route::group(['prefix' => 'properties'], function () {
-//Add Property Route
-        Route::get('property/add-estate-property/{id}', [
-            'uses' => 'Estate\PropertyController@create',
-            'as' => 'estate.property.add'
+
+        //Add Property Route
+        Route::get('property/create/{id}', [
+            'uses' => 'Estate\Rental\Property\PropertyController@create',
+            'as' => 'estate.rental.property.add'
         ]);
 
         //Get Properties Route
         Route::get('index/{id}/{sort}', [
-            'uses' => 'Estate\PropertyController@index',
-            'as' => 'estate.properties'
+            'uses' => 'Estate\Rental\Property\PropertyController@index',
+            'as' => 'estate.rental.properties'
         ]);
 
         //Get Property Route
-        Route::get('property/{id}', [
-            'uses' => 'Estate\PropertyController@edit',
-            'as' => 'estate.property.edit'
-        ]);
-
-        //Get Property Amenities Route
-        Route::get('property/amenities/{id}', [
-            'uses' => 'Estate\PropertyController@amenities',
-            'as' => 'estate.property.amenities'
-        ]);
-
-        //Get Property Features Route
-        Route::get('property/features/{id}', [
-            'uses' => 'Estate\PropertyController@features',
-            'as' => 'estate.property.features'
+        Route::get('property/{id}/edit', [
+            'uses' => 'Estate\Rental\Property\PropertyController@edit',
+            'as' => 'estate.rental.property.edit'
         ]);
 
         //Post Add Property Route
-        Route::post('property/add', [
-            'uses' => 'Estate\PropertyController@store',
-            'as' => 'estate.property.store'
+        Route::post('property/store', [
+            'uses' => 'Estate\Rental\Property\PropertyController@store',
+            'as' => 'estate.rental.property.store'
         ]);
 
         //Post Update Property Route
-        Route::post('property/update', [
-            'uses' => 'Estate\PropertyController@update',
-            'as' => 'estate.property.update'
-        ]);
-
-        //Post Update Property Amenities Route
-        Route::post('property/amenities-update', [
-            'uses' => 'Estate\PropertyController@updateAmenities',
-            'as' => 'estate.property.amenities.update'
-        ]);
-
-        //Post Add Property Features Route
-        Route::post('property/features-add', [
-            'uses' => 'Estate\PropertyController@addFeatures',
-            'as' => 'estate.property.features.add'
-        ]);
-
-        //Post Update Property Features Route
-        Route::post('property/features-update', [
-            'uses' => 'Estate\PropertyController@updateFeature',
-            'as' => 'estate.property.features.update'
+        Route::put('property/update/{id}', [
+            'uses' => 'Estate\Rental\Property\PropertyController@update',
+            'as' => 'estate.rental.property.update'
         ]);
 
         //Get Update Property Status Route
         Route::get('property/status/{id}', [
             'uses' => 'Estate\PropertyController@toggleStatus',
-            'as' => 'estate.property.status'
-        ]);
-
-        //Get Update Property Feature Status Route
-        Route::get('property/feature-status/{id}', [
-            'uses' => 'Estate\PropertyController@toggleFeatureStatus',
-            'as' => 'estate.property.feature.status'
+            'as' => 'estate.rental.property.status'
         ]);
 
         //Get Delete Property Route
         Route::get('property/delete/{id}', [
-            'uses' => 'Estate\PropertyController@delete',
-            'as' => 'estate.property.delete'
-        ]);
-
-        //Get Delete Property Feature Route
-        Route::get('property/delete-feature/{id}', [
-            'uses' => 'Estate\PropertyController@deleteFeature',
-            'as' => 'estate.property.feature.delete'
+            'uses' => 'Estate\Rental\Property\PropertyController@delete',
+            'as' => 'estate.rental.property.delete'
         ]);
 
         //Get Restore Property Route
         Route::get('property/restore/{id}', [
-            'uses' => 'Estate\PropertyController@restore',
-            'as' => 'estate.property.restore'
+            'uses' => 'Estate\Rental\Property\PropertyController@restore',
+            'as' => 'estate.rental.property.restore'
         ]);
 
         //Get Destroy Property Route
         Route::get('property/destroy/{id}', [
-            'uses' => 'Estate\PropertyController@destroy',
-            'as' => 'estate.property.destroy'
+            'uses' => 'Estate\Rental\Property\PropertyController@destroy',
+            'as' => 'estate.rental.property.destroy'
         ]);
+
+        //Property Features
+        Route::group(['prefix' => 'features/property'], function () {
+
+            //Get Property Features Route
+            Route::get('index/{id}', [
+                'uses' => 'Estate\PropertyController@features',
+                'as' => 'estate.rental.property.features'
+            ]);
+
+            //Post Store Property Features Route
+            Route::post('features/store', [
+                'uses' => 'Estate\PropertyController@addFeatures',
+                'as' => 'estate.rental.property.features.add'
+            ]);
+
+            //Post Update Property Features Route
+            Route::post('feature/update', [
+                'uses' => 'Estate\PropertyController@updateFeature',
+                'as' => 'estate.rental.property.features.update'
+            ]);
+
+            //Update Property Feature Status Route
+            Route::get('feature/status/{id}', [
+                'uses' => 'Estate\PropertyController@toggleFeatureStatus',
+                'as' => 'estate.rental.property.feature.status'
+            ]);
+
+            //Delete Property Feature Route
+            Route::get('feature/delete/{id}', [
+                'uses' => 'Estate\PropertyController@deleteFeature',
+                'as' => 'estate.rental.property.feature.delete'
+            ]);
+
+        });
+
+        //Property Amenities
+        Route::group(['prefix' => 'amenities/property'], function () {
+
+            //Get Property Amenities Route
+            Route::get('index/{id}', [
+                'uses' => 'Estate\PropertyController@amenities',
+                'as' => 'estate.rental.property.amenities'
+            ]);
+
+            //Post Update Property Amenities Route
+            Route::post('/update', [
+                'uses' => 'Estate\PropertyController@updateAmenities',
+                'as' => 'estate.rental.property.amenities.update'
+            ]);
+        });
     });
 
     /**
@@ -616,64 +947,64 @@ Route::group(['prefix' => 'estate'], function () {
      * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'tenants'], function () {
-//Add Tenant Route
+        //Create Tenant Route
         Route::get('add-estate-tenant/{id}', [
             'uses' => 'Estate\TenantController@create',
-            'as' => 'estate.tenant.add'
+            'as' => 'estate.rental.tenant.add'
         ]);
 
         //Get Group Property Route
         Route::post('group/properties', [
             'uses' => 'Estate\TenantController@groupProperties',
-            'as' => 'estate.tenant.group.properties'
+            'as' => 'estate.rental.tenant.group.properties'
         ]);
 
         //Get Tenants Route
-        Route::get('index/{id}/{sort}', [
+        Route::get('index/{id}/{sort}/{leases?}', [
             'uses' => 'Estate\TenantController@index',
-            'as' => 'estate.tenants'
+            'as' => 'estate.rental.tenants'
         ]);
 
         //Get Group Route
         Route::get('tenant/lease/{id}', [
             'uses' => 'Estate\TenantController@edit',
-            'as' => 'estate.lease.edit'
+            'as' => 'estate.rental.lease.edit'
         ]);
 
         //Post Add Group Route
         Route::post('tenant/add', [
             'uses' => 'Estate\TenantController@store',
-            'as' => 'estate.tenant.store'
+            'as' => 'estate.rental.tenant.store'
         ]);
 
         //Post Update Group Route
         Route::post('tenant/lease/update', [
             'uses' => 'Estate\TenantController@update',
-            'as' => 'estate.tenant.update'
+            'as' => 'estate.rental.tenant.update'
         ]);
 
         //Get Update Tenant Lease Status Route
         Route::get('tenant/lease/status/{id}', [
             'uses' => 'Estate\TenantController@toggleStatus',
-            'as' => 'estate.lease.status'
+            'as' => 'estate.rental.lease.status'
         ]);
 
         //Get Delete Tenant Lease Route
         Route::get('tenant/lease/delete/{id}', [
             'uses' => 'Estate\TenantController@delete',
-            'as' => 'estate.lease.delete'
+            'as' => 'estate.rental.lease.delete'
         ]);
 
         //Get Restore Tenant Lease Route
         Route::get('tenant/lease/restore/{id}', [
             'uses' => 'Estate\TenantController@restore',
-            'as' => 'estate.lease.restore'
+            'as' => 'estate.rental.lease.restore'
         ]);
 
         //Get Destroy Tenant Lease Route
         Route::get('tenant/lease/destroy/{id}', [
             'uses' => 'Estate\TenantController@destroy',
-            'as' => 'estate.lease.destroy'
+            'as' => 'estate.rental.lease.destroy'
         ]);
     });
 
@@ -687,55 +1018,55 @@ Route::group(['prefix' => 'estate'], function () {
         //Add Bill Service Route
         Route::get('service/add-service/{id}', [
             'uses' => 'Estate\BillServiceController@create',
-            'as' => 'estate.bills.service.add'
+            'as' => 'estate.rental.bills.service.add'
         ]);
 
         //Edit Bill Service Route
         Route::get('service/edit-service/{id}', [
             'uses' => 'Estate\BillServiceController@edit',
-            'as' => 'estate.bills.service.edit'
+            'as' => 'estate.rental.bills.service.edit'
         ]);
 
         //Bills Service Settings Route
         Route::get('services/{id}/{sort}', [
             'uses' => 'Estate\BillServiceController@index',
-            'as' => 'estate.bills.services'
+            'as' => 'estate.rental.bills.services'
         ]);
 
         //Post Add Bill Service Route
         Route::post('service/add', [
             'uses' => 'Estate\BillServiceController@store',
-            'as' => 'estate.bills.service.store'
+            'as' => 'estate.rental.bills.service.store'
         ]);
 
         //Post Update Bill Service Route
         Route::post('service/update', [
             'uses' => 'Estate\BillServiceController@update',
-            'as' => 'estate.bills.service.update'
+            'as' => 'estate.rental.bills.service.update'
         ]);
 
         //Update Bill Service Status Route
         Route::get('service/status/{id}', [
             'uses' => 'Estate\BillServiceController@toggleStatus',
-            'as' => 'estate.bills.service.status'
+            'as' => 'estate.rental.bills.service.status'
         ]);
 
         //Delete Bill Service Route
         Route::get('service/delete/{id}', [
             'uses' => 'Estate\BillServiceController@delete',
-            'as' => 'estate.bills.service.delete'
+            'as' => 'estate.rental.bills.service.delete'
         ]);
 
         //Restore Bill Service Route
         Route::get('service/restore/{id}', [
             'uses' => 'Estate\BillServiceController@restore',
-            'as' => 'estate.bills.service.restore'
+            'as' => 'estate.rental.bills.service.restore'
         ]);
 
         //Destroy Bill Service Route
         Route::get('service/destroy/{id}', [
             'uses' => 'Estate\BillServiceController@destroy',
-            'as' => 'estate.bills.service.destroy'
+            'as' => 'estate.rental.bills.service.destroy'
         ]);
 
     });
@@ -749,67 +1080,67 @@ Route::group(['prefix' => 'estate'], function () {
         //Add Bill Route
         Route::get('generate/invoices/{id}', [
             'uses' => 'Estate\BillController@generateInvoices',
-            'as' => 'estate.bills.generate'
+            'as' => 'estate.rental.bills.generate'
         ]);
 
         //Add Bill Route
         Route::get('create/bills/{id}', [
             'uses' => 'Estate\BillController@create',
-            'as' => 'estate.bill.add'
+            'as' => 'estate.rental.bill.add'
         ]);
 
         //Edit Bill Route
         Route::get('edit/bill/{id}', [
             'uses' => 'Estate\BillController@edit',
-            'as' => 'estate.bills.invoice.edit'
+            'as' => 'estate.rental.bills.invoice.edit'
         ]);
 
         //Bills Route
         Route::get('index/{id}/{sort}', [
             'uses' => 'Estate\BillController@index',
-            'as' => 'estate.bills.tenants'
+            'as' => 'estate.rental.bills.tenants'
         ]);
 
         //Bills To PDF Route
         Route::get('reports/{id}/{sort}', [
             'uses' => 'Estate\BillController@pdfReport',
-            'as' => 'estate.bills.report.pdf'
+            'as' => 'estate.rental.bills.report.pdf'
         ]);
 
         //Post Add Bill Service Route
         Route::post('invoice/add', [
             'uses' => 'Estate\BillController@store',
-            'as' => 'estate.bills.invoices.store'
+            'as' => 'estate.rental.bills.invoices.store'
         ]);
 
         //Post Update Bill Service Route
         Route::post('invoice/update', [
             'uses' => 'Estate\BillController@update',
-            'as' => 'estate.bills.invoice.update'
+            'as' => 'estate.rental.bills.invoice.update'
         ]);
 
         //Update Bill Invoice Status Route
         Route::get('status/bill/{id}', [
             'uses' => 'Estate\BillController@toggleStatus',
-            'as' => 'estate.bills.invoice.status'
+            'as' => 'estate.rental.bills.invoice.status'
         ]);
 
         //Delete Bill Invoice Route
         Route::get('delete/bill/{id?}', [
             'uses' => 'Estate\BillController@delete',
-            'as' => 'estate.bills.invoice.delete'
+            'as' => 'estate.rental.bills.invoice.delete'
         ]);
 
         //Restore Bill Invoice Route
         Route::get('restore/bill/{id}', [
             'uses' => 'Estate\BillController@restore',
-            'as' => 'estate.bills.invoice.restore'
+            'as' => 'estate.rental.bills.invoice.restore'
         ]);
 
         //Destroy Bill Invoice Route
         Route::get('destroy/bill/{id?}', [
             'uses' => 'Estate\BillController@destroy',
-            'as' => 'estate.bills.invoice.destroy'
+            'as' => 'estate.rental.bills.invoice.destroy'
         ]);
 
     });
@@ -821,81 +1152,81 @@ Route::group(['prefix' => 'estate'], function () {
      */
     Route::group(['prefix' => 'rents'], function () {
         //Add Rent Route
-        Route::get('rent/add-tenant/{id}', [
+        Route::get('rent/generate/invoice/{id}', [
             'uses' => 'Estate\RentController@create',
-            'as' => 'estate.rent.add'
+            'as' => 'estate.rental.rent.add'
         ]);
 
         //Add Rent Route
-        Route::get('rent/generate-invoice/{id}', [
+        Route::get('rent/create/{id}', [
             'uses' => 'Estate\RentController@invoice',
-            'as' => 'estate.rent.generate.invoice'
+            'as' => 'estate.rental.rent.generate.invoice'
         ]);
 
         //Get Rent Group Properties Route
         Route::post('rent/properties', [
             'uses' => 'Estate\RentController@groupProperties',
-            'as' => 'estate.rent.group.properties'
+            'as' => 'estate.rental.rent.group.properties'
         ]);
 
         //Get Rent Group Property Route
         Route::post('rent/property', [
             'uses' => 'Estate\RentController@groupProperty',
-            'as' => 'estate.rent.group.property'
+            'as' => 'estate.rental.rent.group.property'
         ]);
 
         //Edit Rent Route
         Route::get('edit/rent/{id}', [
             'uses' => 'Estate\RentController@edit',
-            'as' => 'estate.rent.edit'
+            'as' => 'estate.rental.rent.edit'
         ]);
 
         //Get Rents Route
         Route::get('index/{id}/{sort}', [
             'uses' => 'Estate\RentController@index',
-            'as' => 'estate.rents'
+            'as' => 'estate.rental.rents'
         ]);
 
         //Rents To PDF Route
         Route::get('reports/{id}/{sort}', [
             'uses' => 'Estate\RentController@pdfReport',
-            'as' => 'estate.rents.report.pdf'
+            'as' => 'estate.rental.rents.report.pdf'
         ]);
 
         //Post Add Rent Invoice Route
         Route::post('rent/add', [
             'uses' => 'Estate\RentController@store',
-            'as' => 'estate.rent.store'
+            'as' => 'estate.rental.rent.store'
         ]);
 
         //Post Update Rent Invoice Route
         Route::post('rent/update', [
             'uses' => 'Estate\RentController@update',
-            'as' => 'estate.rent.update'
+            'as' => 'estate.rental.rent.update'
         ]);
 
         //Update Rent Invoice Status Route
         Route::get('rent/status/{id}', [
             'uses' => 'Estate\RentController@toggleStatus',
-            'as' => 'estate.rent.status'
+            'as' => 'estate.rental.rent.status'
         ]);
 
         //Get Delete Rent Invoice Route
         Route::get('rent/delete/{id?}', [
             'uses' => 'Estate\RentController@delete',
-            'as' => 'estate.rent.delete'
+            'as' => 'estate.rental.rent.delete'
         ]);
 
         //Get Restore Rent Invoice Route
         Route::get('rent/restore/{id}', [
             'uses' => 'Estate\RentController@restore',
-            'as' => 'estate.rent.restore'
+            'as' => 'estate.rental.rent.restore'
         ]);
 
         //Get Destroy Rent Invoice Route
         Route::get('rent/destroy/{id?}', [
             'uses' => 'Estate\RentController@destroy',
-            'as' => 'estate.rent.destroy'
+            'as' => 'estate.rental.rent.destroy'
         ]);
     });
 });
@@ -933,49 +1264,62 @@ Route::group(['prefix' => 'tenant'], function () {
      * Handles all tenant rents routes
      */
     Route::group(['prefix' => 'rents'], function () {
+
+        //tenant rent index
+        Route::get('index/{id}', [
+            'uses' => 'Tenant\Rent\RentController@index',
+            'as' => 'tenant.rents'
+        ]);
+
         //tenant rent
         Route::get('rent/invoice/{id}', [
-            'uses' => 'Tenant\RentController@rent',
+            'uses' => 'Tenant\Rent\RentController@show',
             'as' => 'tenant.rent'
-        ]);
-
-        //tenant rent invoice to pdf
-        Route::get('download/rent/invoice/{id}/pdf', [
-            'uses' => 'Tenant\RentController@rentToPdf',
-            'as' => 'tenant.rent.download.pdf'
-        ]);
-
-        //tenant rents
-        Route::get('index/{id}', [
-            'uses' => 'Tenant\RentController@index',
-            'as' => 'tenant.rents'
         ]);
     });
 
     /**
      * -----------------------------------------------------------------
-     * Rent Routes Group
+     * Tenant Bills Routes Group
+     * prefix: bills
      * -----------------------------------------------------------------
      * Handles all tenant rents routes
      */
     Route::group(['prefix' => 'bills'], function () {
-        //tenant bill
-        Route::get('bill/invoice/{id}', [
-            'uses' => 'Tenant\BillController@bill',
+        //tenant bills
+        Route::get('index/{id}', [
+            'uses' => 'Tenant\Bills\BillController@index',
+            'as' => 'tenant.bills'
+        ]);
+
+        //tenant bill show
+        Route::get('bill/{id}/show', [
+            'uses' => 'Tenant\Bills\BillController@show',
             'as' => 'tenant.bill'
         ]);
 
+    });
+
+    /**
+     * -----------------------------------------------------------------
+     * Handles bills downloads
+     * prefix: downloads
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'downloads'], function() {
+
         //tenant bill invoice to pdf
-        Route::get('download/bill/invoice/{id}/pdf', [
-            'uses' => 'Tenant\BillController@billToPdf',
+        Route::get('/bill/invoice/{id}/pdf', [
+            'uses' => 'Tenant\Bills\PdfController@download',
             'as' => 'tenant.bill.download.pdf'
         ]);
 
-        //tenant bills
-        Route::get('index/{id}', [
-            'uses' => 'Tenant\BillController@index',
-            'as' => 'tenant.bills'
+        //tenant rent invoice to pdf
+        Route::get('/rent/invoice/{id}/pdf', [
+            'uses' => 'Tenant\Rent\PdfController@download',
+            'as' => 'tenant.rent.download.pdf'
         ]);
+
     });
 
     //tenant rent status
@@ -993,46 +1337,61 @@ Route::group(['prefix' => 'tenant'], function () {
  */
 Route::group(['prefix' => 'user'], function () {
 
+    //Get User Dashboard
     Route::get('dashboard/{section?}', [
         'uses' => 'UserController@dashboard',
         'as' => 'user.dashboard',
     ]);
 
+    //Get User notifications
+    Route::get('notifications', [
+        'uses' => 'User\NotificationController@index',
+        'as' => 'user.notifications',
+    ]);
+
+    //Toggle User Notification As Read
+    Route::get('notification/toggle/read/{id}', [
+        'uses' => 'User\NotificationController@toggleRead',
+        'as' => 'user.notification.read'
+    ]);
+
+    //Get User Profile
     Route::get('profile', [
         'uses' => 'UserController@profile',
         'as' => 'user.profile'
     ]);
 
-    //user profile update
+    //Update User profile
     Route::post('profile-update', [
         'uses' => 'UserController@update',
         'as' => 'user.profile.update'
     ]);
 
-    //user avatar upload view
+    //User avatar Upload View
     Route::get('profile/avatar', [
         'uses' => 'User\AvatarController@avatar',
         'as' => 'user.avatar'
     ]);
 
-    //user avatar store
+    //Store User avatar
     Route::post('avatar/store', [
         'uses' => 'User\AvatarController@store',
         'as' => 'user.avatar.store'
     ]);
 
-    //user avatar update
+    //Update User avatar
     Route::get('avatar/update/{id}', [
         'uses' => 'User\AvatarController@update',
         'as' => 'user.avatar.update'
     ]);
 
-    //user avatar update
+    //Delete User Avatar
     Route::get('avatar/delete/{id}', [
         'uses' => 'User\AvatarController@delete',
         'as' => 'user.avatar.delete'
     ]);
 
+    //Get User Settings
     Route::get('settings', [
         'uses' => 'UserController@settings',
         'as' => 'user.settings'
@@ -1140,43 +1499,43 @@ Route::group(['prefix' => 'app'], function () {
      * App Admin Routes
      * -----------------------------------------------------------------
      */
-    Route::group(['prefix' => 'admin', 'middleware' => 'company.app.admin'], function () {
-
-        /**
-         * -----------------------------------------------------------------
-         * App Admin Routes
-         * -----------------------------------------------------------------
-         */
-        //Post Update App
-        Route::post('update-app', [
-            'uses' => 'Estate\AdminController@update',
-            'as' => 'app.update'
-        ]);
-
-        //Post Update App Status
-        Route::get('status/{id}', [
-            'uses' => 'Estate\AdminController@toggleStatus',
-            'as' => 'app.status'
-        ]);
-
-        //Get Delete App Feature
-        Route::get('delete/{id}', [
-            'uses' => 'Estate\AdminController@delete',
-            'as' => 'app.delete'
-        ]);
-
-        //Get Restore App Feature
-        Route::get('restore/{id}', [
-            'uses' => 'Estate\AdminController@restore',
-            'as' => 'app.restore'
-        ]);
-
-        //Get Destroy App Feature
-        Route::get('destroy/{id}', [
-            'uses' => 'Estate\AdminController@destroy',
-            'as' => 'app.destroy'
-        ]);
-    });
+//    Route::group(['prefix' => 'admin', 'middleware' => 'company.app.admin'], function () {
+//
+//        /**
+//         * -----------------------------------------------------------------
+//         * App Admin Routes
+//         * -----------------------------------------------------------------
+//         */
+//        //Post Update App
+//        Route::post('update-app', [
+//            'uses' => 'Estate\AdminController@update',
+//            'as' => 'app.update'
+//        ]);
+//
+//        //Post Update App Status
+//        Route::get('status/{id}', [
+//            'uses' => 'Estate\AdminController@toggleStatus',
+//            'as' => 'app.status'
+//        ]);
+//
+//        //Get Delete App Feature
+//        Route::get('delete/{id}', [
+//            'uses' => 'Estate\AdminController@delete',
+//            'as' => 'app.delete'
+//        ]);
+//
+//        //Get Restore App Feature
+//        Route::get('restore/{id}', [
+//            'uses' => 'Estate\AdminController@restore',
+//            'as' => 'app.restore'
+//        ]);
+//
+//        //Get Destroy App Feature
+//        Route::get('destroy/{id}', [
+//            'uses' => 'Estate\AdminController@destroy',
+//            'as' => 'app.destroy'
+//        ]);
+//    });
 
 });
 

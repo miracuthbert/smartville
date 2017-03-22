@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\EstateGroup;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateGroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -66,7 +66,7 @@ class GroupController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.groups.new')
+        return view('v1.estates.groups.create')
             ->with('app', $app);
     }
 
@@ -127,7 +127,7 @@ class GroupController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.groups.group')
+        return view('v1.estates.groups.edit')
             ->with('app', $app)
             ->with('group', $group);
     }
@@ -157,7 +157,7 @@ class GroupController extends Controller
         $group->status = $request->input('status');
 
         if ($app->groups()->save($group)) {
-            return redirect()->route('estate.groups.index', ['id' => $app->id, 'sort' => 'all'])
+            return redirect()->route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'all'])
                 ->with('success', 'Group added successfully.');
         }
 

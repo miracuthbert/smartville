@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
+use App\Models\v1\Company\CompanyApp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

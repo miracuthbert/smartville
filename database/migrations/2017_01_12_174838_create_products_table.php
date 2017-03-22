@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('monetization_id')->unsigned();
             $table->foreign('monetization_id')->references('id')->on('categories');
             $table->string('title');
-            $table->string('summary');
+            $table->text('summary');
             $table->text('desc');
             $table->boolean('app')->default(1);
             $table->text('icon')->nullable();

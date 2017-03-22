@@ -1,100 +1,142 @@
-@extends('layouts.blank')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('styles')
+<head>
+
+    <meta charset="utf-8">
+    {{--<meta http-equiv="X-UA-Compatible" content="IE=edge">--}}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{ config('app.name') }}</title>
+
     <style>
+        body {
+            font-family: Helvetica;
+        }
+
         .page-break {
-            page-break-after: auto;
+            page-break-after: always;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        table > thead {
+            vertical-align: middle;
+        }
+
+        table > thead > tr > th {
+            padding: 8px 0px;
+            line-height: 1.42857143;
+            text-align: left;
+            vertical-align: bottom;
+            border-bottom: 2px solid #ddd;
+        }
+
+        table > tbody > tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        table > tbody > tr > td {
+            padding: 4px 0px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
         }
     </style>
-@endsection
 
-@section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="page-header text-right">
-                Report For {{ title_case($sort) }} Rent Collection
-            </h1>
+</head>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <td colspan="2" class="text-right">
-                            {{ $company->title }}<br>
-                            {{ $company->address }}<br>
-                            {{ $company->state }}, {{ $company->city }} {{ $company->zipcode }}<br>
-                            {{ $company->phone }}
+<body>
+<div style="display: block; width: 100%">
+
+    <table style="width: 100%; background-color:#ECF0F1;">
+        <thead>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                <h1>
+                    Report For {{ title_case($sort) }} Rent Collection
+                </h1>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                {{ $company->title }}<br>
+                {{ $company->address }} - {{ $company->zipcode }}<br>
+                {{ $company->state }}, {{ $company->city }} {{ $company->zipcode }}<br>
+                {{ $company->phone }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    @foreach($rents->chunk(20) as $_rents)
+        <div style="display: block; width: 100%; border-top: 1px solid #CCCCCC">
+            <table style="width: 100%; padding:20px 0 20px 0;">
+                <thead style="">
+                <tr>
+                    <th>#</th>
+                    <th>Property</th>
+                    <th>Tenant</th>
+                    <th>For</th>
+                    <th>Amount</th>
+                    <th>Date Due.</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($_rents as $rent)
+                    <tr style="">
+                        <td>
+                            {{ $rent->id }}
                         </td>
+                        <td>{{ $rent->property->title }}</td>
+                        <td>
+                            {{ $rent->lease->tenant->user->firstname }}
+                            {{ $rent->lease->tenant->user->lastname }}
+                        </td>
+                        <td>
+                            {{ MonthName($rent->date_from) }} - {{ MonthName($rent->date_to) }}
+                        </td>
+                        <td>{{ $rent->amount }}</td>
+                        <td>{{ $rent->date_due }}</td>
+                        <td>{{ RentStatusText($rent->status) }}</td>
                     </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <hr>
-    @foreach($rents->chunk(10) as $_rents)
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Property</th>
-                        <th>Tenant</th>
-                        <th>For</th>
-                        <th>Amount</th>
-                        <th>Date Due.</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($_rents as $rent)
-                        <tr>
-                            <td>
-                                {{ $rent->id }}
-                            </td>
-                            <td>{{ $rent->property->title }}</td>
-                            <td>
-                                {{ $rent->lease->tenant->user->firstname }}
-                                {{ $rent->lease->tenant->user->lastname }}
-                            </td>
-                            <td>
-                                {{ MonthName($rent->date_from) }} - {{ MonthName($rent->date_to) }}
-                            </td>
-                            <td>{{ $rent->amount }}</td>
-                            <td>{{ $rent->date_due }}</td>
-                            <td>{{ RentStatusText($rent->status) }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                @endforeach
+                </tbody>
+            </table>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <td colspan="2" class="text-right">
-                                <strong>
-                                    Report generated by:
-                                    <br>
-                                    {{ config('app.name') }}, Inc
-                                </strong>
-                                <br>
-                                <strong>www.smartville.co</strong>
-                            </td>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+        <div style="display: block; width: 100%; border-top: 1px solid #CCCCCC">
+            <table style="width: 100%; text-align: right">
+                <thead>
+                <tr>
+                    <td colspan="2">
+                        <strong>
+                            Report generated by:
+                            <br>
+                            {{ config('app.name') }}, Inc
+                        </strong>
+                        <br>
+                        <strong>www.smartville.co</strong>
+                    </td>
+                </tr>
+                </thead>
+            </table>
         </div>
 
-        <div class="page-break"></div>
+        <!-- Check if-->
+        @if($loop->remaining > 0)
+            <div class="page-break"></div>
+        @endif
     @endforeach
-
-@endsection
+</div>
+</body>
+</html>

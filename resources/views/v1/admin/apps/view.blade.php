@@ -53,7 +53,7 @@
 
                                         <input type="hidden" name="id" value="{{ $app->id }}">
 
-                                        <div class="form-group{{ $errors->has('name') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                             <label>App name:</label>
                                             <input type="text" name="name" class="form-control" id="name"
                                                    placeholder="app name"
@@ -61,16 +61,16 @@
                                                    required autofocus>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('summary') ? 'has-error' : '' }}">
                                             <label>Summary:</label>
-                                    <textarea name="summary" id="summary" cols="30" rows="3" class="form-control"
+                                    <textarea name="summary" id="summary" cols="30" rows="3" class="form-control ckeditor"
                                               placeholder="brief details of the app">{{ Request::old('summary') != null ? Request::old('summary') : $app->summary }}</textarea>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                                             <label>App details:</label>
                                     <textarea name="description" id="description" cols="30" rows="5"
-                                              class="form-control"
+                                              class="form-control ckeditor"
                                               placeholder="full details of the app">{{ Request::old('description') != null ? Request::old('description') : $app->desc }}</textarea>
                                         </div>
 
@@ -79,7 +79,7 @@
                                             <input type="file" name="logo" class="form-control" id="logo">
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('mode') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('mode') ? 'has-error' : '' }}">
                                             <label>App Mode:</label>
                                             <label class="radio-inline">
                                                 <input type="radio" name="mode" id="development"
@@ -91,7 +91,7 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('coming_soon') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('coming_soon') ? 'has-error' : '' }}">
                                             <label>App coming soon:</label>
                                             <label class="radio-inline">
                                                 <input type="radio" name="coming_soon" id="development"
@@ -103,27 +103,27 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('page') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('page') ? 'has-error' : '' }}">
                                             <label>Page view:</label>
                                             <input type="text" name="page" class="form-control" id="page"
                                                    placeholder="app creation page" value="{{ $app->page }}">
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('version_name') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('version_name') ? 'has-error' : '' }}">
                                             <label>Version name:</label>
                                             <input type="text" name="version_name" class="form-control"
                                                    id="version_name"
                                                    placeholder="version name" value="{{ $app->version_name }}">
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('version_no') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('version_no') ? 'has-error' : '' }}">
                                             <label>Version no:</label>
                                             <input type="text" name="version_no" class="form-control"
                                                    id="version_no"
                                                    placeholder="version no" value="{{ $app->version_no }}">
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('status') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
                                             <label>Status</label>
                                             <label class="radio-inline">
                                                 <input type="radio" name="status" id="disabled"
@@ -135,7 +135,7 @@
                                             </label>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('category') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
                                             <label>App category:</label>
                                             <select name="category" class="form-control" id="category">
                                                 <option>Select a category</option>
@@ -147,7 +147,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('payment_model') ? 'has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('payment_model') ? 'has-error' : '' }}">
                                             <label>Payment model:</label>
                                             <select name="payment_model" class="form-control" id="payment_model">
                                                 <option>Select a payment model</option>
@@ -203,7 +203,8 @@
                                                         <td>$.{{ $plan->price }}</td>
                                                         <td>{{ $plan->limit }}</td>
                                                         <td>
-                                                            <a href="{{ route('admin.app.plan.features', ['id' => $plan->id]) }}" class="btn btn-link btn-xs">
+                                                            <a href="{{ route('admin.app.plan.features', ['id' => $plan->id]) }}"
+                                                               class="btn btn-link btn-xs">
                                                                 Features
                                                             </a>
                                                         </td>
@@ -528,6 +529,7 @@
     <script>
         $urlFeatureStore = '{{ route('admin.app.feature.store') }}';
         $urlFeatureUpdate = '{{ route('admin.app.feature.update') }}';
+        CKEDITOR.replace('ckeditor');
     </script>
 
 @endsection

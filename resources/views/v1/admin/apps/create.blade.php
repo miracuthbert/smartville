@@ -37,14 +37,14 @@
 
                                 <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
                                     <label>Summary:</label>
-                                    <textarea name="summary" id="summary" cols="30" rows="2" class="form-control"
+                                    <textarea name="summary" id="summary" cols="30" rows="2" class="form-control ckeditor"
                                               placeholder="brief details of the app">{{ Request::old('summary') }}</textarea>
                                 </div>
 
                                 <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                                     <label>App details:</label>
                                     <textarea name="description" id="description" cols="30" rows="5"
-                                              class="form-control"
+                                              class="form-control ckeditor"
                                               placeholder="full details of the app">{{ Request::old('description') }}</textarea>
                                 </div>
 
@@ -179,17 +179,7 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-
-    <!--
-    <div class="col-md-4">
-    <div class="form-group">
-    <button type="button" class="btn btn-default btnFeatureRemove">
-    <span class="fa fa-remove"></span>
-    </button>
-    <button type="button" class="btn btn-default btnFeatureAdd">
-    <span class="fa fa-plus"></span>
-    </button>
-    </div>
-    </div> -->
-    <!-- / Discarded -->
+    <script>
+        CKEDITOR.replace('ckeditor');
+    </script>
 @endsection

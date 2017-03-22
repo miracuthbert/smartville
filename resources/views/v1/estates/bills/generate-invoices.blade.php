@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <form name="generate-bill-form" method="get" action="{{ route('estate.bill.add', ['id' => $app->id]) }}"
+            <form name="generate-bill-form" method="get" action="{{ route('estate.rental.bill.add', ['id' => $app->id]) }}"
                   enctype="application/x-www-form-urlencoded" autocomplete="off">
 
                 @include('includes.alerts.validation')
@@ -178,8 +178,8 @@
     </div>
 
     <script>
-        $urlGroupRentProperties = '{{ route('estate.rent.group.properties') }}';
-        $urlRentProperty = '{{ route('estate.rent.group.property') }}';
+        $urlGroupRentProperties = '{{ route('estate.rental.rent.group.properties') }}';
+        $urlRentProperty = '{{ route('estate.rental.rent.group.property') }}';
         $urlDateGenerator = '{{ route('parse.date') }}';
         $app = '{{ $app->id }}';
 

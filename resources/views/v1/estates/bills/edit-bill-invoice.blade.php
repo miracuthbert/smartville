@@ -9,7 +9,7 @@
         Bills
     </li>
     <li>
-        <a href="{{ route('estate.bills.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Invoices</a>
+        <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Invoices</a>
     </li>
     <li>{{ title_case($bill->bill->title) }}</li>
     <li>{{ $bill->property->title }}</li>
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-lg-12">
             <form class="form-horizontal" name="create-rent-invoice" method="post"
-                  action="{{ route('estate.bills.invoice.update') }}" enctype="application/x-www-form-urlencoded"
+                  action="{{ route('estate.rental.bills.invoice.update') }}" enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
                 @include('includes.alerts.validation')
 
@@ -248,8 +248,8 @@
     </div>
 
     <script>
-        $urlGroupRentProperties = '{{ route('estate.rent.group.properties') }}';
-        $urlRentProperty = '{{ route('estate.rent.group.property') }}';
+        $urlGroupRentProperties = '{{ route('estate.rental.rent.group.properties') }}';
+        $urlRentProperty = '{{ route('estate.rental.rent.group.property') }}';
         $urlDateGenerator = '{{ route('parse.date') }}';
         $app = '{{ $app->id }}';
 

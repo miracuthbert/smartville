@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\ContactMessage;
+use App\Models\v1\Contact\ContactMessage;
 use App\Notifications\ContactMessageNotification;
-use App\Product;
+use App\Models\v1\Product\Product;
 use App\UserRole;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
 {
@@ -29,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('v1.welcome');
+        return view('v1.landing');
     }
 
     /**
@@ -123,7 +122,7 @@ class HomeController extends Controller
             }
 
             return redirect()->back()
-                ->with('success', 'Message sent successfully.');
+                ->with('success', 'Message sent successfully');
         }
 
         //error

@@ -21,37 +21,29 @@
             @include('includes.alerts.default')
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <h4>{{ title_case($sort) }} Groups</h4>
-                        </div>
-                        <div class="col-md-3">
-                            <nav>
-                                <ul class="nav">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <strong class="text-right">Sorted by: {{ title_case($sort) }}
-                                                <span class="caret"></span>
-                                            </strong>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="{{ route('estate.groups.index', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('estate.groups.index', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('estate.groups.index', ['id' => $app->id, 'sort' => 'active']) }}">Active</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('estate.groups.index', ['id' => $app->id, 'sort' => 'disabled']) }}">Disabled</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
+                <div class="panel-heading clearfix">
+                    <strong>{{ title_case($sort) }} Groups</strong>
+                    <div class="pull-right">
+                        <div class="btn-group btn-group-sm">
+                            <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <strong class="text-right">Actions
+                                    <span class="caret"></span>
+                                </strong>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="{{ route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'active']) }}">Active</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'disabled']) }}">Disabled</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -75,7 +67,7 @@
                                         <td>{{ $group->title }}</td>
                                         <td>{{ $group->location }}</td>
                                         <td>
-                                            <a href="{{ route('estate.group.status', ['id' => $group->id]) }}"
+                                            <a href="{{ route('estate.rental.group.status', ['id' => $group->id]) }}"
                                                class="btn btn-default btn-xs"
                                                data-toggle="tooltip" title="{{ AppStatusToggleText($group->status) }}">
                                                 <i class="{{ AppStatusIcon($group->status) }}"></i>
@@ -84,23 +76,23 @@
                                         <td>
                                             <nav class="btn-group btn-group-xs">
                                                 @if($sort != "trashed")
-                                                    <a href="{{ route('estate.group.edit', ['id' => $group->id]) }}"
+                                                    <a href="{{ route('estate.rental.group.edit', ['id' => $group->id]) }}"
                                                        role="button" class="btn btn-primary"
                                                        data-toggle="tooltip" title="edit group">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a href="{{ route('estate.group.delete', ['id' => $group->id]) }}"
+                                                    <a href="{{ route('estate.rental.group.delete', ['id' => $group->id]) }}"
                                                        role="button" class="btn btn-warning"
                                                        data-toggle="tooltip" title="move to trash">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
                                                 @else
-                                                    <a href="{{ route('estate.group.restore', ['id' => $group->id]) }}"
+                                                    <a href="{{ route('estate.rental.group.restore', ['id' => $group->id]) }}"
                                                        role="button" class="btn btn-success"
                                                        data-toggle="tooltip" title="restore group">
                                                         <i class="fa fa-refresh"></i>
                                                     </a>
-                                                    <a href="{{ route('estate.group.destroy', ['id' => $group->id]) }}"
+                                                    <a href="{{ route('estate.rental.group.destroy', ['id' => $group->id]) }}"
                                                        role="button" class="btn btn-danger"
                                                        data-toggle="tooltip" title="delete completely">
                                                         <i class="fa fa-trash"></i>

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\EstateGroup;
-use App\EstateProperty;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Tenant;
-use App\TenantProperty;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateGroup;
+use App\Models\v1\Estate\EstateProperty;
+use App\Models\v1\Tenant\Tenant;
+use App\Models\v1\Tenant\TenantProperty;
 use App\UserRole;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User;
@@ -109,24 +108,40 @@ class TenantController extends Controller
     /**
      * TenantController index.
      */
-    public function index($id, $sort)
+    public function index(Request $request, $id, $sort)
     {
         //app
         $app = CompanyApp::find($id);
 
-        //sort
-        if ($sort == "all")
-            $tenants = $app->tenants()->paginate(25);
-        if ($sort == "trashed")
-            $tenants = $app->leasesTrashed()->paginate(25);
-        if ($sort == "active")
-            $tenants = $app->tenants()->where('status', 1)->paginate(25);
-        if ($sort == "disabled")
-            $tenants = $app->tenants()->where('status', 0)->paginate(25);
+        //leases
+        $leases = $request->leases;
+
+//        dd($app->leases()->orderBy('move_in', 'DESC')->get());
+        if ($leases == 1) {
+            if ($sort == "all")
+                $tenants = $app->leases()->orderBy('move_in', 'DESC')->paginate(25);
+            if ($sort == "trashed")
+                $tenants = $app->leasesTrashed()->orderBy('deleted_at', 'DESC')->paginate(25);
+            if ($sort == "active")
+                $tenants = $app->leases()->orderBy('move_in', 'DESC')->where('tenant_properties.status', 1)->paginate(25);
+            if ($sort == "vacated")
+                $tenants = $app->leases()->orderBy('move_out', 'DESC')->where('tenant_properties.status', 0)->paginate(25);
+        } else {
+            //sort
+            if ($sort == "all")
+                $tenants = $app->tenants()->orderBy('created_at', 'DESC')->paginate(25);
+            if ($sort == "trashed")
+                $tenants = $app->leasesTrashed()->paginate(25);
+            if ($sort == "active")
+                $tenants = $app->tenants()->where('status', 1)->paginate(25);
+            if ($sort == "disabled")
+                $tenants = $app->tenants()->where('status', 0)->paginate(25);
+        }
 
         return view('v1.estates.tenants.index')
             ->with('app', $app)
             ->with('sort', $sort)
+            ->with('leases', $leases)
             ->with('tenants', $tenants);
     }
 

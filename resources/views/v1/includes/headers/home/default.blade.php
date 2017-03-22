@@ -16,38 +16,44 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
+                            <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                             {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
                             <span class="fa fa-user"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a>
+                                <a href="{{ route('user.dashboard') }}" title="my dashboard">
+                                    <i class="fa fa-dashboard fa-fw"></i>My dashboard
+                                </a>
                             </li>
 
-                            <!-- Estate panel option -->
-                            {{--<li><a href="{{ route('estate.dashboard') }}" title="estate dashboard">Estates dashboard</a></li>--}}
-
-                                    <!-- Tenant panel option -->
-                            {{--<li><a href="tenants/dashboard.html" title="tenant dashboard">Tenants dashboard</a></li>--}}
-
-                                    <!-- Admin panel option -->
                             @if(Auth::user()->root or Auth::user()->admin)
                                 <li>
-                                    <a href="{{ route('admin.dashboard')  }}" title="admin panel">Admin panel</a>
+                                    <a href="{{ route('admin.dashboard')  }}" title="admin panel">
+                                        <i class="fa fa-tachometer fa-fw"></i> Admin panel
+                                    </a>
                                 </li>
+                                <!-- Admin panel option -->
                             @endif
 
                             <li>
-                                <a href="{{ route('user.profile') }}" title="my profile">Profile</a>
+                                <a href="{{ route('user.notifications') }}">
+                                    <i class="fa fa-bell fa-fw"></i> Notifications <span class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('user.profile') }}" title="my profile">
+                                    <i class="fa fa-user fa-fw"></i> Profile
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="{{ route('logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                            <i class="fa fa-sign-out"></i>
+                            <i class="fa fa-sign-out"></i> Logout
                         </a>
                     </li>
                 @else
@@ -68,19 +74,22 @@
                 <li class="{{ ActivePage('home') }}">
                     <a href="{{ route('home') }}">Home</a>
                 </li>
+                <!-- /li -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
                         Apps &amp; Services
                         <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        @foreach($app_products as $app)
+                    <ul class="dropdown-menu" id="app-services">
+                        @forelse($app_products as $app)
                             <li>
                                 <a href="{{ route('service', ['id' => $app->id]) }}">
                                     {{ $app->title }}
                                 </a>
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="text-center">Error, refresh page</li>
+                        @endforelse
 
                         <li role="separator" class="divider"></li>
 
@@ -92,13 +101,17 @@
                         </li>
 
                     </ul>
+                    <!-- /ul#app-services -->
                 </li>
+                <!-- /li.dropdown -->
                 <li>
                     <a href="{{ route('about') }}" class="hidden">About</a>
                 </li>
+                <!-- /li -->
                 <li class="{{ ActivePage('contact') }}">
                     <a href="{{ route('contact') }}">Contact</a>
                 </li>
+                <!-- /li -->
             </ul>
             <!-- Search form -->
             <form class="navbar-form navbar-right hidden" role="search">

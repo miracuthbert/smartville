@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Tenant;
-use App\TenantProperty;
+use App\Models\v1\Tenant\Tenant;
+use App\Models\v1\Tenant\TenantProperty;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -34,7 +34,7 @@ class LeaseController extends Controller
         $app = $tenant->company;
 
         //leases
-        $leases = $tenant->leases;
+        $leases = $tenant->leases()->orderBy('move_in', 'DESC')->paginate(10);
 
         return view('v1.tenants.leases.index')
             ->with('app', $app)

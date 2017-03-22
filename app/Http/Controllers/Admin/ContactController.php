@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ContactMessage;
+use App\Models\v1\Contact\ContactMessage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,9 +47,22 @@ class ContactController extends Controller
 
     /**
      * ContactController message.
+     * @param Request $request
+     * @param $id
+     * @return
      */
-    public function message($id, Request $request)
+    public function message(Request $request, $id)
     {
+        $notify_id = $request->read;
+
+        if ($notify_id != null) {
+            //find notification
+            $notification = $request->user()->notifications()->where('id', $notify_id)->first();
+
+            //mark as read
+            $notification->read_at == null ? $notification->update(['read_at' => Carbon::now()]) : '';
+        }
+
         $message = ContactMessage::find($id);
 
         $reply = $request->reply;
@@ -70,6 +83,7 @@ class ContactController extends Controller
 
     /**
      * ContactController send.
+     * @param Request $request
      */
     public function send(Request $request)
     {

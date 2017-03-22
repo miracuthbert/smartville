@@ -1,6 +1,5 @@
 <div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-            aria-expanded="false" aria-controls="navbar">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -49,32 +48,49 @@
         <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false">
+                <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                 {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
-                <span class="fa fa-user"></span>
+                <i class="fa fa-user"></i>
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a>
+                    <a href="{{ route('user.dashboard') }}" title="my dashboard">
+                        <i class="fa fa-dashboard fa-fw"></i>
+                        My dashboard
+                    </a>
                 </li>
 
                 <!-- Admin panel option -->
                 @if(Auth::user()->root or Auth::user()->admin)
                     <li>
-                        <a href="{{ route('admin.dashboard')  }}" title="admin panel">Admin panel</a>
+                        <a href="{{ route('admin.dashboard')  }}" title="admin panel">
+                            <i class="fa fa-tachometer fa-fw"></i>
+                            Admin panel
+                        </a>
                     </li>
                 @endif
 
                 <li>
-                    <a href="{{ route('user.profile') }}" title="my profile">Profile</a>
+                    <a href="{{ route('user.notifications') }}">
+                        <i class="fa fa-bell fa-fw"></i>
+                        Notifications <span
+                                class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('user.profile') }}" title="my profile">
+                        <i class="fa fa-user fa-fw"></i>
+                        Profile
+                    </a>
                 </li>
             </ul>
         </li>
         <li>
             <a href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                Logout
-                <i class="fa fa-sign-out"></i>
+                <i class="fa fa-sign-out"></i> Logout
             </a>
         </li>
     @else
@@ -85,9 +101,9 @@
             <a href="{{ route('login') }}">Login <i class="fa fa-sign-in"></i></a>
         </li>
         {{--<li class="{{ ActivePage('password.reset') }}">--}}
-            {{--<a href="{{ route('password.reset') }}">--}}
-                {{--<small>Forgot password?</small>--}}
-            {{--</a>--}}
+        {{--<a href="{{ route('password.reset') }}">--}}
+        {{--<small>Forgot password?</small>--}}
+        {{--</a>--}}
         {{--</li>--}}
     @endif
 </ul>
@@ -111,6 +127,52 @@
                 <a href="{{ route('support.index') }}">
                     <i class="fa fa-support fa-fw"></i> Support Center
                 </a>
+            </li>
+            <li>
+                <a href="{{ route('bug.create') }}">
+                    <i class="fa fa-bug fa-fw"></i> Report a bug
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-book fa-fw"></i> Manuals
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    @forelse($manuals as $manual)
+                        <li>
+                            <a href="{{ route('manuals.show', ['manual' => $manual->url]) }}"
+                               title="{{ $manual->title }}">
+                                {{ str_limit($manual->title, 25) }}
+                            </a>
+                        </li>
+                    @empty
+                        <li>No manuals found.</li>
+                    @endforelse
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-question-circle-o fa-fw"></i> Forum
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ route('forum.create') }}">Post new
+                            <span class="fa fa-plus pull-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('forum.index', ['forum' => Auth::user()->id, 'sort' => 'user']) }}">My posts
+                            <span class="fa fa-user pull-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('forum.index') }}">Go to forum
+                            <span class="fa fa-chevron-right pull-right"></span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

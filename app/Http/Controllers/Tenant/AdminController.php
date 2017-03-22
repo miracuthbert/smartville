@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Tenant;
+use App\Models\v1\Tenant\Tenant;
+use ExtCountries;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -32,22 +33,34 @@ class AdminController extends Controller
         //app
         $app = $tenant->company;
 
+        //company
+        $company = $app->company;
+
+        //country code
+        $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
+
+        //currency sign or iso code
+        $currency = ExtCountries::where('name.common', $company->country)->first()->currency;
+        $currency = $currency[0]['sign'] != null ? $currency[0]['sign'] : $currency[0]['ISO4217Code'];
+
         //leases
-        $leases = $tenant->leases;
+        $leases = $tenant->leases()->orderBy('move_in', 'DESC')->paginate(3);
 
         //rents
-        $rents = $tenant->rents()->orderBy('date_due', 'ASC')->paginate(3);
+        $rents = $tenant->rents()->where('tenant_rents.status', 0)->orderBy('date_due', 'ASC')->paginate(3);
 
         //bills
-        $bills = $tenant->bills()->orderBy('date_due', 'ASC')->paginate(3);
+        $bills = $tenant->bills()->where('tenant_bills.status', 0)->orderBy('date_due', 'ASC')->paginate(3);
 
         return view('v1.tenants.dashboard')
             ->with('app', $app)
+            ->with('code', $code)
+            ->with('currency', $currency)
+            ->with('company', $company)
             ->with('leases', $leases)
             ->with('rents', $rents)
             ->with('bills', $bills)
             ->with('tenant', $tenant);
     }
-
 
 }

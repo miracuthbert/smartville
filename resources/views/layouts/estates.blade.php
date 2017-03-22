@@ -22,6 +22,8 @@
 
     <link href="{{ url('css/estate.css') }}" rel="stylesheet">
 
+    <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
+
     <!-- Bootstrap Social CSS -->
     <link href="{{ url('css/bootstrap-social.css') }}" rel="stylesheet">
 
@@ -66,13 +68,15 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ route('home') }}">
-                {{ $app->product->title }} | {{ $app->company->title }}
+                <small>
+                    <span class="hidden-xs">{{ $app->product->title }} | </span>{{ $app->company->title }}
+                </small>
             </a>
         </div>
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
+            <li class="dropdown hidden-xs">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
@@ -84,10 +88,10 @@
                         </a>
                     </li>
                 </ul>
-                <!-- /.dropdown-messages -->
+                <!-- /.dropdown/messages -->
             </li>
             <!-- /.dropdown -->
-            <li class="dropdown">
+            <li class="dropdown hidden-xs">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
@@ -101,20 +105,14 @@
                 </ul>
                 <!-- /.dropdown-tasks -->
             </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
+            <!-- /.dropdown/tasks -->
+            <li class="dropdown hidden-xs">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="badge">{{ count($app->unreadNotifications) }}</span>
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    @if(count($app->notifications) == 0)
-                        <li class="disabled">
-                            <a href="#" class="text-center">No notifications found.</a>
-                        </li>
-                        <li class="divider"></li>
-                    @endif
-                    @foreach(collect($app->unreadNotifications)->slice(4, 0) as $notification)
+                    @forelse(collect($app->unreadNotifications)->slice(4, 0) as $notification)
                         @if(ToggleRead($notification->data['type']))
                             <li>
                                 <a href="#">
@@ -132,9 +130,14 @@
                             </li>
                             <li class="divider"></li>
                         @endif
-                    @endforeach
+                        @empty
+                            <li class="disabled">
+                                <a href="#" class="text-center">No notifications found.</a>
+                            </li>
+                            <li class="divider"></li>
+                    @endforelse
                     <li>
-                        <a class="text-center" href="{{ route('estate.notifications', ['id' => $app->id]) }}">
+                        <a class="text-center" href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
                             <strong>See All Notifications</strong>
                             <i class="fa fa-angle-right"></i>
                         </a>
@@ -142,17 +145,25 @@
                 </ul>
                 <!-- /.dropdown-alerts -->
             </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
+            <!-- /.dropdown/notifications -->
+            <li class="dropdown hidden-xs">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
-                        <a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> User Dashboard</a>
+                        <a href="{{ route('user.dashboard') }}">
+                            <i class="fa fa-dashboard fa-fw"></i> My Dashboard
+                        </a>
                     </li>
                     <li>
-                        <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <a href="{{ route('user.notifications') }}">
+                            <i class="fa fa-bell fa-fw"></i> Notifications
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a>
                     </li>
                     {{--<li>--}}
                     {{--<a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>--}}
@@ -168,7 +179,7 @@
                 </ul>
                 <!-- /.dropdown-user -->
             </li>
-            <!-- /.dropdown -->
+            <!-- /.dropdown/user -->
         </ul>
         <!-- /.navbar-top-links -->
 
@@ -186,7 +197,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <div class="box">
+                <div class="top-header">
                     <nav id="breadcrumb">
                         <ul class="breadcrumb">
                             <li>{{ config('app.name') }}</li>
@@ -195,6 +206,7 @@
                             @yield('breadcrumb')
                         </ul>
                     </nav>
+
                     @include('includes.alerts.subscription')
 
                     <h1 class="page-header">@yield('page-header')</h1>
@@ -208,6 +220,9 @@
                 <!-- /.stats -->
         @yield('content')
                 <!-- /.content -->
+
+        @include('includes.modals.success-modal')
+        @include('includes.modals.error-modal')
         @include('includes.forms.logout')
     </div>
     <!-- /#page-wrapper -->
@@ -237,8 +252,11 @@
 <script src="{{ url('js/morris.min.js') }}"></script>
 {{--<script src="{{ url('js/morris-data.js') }}"></script>--}}
 
-<!-- Custom Theme JavaScript -->
+        <!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
+
+<!-- Custom Text Editor -->
+<script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
 
 <!-- Custom Text Editor -->
 <script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>

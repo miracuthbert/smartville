@@ -13,9 +13,9 @@ function ToggleRead($date)
 function ToggleButtonRead($date)
 {
     if($date == null)
-        return 'btn-link';
+        return 'btn-success';
     else
-        return 'btn-success disabled';
+        return 'btn-default disabled';
 }
 
 //Notification Icon
@@ -23,12 +23,20 @@ function NotificationIcon($type)
 {
     if($type == 'contact')
         return 'fa-envelope';
+    if($type == 'forum')
+        return 'fa-comment';
+    if($type == 'bug')
+        return 'fa-bug';
+    if($type == 'tenant bill')
+        return 'fa-money';
 }
 
 //Notification Type
 function NotificationType($type)
 {
     if($type == 'contact')
+        return true;
+    if($type == 'forum')
         return true;
 
     return false;
@@ -39,4 +47,8 @@ function NotificationRoute($type)
 {
     if($type == 'contact')
         return 'admin.contact.message';
+    if($type == 'forum')
+        return 'forum.show';
+    if($type == 'bug')
+        return 'bugs.show';
 }

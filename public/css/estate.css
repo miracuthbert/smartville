@@ -6,6 +6,19 @@
     padding: 25px 0;
 }
 
+.box-min {
+    padding: 10px 0;
+}
+
+.top-header {
+    padding: 25px 0 10px 0;
+}
+
+.sub-header {
+    padding-bottom: 9px;
+    border-bottom: 1px solid #dddddd;
+}
+
 .box-all {
     padding: 25px;
 }

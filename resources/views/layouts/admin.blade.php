@@ -117,7 +117,7 @@
                 </ul>
                 <!-- /.dropdown-messages -->
             </li>
-            <!-- /.dropdown -->
+            <!-- /.dropdown messages-->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -200,32 +200,18 @@
                 </ul>
                 <!-- /.dropdown-tasks -->
             </li>
-            <!-- /.dropdown -->
+            <!-- /.dropdown tasks-->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="badge">{{ count($unread_notifications) }}</span>
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    @foreach($notifications as $notification)
-                        @if(ToggleRead($notification->data['type']))
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa {{ NotificationIcon($notification->data['type']) }} fa-fw"></i>
-                                        <span class="small">
-                                            Message from
-                                            {{ str_limit($notification->data['name'], 10) }}
-                                        </span>
-                                        <span class="pull-right text-muted small">
-                                            {{ $notification->created_at->diffForHumans() }}
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                        @endif
-                    @endforeach
+                    @forelse($unread_notifications as $notification)
+                        @include('v1.admin.notify.list.contact')
+                        @include('v1.admin.notify.list.bug')
+                        @empty
+                    @endforelse
                     <li>
                         <a class="text-center" href="{{ route('admin.notifications') }}">
                             <strong>See All Notifications</strong>
@@ -235,7 +221,7 @@
                 </ul>
                 <!-- /.dropdown-alerts -->
             </li>
-            <!-- /.dropdown -->
+            <!-- /.dropdown notification -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -245,10 +231,22 @@
                         <a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> User Dashboard</a>
                     </li>
                     <li>
-                        <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <a href="{{ route('user.notifications') }}">
+                            <i class="fa fa-bell fa-fw"></i> Notifications
+                            <span class="badge pull-right">{{ count($unread_notifications) }}</span>
+                        </a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <a href="{{ route('user.profile') }}">
+                            <i class="fa fa-user fa-fw"></i>
+                            User Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-gear fa-fw"></i>
+                            Settings
+                        </a>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -260,142 +258,14 @@
                 </ul>
                 <!-- /.dropdown-user -->
             </li>
-            <!-- /.dropdown -->
+            <!-- /.dropdown user-->
         </ul>
         <!-- /.navbar-top-links -->
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}">
-                            <i class="fa fa-dashboard fa-fw"></i> Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.notifications') }}">
-                            <i class="fa fa-bell fa-fw"></i> Notifications
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-inbox fa-fw"></i> Inboxes
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Chat</a>
-                            </li>
-                            <li>
-                                <a href="#">Personal Inbox</a>
-                            </li>
-                            <li>
-                                <a href="#">Emails <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="{{ route('admin.contact.messages', ['sort' => 'unread']) }}">
-                                            Unread
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('admin.contact.messages', ['sort' => 'read']) }}">
-                                            Read
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('admin.contact.messages', ['sort' => 'trashed']) }}">
-                                            Trashed
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('admin.contact.messages', ['sort' => 'all']) }}">
-                                            All
-                                        </a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <!-- /.nav-first-level -->
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#new">Add New</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.users') }}">All Users</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-product-hunt fa-fw"></i> Apps<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{ route('admin.app.create') }}">Add new</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.apps', ['sort' => 'active']) }}">Active</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.apps', ['sort' => 'disabled']) }}">Disabled</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.apps', ['sort' => 'trashed']) }}">Trashed</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.apps', ['sort' => 'all']) }}">View all</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <!-- /.nav-first-level -->
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
-                                    class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <!-- /.nav-first-level -->
+                    @include('includes.sidebars.admin')
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -453,6 +323,10 @@
 <!-- Custom Js -->
 <script src="{{ url('js/app.js') }}"></script>
 <script src="{{ url('js/admin.js') }}"></script>
+
+<!-- Custom Text Editor -->
+<script src="{{ url('js/ckstandard/ckeditor.js') }}"></script>
+
 @yield('scripts')
 </body>
 

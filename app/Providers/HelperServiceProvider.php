@@ -9,7 +9,13 @@ class HelperServiceProvider extends ServiceProvider
     /**
      * @param $helpers
      */
-    protected $helpers = ['ProductHelpers', 'ActivePage', 'BillingHelpers', 'NotificationHelpers'];
+    protected $helpers = [
+        'ProductHelpers',
+        'ActivePage',
+        'BillingHelpers',
+        'NotificationHelpers',
+        'ForumHelpers',
+    ];
 
 
     /**

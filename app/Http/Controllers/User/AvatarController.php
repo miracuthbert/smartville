@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Avatar;
+use App\Models\v1\Upload\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\User;
-use App\CompanyUser;
+use App\Models\v1\Company\CompanyUser;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CompanyUserPolicy

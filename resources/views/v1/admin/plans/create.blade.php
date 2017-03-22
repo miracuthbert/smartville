@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label for="description">Description:</label>
                                     <textarea name="description" id="description" cols="60" rows="5"
-                                              class="form-control"
+                                              class="form-control ckeditor"
                                               placeholder="plan details...">{{ Request::old('description') }}</textarea>
                                 </div>
                             </div>

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\EstateGroup;
-use App\EstateProperty;
-use App\TenantRent;
-use App\PropertyPrice;
-use App\TenantProperty;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateGroup;
+use App\Models\v1\Estate\EstateProperty;
+use App\Models\v1\Tenant\TenantRent;
+use App\Models\v1\Property\PropertyPrice;
+use App\Models\v1\Tenant\TenantProperty;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -83,7 +83,7 @@ class RentController extends Controller
         //properties
         $properties = $app->properties()->where('property_group', null)->where('status', 1)->get();
 
-        return view('v1.estates.rent.add-invoice')
+        return view('v1.estates.rent.generate')
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('properties', $properties)
             ->with('app', $app);
@@ -121,7 +121,7 @@ class RentController extends Controller
         //properties
         $properties = $app->properties()->where('status', 1)->get();
 
-        return view('v1.estates.rent.generate-invoice')
+        return view('v1.estates.rent.generate')
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('invoices', $generate)
             ->with('properties', $properties)
@@ -197,7 +197,7 @@ class RentController extends Controller
         //app
         $app = $rent->property->app;
 
-        return view('v1.estates.rent.edit-rent')
+        return view('v1.estates.rent.edit')
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('app', $app)
             ->with('rent', $rent);
@@ -282,10 +282,10 @@ class RentController extends Controller
 
         //generate pdf
         //pdf options
-        $pdf = PDF::setOptions(['defaultMediaType' => 'all', 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::setOptions(['defaultMediaType' => 'all', 'defaultFont' => 'Arial']);
 
         //view render
-        $pdf->loadView('reports.rents.default', [
+        $pdf->loadView('v1.reports.rents.default', [
             'app' => $app,
             'rents' => $rents,
             'sort' => $sort,
@@ -549,7 +549,7 @@ class RentController extends Controller
                     ->with('error', 'Failed moving ' . $title . ' rent invoice for ' . $from . ' - ' . $to . ' to trash. Try again!');
             }
 
-        } else {
+        } elseif($counted > 1) {
             foreach ($rents as $id) {
                 $app = TenantRent::find($id);
 
@@ -581,7 +581,7 @@ class RentController extends Controller
         }
 
         return redirect()->back()
-            ->with('error', 'You tried to delete an empty record. Select some first...');
+            ->with('error', 'Select records first before a bulk delete');
 
     }
 

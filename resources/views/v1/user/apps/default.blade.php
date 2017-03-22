@@ -54,11 +54,22 @@
                 <strong>Created</strong> {{ $app->created_at->diffForHumans() }}
             </p>
 
+            <p>
+                @if($app->subscribed)
+                    Subscribed <i class="fa fa-check-square-o"></i>
+                @else
+                    <a href="{{ route('estate.trial.activate', ['id' => $app->id]) }}" class="alert-link">
+                        Activate unlimited 14 day free trial
+                    </a>
+                @endif
+            </p>
+
             <!-- sm links -->
             <div class="clearfix">
                 <div class="pull-right">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">
                             <strong>
                                 App ...
                                 <i class="caret"></i>
@@ -68,7 +79,7 @@
                             @if($app->status)
                                 <li class="">
                                     {{-- dashboard link --}}
-                                    <a href="{{ route('estate.dashboard', ['id' => $app->company_id]) }}"
+                                    <a href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}"
                                        class="{{ $app->company->status === 1 ? '' : 'disabled' }}"
                                        data-toggle="tooltip"
                                        title="App Dashboard">
@@ -97,7 +108,7 @@
 
                                         <!-- app status toggle link -->
                                 <li class="">
-                                    <a href="{{ route('app.status', ['id' => $app->id]) }}"
+                                    <a href="{{ route('estate.rental.status', ['id' => $app->id]) }}"
                                        class="{{ $app->company->status === 1 ? '' : 'disabled' }}"
                                        data-toggle="tooltip" title="{{ AppStatusToggleText($app->status) }} App">
                                         <i class="{{ AppStatusIcon($app->status) }}"></i>
@@ -107,7 +118,8 @@
 
                                 <!-- delete app link -->
                                 <li class="">
-                                    <a href="{{ route('app.delete', ['id' => $app->id]) }}" data-toggle="tooltip"
+                                    <a href="{{ route('estate.rental.delete', ['id' => $app->id]) }}"
+                                       data-toggle="tooltip"
                                        title="Remove app">
                                         <i class="fa fa-remove"></i>
                                         Remove App
@@ -126,7 +138,7 @@
                     <div class="btn-group btn-group-sm hidden">
                         @if($app->status)
                             {{-- dashboard link --}}
-                            <a href="{{ route('estate.dashboard', ['id' => $app->company_id]) }}"
+                            <a href="{{ route('estate.rental.dashboard', ['id' => $app->company_id]) }}"
                                class="btn btn-primary {{ $app->company->status === 1 ? '' : 'disabled' }}"
                                data-toggle="tooltip"
                                title="App Dashboard">
@@ -152,7 +164,7 @@
                             @endif
 
                             {{-- app status toggle link --}}
-                            <a href="{{ route('app.status', ['id' => $app->id]) }}"
+                            <a href="{{ route('estate.rental.status', ['id' => $app->id]) }}"
                                class="btn btn-default {{ $app->company->status === 1 ? '' : 'disabled' }}"
                                data-toggle="tooltip"
                                title="{{ AppStatusToggleText($app->status) }} App">
@@ -160,7 +172,7 @@
                                 {{ AppStatusToggleText($app->status) }}
                             </a>
                             {{-- delete app link --}}
-                            <a href="{{ route('app.delete', ['id' => $app->id]) }}"
+                            <a href="{{ route('estate.rental.delete', ['id' => $app->id]) }}"
                                class="btn btn-warning">
                                 <i class="fa fa-remove"></i>
                                 Remove

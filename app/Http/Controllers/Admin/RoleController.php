@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-/**
- * Class RoleController
- * @package App\Http\Controllers\Admin
- */
 class RoleController extends Controller
 {
 
@@ -108,6 +104,5 @@ class RoleController extends Controller
         return redirect()->back()
             ->with('error', 'Failed deleting selected role(s)');
     }
-
 
 }

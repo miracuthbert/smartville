@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\ProductPlan;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Product\ProductPlan;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

@@ -31,13 +31,13 @@
                     <ul class="dropdown-menu pull-right">
                         <li class="dropdown-header">Switch layout to</li>
                         <li>
-                            <a href="{{ route('estate.properties', ['id' => $app->id, 'sort' => 'all', 'layout' => 'grid']) }}">
-                                <i class="glyphicon glyphicon-list-alt"></i>
+                            <a href="{{ route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all', 'layout' => 'grid']) }}">
+                                <i class="glyphicon glyphicon-th-large"></i>
                                 Grid View
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('estate.properties', ['id' => $app->id, 'sort' => 'all']) }}">
+                            <a href="{{ route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all']) }}">
                                 <i class="fa fa-list"></i>
                                 List View
                             </a>

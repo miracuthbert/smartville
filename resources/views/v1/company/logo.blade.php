@@ -111,7 +111,9 @@
                     </div>
                 @endforeach
             @else
-                <p class="lead">You have no logos or profile pictures yet.</p>
+                <div class="col-lg-12">
+                    <p class="text-muted">You have no logos uploaded yet.</p>
+                </div>
             @endif
         </div>
         <!-- / .row -->

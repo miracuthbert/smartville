@@ -46,6 +46,12 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('user.notifications') }}">Notifications
+                        <span class="badge">{{ count($unread_notifications) }}</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();document.getElementById('logout-form').submit();"
                        title="my store">Logout

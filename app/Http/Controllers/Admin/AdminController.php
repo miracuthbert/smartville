@@ -34,38 +34,6 @@ class AdminController extends Controller
     }
 
     /**
-     * AdminController notifications.
-     */
-    public function notifications()
-    {
-        return view('v1.admin.notifications')
-            ->with('user', Auth::user());
-    }
-
-    /**
-     * AdminController notifications.
-     */
-    public function notificationRead($id)
-    {
-        $notification = Auth::user()->notifications()->where('id', $id)->first();
-
-        if ($notification->read_at != null) {
-//            $notification->update(['read_at', null]);
-
-            return back()
-                ->with('success', $notification->data['title'] . ' notification already marked as read!');
-        }
-
-        if ($notification->markAsRead())
-            return back()
-                ->with('success', $notification->data['title'] . ' notification marked as read!');
-
-        return back()
-            ->with('error', 'Failed marking ' . $notification->data['title'] . ' notification as read!');
-
-    }
-
-    /**
      * AdminController getSettings.
      */
     public function getSettings()

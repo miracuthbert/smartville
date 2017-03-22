@@ -28,6 +28,8 @@
     <link href="{{ url('css/icomoon.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
+    <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
+
     <link href="{{ url('css/v1/dashboard.css') }}" rel="stylesheet">
 
     <link href="{{ url('css/colors.css') }}" rel="stylesheet">
@@ -41,6 +43,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Scripts -->
+    <script>
+        var $token = '{{ csrf_token() }}';
+    </script>
+
 </head>
 
 <body>
@@ -76,6 +84,9 @@
 
 @include('v1.includes.footers.dashboard-default')
         <!-- /.footer -->
+
+@include('includes.modals.success-modal')
+@include('includes.modals.error-modal')
 
 @include('includes.forms.logout')
         <!-- Bootstrap core JavaScript

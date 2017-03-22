@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\EstateBill;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateBill;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -73,7 +73,7 @@ class BillServiceController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.bills.create-bill')
+        return view('v1.estates.bills.services.create')
             ->with('app', $app);
 
     }
@@ -96,7 +96,7 @@ class BillServiceController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.bills.bill-setting')
+        return view('v1.estates.bills.services.edit')
             ->with('app', $app)
             ->with('bill', $bill);
     }
@@ -129,7 +129,7 @@ class BillServiceController extends Controller
         if ($sort == "all")
             $bills = $app->billingServices()->paginate(25);
 
-        return view('v1.estates.bills.bill-settings')
+        return view('v1.estates.bills.services.index')
             ->with('app', $app)
             ->with('sort', $sort)
             ->with('bills', $bills);
@@ -174,7 +174,7 @@ class BillServiceController extends Controller
 
         //save
         if ($app->billingServices()->save($bill)) {
-            return redirect()->route('estate.bills.services', ['id' => $app->id, 'sort' => 'all'])
+            return redirect()->route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'all'])
                 ->with('success', 'Billing service added successfully.');
         }
 

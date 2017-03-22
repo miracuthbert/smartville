@@ -53,6 +53,10 @@
 <script src="{{ url('js/jquery-ui.min.js') }}"></script>
 <script src="{{ url('js/bootstrap.min.js') }}"></script>
 <script src="{{ url('js/app.js') }}"></script>
+
+<!-- Custom Text Editor -->
+<script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
+
 @yield('scripts')
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

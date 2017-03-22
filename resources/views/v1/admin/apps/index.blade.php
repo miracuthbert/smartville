@@ -102,7 +102,7 @@
                             <div class="col-sm-6">
                                 <div class="dataTables_info" id="dataTables-example_info" role="status"
                                      aria-live="polite">
-                                    Showing #. {{ $apps->first()->id }} to {{ $apps->last()->id }}
+                                    Showing #. {{ $apps->firstItem() }} to {{ $apps->lastItem() }}
                                     of {{ $apps->total() }} entries
                                 </div>
                             </div>

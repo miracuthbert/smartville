@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\v1\Tenant\TenantBill;
 use App\User;
-use App\TenantBill;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenantBillPolicy

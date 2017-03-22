@@ -33,14 +33,14 @@
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href="{{ route('app.restore', ['id' => $app->id]) }}" data-toggle="tooltip"
+                                    <a href="{{ route('estate.rental.restore', ['id' => $app->id]) }}" data-toggle="tooltip"
                                        title="Restore App">
                                         <i class="fa fa-refresh"></i>
                                         Restore App
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('app.destroy', ['id' => $app->id]) }}" data-toggle="tooltip"
+                                    <a href="{{ route('estate.rental.destroy', ['id' => $app->id]) }}" data-toggle="tooltip"
                                        title="Delete completely">
                                         <i class="fa fa-trash"></i>
                                         Delete Completely

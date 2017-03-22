@@ -18,13 +18,29 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h1>
-                        Page currently under construction
-                    </h1>
+                    <h3>
+                        <i class="fa fa-wrench"></i> Page Under Construction
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="lead">
+                        <p>Please bare with us as we work on the settings page.</p>
+                        <strong class="text-info">
+                            <i class="fa fa-info-circle"></i> Default settings will be used.
+                        </strong>
+                    </div>
                 </div>
             </div>
+
+            <h3 class="sub-header"><i class="fa fa-th-list"></i> Layouts</h3>
+            @include('v1.estates.settings.properties_group_layout')
+            @include('v1.estates.settings.properties_layout')
+            @include('v1.estates.settings.tenants_layout')
+
+            <h3 class="sub-header"><i class="fa fa-bell"></i> Notifications</h3>
+            @include('v1.estates.settings.notifications')
         </div>
     </div>
 

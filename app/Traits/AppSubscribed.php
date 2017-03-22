@@ -8,6 +8,7 @@
 
 namespace App\Traits;
 
+use App\Models\v1\Estate\Paypal;
 use Carbon\Carbon;
 
 trait AppSubscribed
@@ -84,6 +85,6 @@ trait AppSubscribed
      */
     public function subscriptions()
     {
-        return $this->hasMany(\App\AppPaypal::class, 'company_app_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Paypal::class, 'company_app_id')->orderBy('created_at', 'desc');
     }
 }

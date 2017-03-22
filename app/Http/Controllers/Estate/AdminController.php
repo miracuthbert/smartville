@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\CompanyApp;
-use App\CompanyUser;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Company\CompanyUser;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -72,6 +72,19 @@ class AdminController extends Controller
     {
         $app = CompanyApp::find($id);
 
+        //settings
+        $settings = $app->settings;
+
+        //default settings
+        $default_settings = config('settings.rental_app');
+//        $result = array_has($default_settings, 'notifications.web');
+//        $result = array_has($settings, 'notifications.email') ? $settings['notifications']['email'] == 0 ? 'checked' : '' : $default_settings['notifications']['email'] == false ? 'checked' : '';
+
+        //debug
+//        dd($default_settings);
+//        dd($default_settings['notifications']['email']);
+//        dd($result);
+
         //check app
         if ($app == null)
             abort(404);
@@ -80,6 +93,8 @@ class AdminController extends Controller
         $this->authorize('view', $app);
 
         return view('v1.estates.settings')
+            ->with('default_settings', $default_settings)
+            ->with('settings', $settings)
             ->with('app', $app);
     }
 

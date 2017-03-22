@@ -22,7 +22,7 @@ class CreateEstatePropertiesTable extends Migration
             $table->integer('property_group')->unsigned()->nullable();
             $table->foreign('property_group')->references('id')->on('estate_groups')->onDelete('set null');
             $table->string('title');
-            $table->string('summary');
+            $table->text('summary');
             $table->text('description')->nullable();
             $table->float('size');
             $table->integer('interval')->nullable();

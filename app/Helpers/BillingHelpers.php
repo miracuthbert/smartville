@@ -4,18 +4,18 @@
 function RentDeleteRoute($sort)
 {
     if ($sort != 'trashed')
-        return 'estate.rent.delete';
+        return 'estate.rental.rent.delete';
     else
-        return 'estate.rent.destroy';
+        return 'estate.rental.rent.destroy';
 }
 
 //bulk delete action route
 function BillDeleteRoute($sort)
 {
     if ($sort != 'trashed')
-        return 'estate.bills.invoice.delete';
+        return 'estate.rental.bills.invoice.delete';
     else
-        return 'estate.bills.invoice.destroy';
+        return 'estate.rental.bills.invoice.destroy';
 }
 
 //Bill Units Calculate
@@ -43,6 +43,16 @@ function BillStatusText($status)
         echo 'Paid';
     } else {
         echo 'Pending';
+    }
+}
+
+//bill status text
+function BillStatusClass($status)
+{
+    if ($status == 1) {
+        echo 'paid';
+    } else {
+        echo 'pending';
     }
 }
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Product;
+use App\Models\v1\Product\Product;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -31,8 +31,8 @@ class ProductController extends Controller
         if ($type === "update") {
             return $validate = Validator::make($data, [
                 'name' => 'required|min:3|max:255',
-                'summary' => 'required|min:10|max:255',
-                'description' => 'required|max:1500',
+                'summary' => 'required|min:50',
+                'description' => 'required',
                 'category' => 'required|integer',
                 'payment_model' => 'required|integer',
                 'app' => 'required|boolean',
@@ -43,8 +43,8 @@ class ProductController extends Controller
         } else {
             return $validate = Validator::make($data, [
                 'name' => 'required|unique:products,title|min:3|max:255',
-                'summary' => 'required|min:10|max:255',
-                'description' => 'required|max:1500',
+                'summary' => 'required|min:50',
+                'description' => 'required',
                 'category' => 'required|integer',
                 'payment_model' => 'required|integer',
                 'app' => 'required|boolean',

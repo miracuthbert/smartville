@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Product;
-use App\ProductPlan;
+use App\Models\v1\Product\Product;
+use App\Models\v1\Product\ProductPlan;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -41,7 +41,7 @@ class ProductPlanController extends Controller
                 'description' => 'required|max:1500',
                 'description' => 'required|max:1500',
                 'price' => 'required|numeric',
-                'limit' => 'required|integer',
+                'limit' => 'integer',
                 'trial' => 'required|boolean',
                 'trial_days' => 'required|integer',
                 'status' => 'required|boolean',
@@ -53,7 +53,7 @@ class ProductPlanController extends Controller
                 'summary' => 'required|min:10|max:255',
                 'description' => 'required|max:1500',
                 'price' => 'required|numeric',
-                'limit' => 'required|integer',
+                'limit' => 'integer',
                 'trial' => 'required | boolean',
                 'trial_days' => 'required | integer',
                 'status' => 'required | boolean',

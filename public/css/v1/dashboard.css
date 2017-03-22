@@ -1,3 +1,7 @@
+footer {
+    padding: 15px 0;
+}
+
 .box {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -5,4 +9,30 @@
 
 .box-all {
     padding: 25px;
+}
+
+/**
+ * Forum Styles
+ */
+.topicWrapper .levelWrapper span {
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.topicWrapper .topic-status {
+    margin-left: 8px;
+    margin-right: 5px;
+}
+
+#forumWrapper #tags button {
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+#topicComments #commentWrapper {
+    padding: 25px 0;
+}
+
+#topicComments #commentWrapper .forumTopicComment {
+    margin-bottom: 30px;
 }

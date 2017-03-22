@@ -13,8 +13,8 @@ class AlterAppPaypalsAddColumnQuantity extends Migration
      */
     public function up()
     {
-        Schema::table('app_paypals', function (Blueprint $table) {
-            $table->integer('quantity')->default(1)->after('payment_plan');
+        Schema::table('app_subscriptions_paypal', function (Blueprint $table) {
+            $table->integer('quantity')->default(1)->after('plan_id');
         });
     }
 

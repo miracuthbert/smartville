@@ -57,3 +57,11 @@
         padding: 5px 0;
     }
 }
+
+/**
+ * Manuals Section
+ */
+.list-group.manuals .list-group-item header {
+    padding: 10px 0;
+    margin-bottom: 5px;
+}

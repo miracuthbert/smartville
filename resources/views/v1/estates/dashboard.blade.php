@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('estate.bills.tenants', ['id' => $app->id, 'sort' => 'pending']) }}" class="">
+                <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending']) }}" class="">
                     <div class="panel-footer">
                         View all
                         <span class="glyphicon glyphicon-circle-arrow-right pull-right"></span>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'pending']) }}" class="">
+                <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending']) }}" class="">
                     <div class="panel-footer">
                         View all
                         <span class="glyphicon glyphicon-circle-arrow-right pull-right"></span>

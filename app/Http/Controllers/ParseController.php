@@ -20,7 +20,7 @@ class ParseController extends Controller
 
         $date = Carbon::parse($date);
 
-        $parsed = $date->addMonths($duration)->toDateString();
+        $parsed = is_integer($duration) ? $date->addMonths($duration)->toDateString() : $date->addMonth()->toDateString();
 
         if ($parsed)
             return response()->json(['status' => 1, 'date' => $parsed]);

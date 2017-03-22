@@ -1,4 +1,4 @@
-@extends('layouts.tenant')
+@extends('v1.layouts.tenant')
 
 @section('title')
     Rent Invoices
@@ -10,90 +10,99 @@
 @endsection
 
 @section('page-header')
-    Rent Invoices
+    <h2><i class="fa fa-credit-card-alt fa-fw"></i> Rent Invoices</h2>
+    <hr>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Rent</div>
-                <div class="panel-body">
-                    @if(count($rents) > 0)
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Property</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Due</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($rents as $rent)
-                                    <tr>
-                                        <td>{{ $rent->id }}</td>
-                                        <td>{{ $rent->property->title }}</td>
-                                        <td>{{ MonthName($rent->date_from) }}</td>
-                                        <td>
-                                            {{ MonthName($rent->date_to) }}
-                                        </td>
-                                        <td>
-                                            {{ $rent->date_due }}
-                                        </td>
-                                        <td>
-                                            <span data-toggle="tooltip"
-                                                  title="{{ RentStatusText($rent->status) }}">
-                                                <i class="{{ PayStatusIcon($rent->status) }}"></i>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-xs">
-                                                <a href="{{ route('tenant.rent', ['id' => $rent->id]) }}"
-                                                   role="button" class="btn btn-primary" data-toggle="tooltip"
-                                                   data-title="view">
-                                                    View
-                                                    <i class="fa fa-chevron-right"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <p class="text-info">
-                            Sorry, {{ Auth::user()->firstname }}. No rent invoices found.
-                        </p>
-                    @endif
-                </div>
-                @if(count($rents) > 0)
-                    <div class="panel-footer">
+            <section id="invoices-wrapper">
+                @forelse($rents as $rent)
+                    <blockquote class="invoice-wrap {{ RentStatusClass($rent->status) }}">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="pagination">
-                                    <p></p>
-                                    <p class="label label-default">
-                                        Rent invoices : {{ $rents->total() }}
-                                    </p>
-                                </div>
+                                <p>
+                                    {{ $rent->property->title }}
+                                </p>
                             </div>
+                            <div class="col-sm-3 col-xs-6 text-center-xs">
+                                <p>
+                                        <span class="text-muted">
+                                            {{ MonthName($rent->date_from) }} - {{ MonthName($rent->date_to) }}
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 text-right text-center-xs">
+                                <p>{{ $currency }}.
+                                            <span class="text-muted">
+                                            {{ $rent->amount }}
+                                        </span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <div class="row">
                             <div class="col-sm-6">
+                                <p>Payment due on
+                                        <span class="text-muted small">
+                                            {{ $rent->date_due }}
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <p>
+                                        <span class="{{ PayStatusLabel($rent->status) }}">
+                                                {{ RentStatusText($rent->status) }}
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
                                 <div class="pull-right">
-                                    {{ $rents->links() }}
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ route('tenant.rent', ['id' => $rent->id]) }}"
+                                           role="button" class="btn btn-primary" data-toggle="tooltip"
+                                           data-title="view">
+                                            View details
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-            </div>
+                        <!-- /.row -->
+                    </blockquote>
+                @empty
+                    <p class="text-info">
+                        Hey, {{ Auth::user()->firstname }}, looks like you have no pending rent.
+                    </p>
+                @endforelse
+            </section>
         </div>
     </div>
+
+    @if(count($rents) > 0)
+        <hr>
+        <div class="row">
+            <div class="col-sm-6 col-xs-5">
+                <p class="lead label label-default">
+                    Rent invoices : {{ $rents->total() }}
+                </p>
+            </div>
+            <div class="col-sm-6 col-xs-7 text-right text-center-xs">
+                <p class="label label-info">
+                    Showing <strong>{{ $rents->firstItem() }}</strong> to <strong>{{ $rents->lastItem() }}</strong>
+                    of <strong>{{ $rents->total() }}</strong>
+                </p>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    {{ $rents->links() }}
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    @endif
 @endsection
-
-

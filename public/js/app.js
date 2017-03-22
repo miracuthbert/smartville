@@ -39,7 +39,9 @@ $(document).ready(function () {
     /**
      * Popover
      */
-    $(function () { $('[data-toggle="popover"]').popover() });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
 
     /**
      * Off canvas sidebar
@@ -641,6 +643,8 @@ $(document).ready(function () {
         }).done(function (data) {
             if (data.status == 1) {
                 $field.val(data.date)
+                console.log(data.date);
+                console.log($duration);
             }
         }).error(function (error) {
             //flag error
@@ -757,9 +761,9 @@ $(document).ready(function () {
 
         //pabill
         $this.addClass('active-selector');
-        $this.parent().parent().parent().parent().addClass('active-bill');
+        $this.parent().parent().parent().parent().parent().addClass('active-bill');
 
-        if ($this.parent().parent().parent().parent().hasClass('active-bill')) {
+        if ($this.parent().parent().parent().parent().parent().hasClass('active-bill')) {
             $this.datepicker({
                 'minDate': '-5Y',
                 'dateFormat': 'yy-mm-dd',
@@ -767,16 +771,16 @@ $(document).ready(function () {
 
             $this.on('change', function () {
                 //date
-                $date = $this.val();
+                var date = $this.val();
 
                 //duration
-                $duration = $('div.invoice.active-bill input.bill_duration').val();
+                var duration = $('div.invoice.active-bill input.bill_duration').val();
 
                 //field
-                $field = $('div.invoice.active-bill input.bill_date_to');
+                var field = $('div.invoice.active-bill input.bill_date_to');
 
                 //get parsed
-                $parsed = $dateGenerator($date, $duration, $field);
+                var parsed = $dateGenerator(date, duration, field);
             });
         }
     });
@@ -1024,6 +1028,95 @@ $(document).ready(function () {
             $('.select-box').prop('checked', true).addClass('active');
         else
             $('.select-box').prop('checked', false).removeClass('active');
+    });
+
+    /**
+     * ---------------------------------------------------------------------------------
+     * Forum Methods
+     * ---------------------------------------------------------------------------------
+     */
+    /**
+     * On delete forum button click
+     */
+    $('.btnDelForum').on('click', function (e) {
+        //prevent default action
+        e.preventDefault();
+
+        //get selector
+        $this = $(this);
+
+        //get del route
+        $link = $this.attr('data-route');
+
+        //change href attr
+        $('#deleteConfirmation #btnProceed').attr('href', $link);
+
+        //show modal box
+        $('#deleteConfirmation').modal('show');
+    });
+
+    /**
+     * On delete forum confirmation accept
+     */
+    $('#deleteConfirmation #btnProceed').on('click', function () {
+        //msg
+        $msg = '<p>';
+        $msg += 'Deletion started... ';
+        $msg += '<i class="fa fa-spinner"></i>';
+        $msg += '</p>';
+
+        $('#deleteConfirmation .modal-body').html($msg);
+
+    });
+
+    /**
+     * On vote forum button click
+     */
+    $('.btnVoteForumComment').on('click', function (e) {
+
+        //prevent default action
+        e.preventDefault();
+
+        //catch selector triggering the event
+        $this = $(this);
+
+        $link = $this.attr('data-route');
+
+        $vote = $this.attr('data-vote');
+
+        //message to display if successful
+        $voted = $vote == 1 ? 'You marked this comment as helpful' : 'You marked this comment as not helpful';
+
+        $spanDislike = $this.parent().find('a:last span.total');
+        $spanLikes = $this.parent().find('a:first span.total');
+
+        $.ajax({
+            method: 'POST',
+            url: $link,
+            data: {vote: $vote, _token: $token}
+        }).done(function (data) {
+            if (data.status === 1) {
+                $message = '<strong class="text-success">';
+                $message += data.message;
+                $message += '</strong>';
+
+                //assign
+                $spanLikes.html(data.likes);
+                $spanDislike.html(data.dislikes);
+
+                $this.parent().parent().parent().parent().find('p.message').html($voted);
+
+                $('#successModal .modal-body').html($message);
+                $('#successModal').modal('show');
+            } else {
+                $message = '<strong class="text-danger">';
+                $message += data.message;
+                $message += '</strong>';
+
+                $('#errorModal .modal-body').html($message);
+                $('#errorModal').modal('show');
+            }
+        });
     });
 
     //Bulk Delete

@@ -26,17 +26,17 @@
                                 <a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a>
                             </li>
 
-                            <!-- Estate panel option -->
-                            {{--<li><a href="{{ route('estate.dashboard') }}" title="estate dashboard">Estates dashboard</a></li>--}}
+                            <li>
+                                <a href="{{ route('user.notifications') }}">Notifications
+                                    <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                                </a>
+                            </li>
 
-                                    <!-- Tenant panel option -->
-                            {{--<li><a href="tenants/dashboard.html" title="tenant dashboard">Tenants dashboard</a></li>--}}
-
-                                    <!-- Admin panel option -->
                             @if(Auth::user()->root or Auth::user()->admin)
                                 <li>
                                     <a href="{{ route('admin.dashboard')  }}" title="admin panel">Admin panel</a>
                                 </li>
+                                <!-- Admin panel option -->
                             @endif
 
                             <li>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\Amenity;
-use App\CompanyApp;
+use App\Models\v1\Shared\Amenity;
+use App\Models\v1\Company\CompanyApp;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -66,7 +66,7 @@ class AmenityController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.properties.amenities')
+        return view('v1.estates.amenity.index')
             ->with('app', $app);
     }
 
@@ -89,7 +89,7 @@ class AmenityController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.properties.amenity')
+        return view('v1.estates.amenity.show')
             ->with('app', $app)
             ->with('amenity', $amenity);
     }

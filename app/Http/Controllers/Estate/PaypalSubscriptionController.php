@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\AppPaypal;
-use App\CompanyApp;
+use App\Models\v1\Estate\Paypal as AppPaypal;
+use App\Models\v1\Company\CompanyApp;
 use App\PayPalRest;
-use App\ProductPlan;
+use App\Models\v1\Product\ProductPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -207,11 +207,18 @@ class PaypalSubscriptionController extends Controller
             $store->save();
 
         } catch (PayPalConnectionException $e) {
+            $time = Carbon::now();
+
             //message
-            Storage::append(
-                'logs/paypal.log',
-                array_flatten(['message' => $e->getMessage(), 'message_data' => $e->getData()])
-            );
+            Storage::append('logs/paypal.log', 'message ' . $e->getMessage() . ' at ' . $time);
+
+            if ($e->getData() != null) {    //get data
+//                dd($e->getData());
+                //loop data
+                foreach (array_flatten($e->getData()) as $value) {
+                    Storage::append('logs/paypal.log', 'message data ' . $value . $time);
+                }
+            }
 
             //data
 //            Storage::append(
@@ -222,7 +229,7 @@ class PaypalSubscriptionController extends Controller
             //errors
             $_error = array_add($_error, $z++, 'Whoops! Some error occured.');
             $_error = array_add($_error, $z++, 'Subscription failed.');
-            $_error = array_add($_error, $z++, $e->getMessage());
+//            $_error = array_add($_error, $z++, $e->getMessage());
 
 //            return redirect()->route('estate.subscribe.paypal.error')
             return redirect()->back()

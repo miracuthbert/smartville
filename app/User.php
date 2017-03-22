@@ -2,6 +2,12 @@
 
 namespace App;
 
+use App\Models\Forum\ForumTopic;
+use App\Models\Support\BugReport;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Company\CompanyUser;
+use App\Models\v1\Tenant\Tenant;
+use App\Models\v1\Upload\Avatar;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -168,5 +174,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function avatar()
     {
         return $this->morphOne(Avatar::class, 'avatarable')->where('status', 1);
+    }
+
+    /**
+     * Get User's Forums
+     */
+    public function forums()
+    {
+        return $this->hasMany(ForumTopic::class, 'user_id');
+    }
+
+    /**
+     * Get User's Bug Reports
+     */
+    public function bugs()
+    {
+        return $this->hasMany(BugReport::class, 'user_id');
     }
 }

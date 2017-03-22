@@ -2,7 +2,7 @@
     <div class="row">
         @foreach($_properties as $property)
             <div class="col-lg-4 col-sm-6">
-                <div class="panel panel-{{ $property->status == 1 ? 'success' : 'default' }}">
+                <div class="panel panel-{{ $property->status == 1 ? 'green' : 'default' }}">
                     <div class="panel-heading clearfix">
                         <strong>{{ $property->title }}</strong>
                         <div class="pull-right">
@@ -16,23 +16,27 @@
                                 </button>
                                 <ul class="dropdown-menu pull-right">
                                     @if($sort != "trashed")
-                                        <li>
-                                            <a href="{{ route('estate.property.delete', ['id' => $property->id]) }}"
-                                               role="button" class="" data-toggle="tooltip"
-                                               title="move to trash">
-                                                Move To Trash
-                                            </a>
-                                        </li>
+                                        @if(!$property->status)
+                                            <li>
+                                                <a href="{{ route('estate.rental.property.delete', ['id' => $property->id]) }}"
+                                                   role="button" class="" data-toggle="tooltip"
+                                                   title="move to trash">
+                                                    Move To Trash
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="dropdown-header">No options available</li>
+                                        @endif
                                     @else
                                         <li>
-                                            <a href="{{ route('estate.property.restore', ['id' => $property->id]) }}"
+                                            <a href="{{ route('estate.rental.property.restore', ['id' => $property->id]) }}"
                                                role="button" class=""
                                                data-toggle="tooltip" title="restore property">
                                                 Restore Property
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('estate.property.destroy', ['id' => $property->id]) }}"
+                                            <a href="{{ route('estate.rental.property.destroy', ['id' => $property->id]) }}"
                                                role="button" class=""
                                                data-toggle="tooltip" title="delete completely">
                                                 Delete Completely
@@ -44,17 +48,23 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <p class="">Status:
-                            <small>{{ PropertyStatusText($property->status) }}</small>
+                        <p class="property-status">
+                            <strong>Status:</strong>
+                            <span class="{{ PropertyStatusLabel($property->status) }}">
+                                {{ PropertyStatusText($property->status) }}
+                            </span>
                         </p>
+                        <strong class="text-success">{{ $sort == "trashed" ? 'Restore property for more options' : '' }}</strong>
                     </div>
-                    <a href="{{ route('estate.property.edit', ['id' => $property->id]) }}"
-                       role="button" class="" data-toggle="tooltip" title="view or edit property">
-                        <div class="panel-footer">
-                            View/Edit
-                            <i class="fa fa-chevron-right pull-right"></i>
-                        </div>
-                    </a>
+                    @if($sort != "trashed")
+                        <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}"
+                           role="button" class="" data-toggle="tooltip" title="view or edit property">
+                            <div class="panel-footer">
+                                View/Edit
+                                <i class="fa fa-chevron-right pull-right"></i>
+                            </div>
+                        </a>
+                    @endif
                 </div>
             </div>
         @endforeach

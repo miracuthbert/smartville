@@ -22,74 +22,76 @@
         <div class="col-lg-12">
             <form action="{{ route(RentDeleteRoute($sort)) }}" method="get" id="rent-invoices-form">
                 <div class="panel panel-default">
-                    <div class="panel-heading clearfix">
-                        <b>Sorted by: {{ title_case($sort) }} Invoices</b>
-
-                        <div class="pull-right">
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <strong class="text-right">
-                                        Export Rent
-                                        <span class="caret"></span>
-                                    </strong>
-                                </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <li class="dropdown-header">To PDF</li>
-                                    <li>
-                                        <a href="{{ route('estate.rents.report.pdf', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents.report.pdf', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents.report.pdf', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents.report.pdf', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <strong>
-                                        More Actions
-                                        <span class="caret"></span>
-                                    </strong>
-                                </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <li class="dropdown-header">Sort by</li>
-                                    <li>
-                                        <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Bulk Actions</li>
-                                    @if($sort != "trashed")
+                    <div class="panel-heading">
+                        <div class="clearfix">
+                            <strong>Sorted by: {{ title_case($sort) }} Invoices</strong>
+                            <div class="pull-right">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <strong class="text-right">
+                                            Export Rent
+                                            <span class="caret"></span>
+                                        </strong>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li class="dropdown-header">To PDF</li>
                                         <li>
-                                            <a href="#" id="" data-toggle="modal" data-target="#deleteConfirmation">
-                                                Move To Trash
-                                            </a>
+                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
                                         </li>
-                                    @else
                                         <li>
-                                            <a href="#" id="" data-toggle="modal" data-target="#deleteConfirmation">
-                                                Bulk Delete
-                                            </a>
+                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
                                         </li>
-                                    @endif
-                                </ul>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <strong>
+                                            More Actions
+                                            <span class="caret"></span>
+                                        </strong>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li class="dropdown-header">Sort by</li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">Bulk Actions</li>
+                                        @if($sort != "trashed")
+                                            <li>
+                                                <a href="#" id="" data-toggle="modal" data-target="#deleteConfirmation">
+                                                    Move To Trash
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="#" id="" data-toggle="modal" data-target="#deleteConfirmation">
+                                                    Bulk Delete
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        <p class="text-muted">You can edit, disable or remove any of the rent invoices below</p>
                     </div>
                     <div class="panel-body">
                         @if(count($rents) > 0)
@@ -131,7 +133,7 @@
                                                 {{ $rent->date_due }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('estate.rent.status', ['id' => $rent->id]) }}"
+                                                <a href="{{ route('estate.rental.rent.status', ['id' => $rent->id]) }}"
                                                    class="btn btn-default btn-xs" data-toggle="tooltip"
                                                    title="{{ RentStatusText($rent->status) }}">
                                                     <i class="{{ PayStatusIcon($rent->status) }}"></i>
@@ -140,23 +142,23 @@
                                             <td>
                                                 <div class="btn-group btn-group-xs">
                                                     @if($sort != "trashed")
-                                                        <a href="{{ route('estate.rent.edit', ['id' => $rent->id]) }}"
+                                                        <a href="{{ route('estate.rental.rent.edit', ['id' => $rent->id]) }}"
                                                            role="button" class="btn btn-primary" data-toggle="tooltip"
                                                            data-title="view/edit">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
-                                                        <a href="{{ route('estate.rent.delete', ['id' => $rent->id]) }}"
+                                                        <a href="{{ route('estate.rental.rent.delete', ['id' => $rent->id]) }}"
                                                            role="button" class="btn btn-warning" data-toggle="tooltip"
                                                            title="trash">
                                                             <i class="fa fa-remove"></i>
                                                         </a>
                                                     @else
-                                                        <a href="{{ route('estate.rent.restore', ['id' => $rent->id]) }}"
+                                                        <a href="{{ route('estate.rental.rent.restore', ['id' => $rent->id]) }}"
                                                            role="button" class="btn btn-success" data-toggle="tooltip"
                                                            data-title="restore">
                                                             <i class="fa fa-refresh"></i>
                                                         </a>
-                                                        <a href="{{ route('estate.rent.destroy', ['id' => $rent->id]) }}"
+                                                        <a href="{{ route('estate.rental.rent.destroy', ['id' => $rent->id]) }}"
                                                            role="button" class="btn btn-danger" data-toggle="tooltip"
                                                            title="delete completely">
                                                             <i class="fa fa-trash"></i>

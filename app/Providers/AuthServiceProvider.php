@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\CompanyApp;
-use App\CompanyUser;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Company\CompanyUser;
 use App\Policies\CompanyAppPolicy;
 use App\Policies\CompanyUserPolicy;
 use App\Policies\TenantBillPolicy;
 use App\Policies\TenantPolicy;
-use App\Tenant;
-use App\TenantBill;
+use App\Models\v1\Tenant\Tenant;
+use App\Models\v1\Tenant\TenantBill;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

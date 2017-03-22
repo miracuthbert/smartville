@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Estate;
 
-use App\Avatar;
-use App\Company;
-use App\CompanyApp;
-use App\CompanyUser;
-use App\Product;
+use App\Models\v1\Upload\Avatar;
+use App\Models\v1\Company\Company;
+use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Company\CompanyUser;
+use App\Models\v1\Product\Product;
 use App\UserRole;
-use Carbon\Carbon;
 use Countries;
 use ExtCountries;
 use Illuminate\Http\Request;
@@ -30,7 +29,7 @@ class CompanyController extends Controller
     {
         $this->middleware('auth');
 
-        //
+        //company admin
         $this->middleware('company.admin')->except('create');
     }
 

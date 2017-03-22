@@ -76,9 +76,19 @@ function AppStatusToggleText($status)
 function PropertyStatusText($status)
 {
     if ($status == 1) {
-        echo 'Active';
+        echo 'Occupied';
     } else {
         echo 'Vacant';
+    }
+}
+
+//property status text
+function PropertyStatusLabel($status)
+{
+    if ($status == 1) {
+        echo 'label label-success';
+    } else {
+        echo 'label label-default';
     }
 }
 
@@ -99,6 +109,16 @@ function RentStatusText($status)
         echo 'Paid';
     } else {
         echo 'Pending';
+    }
+}
+
+//rent status class
+function RentStatusClass($status)
+{
+    if ($status == 1) {
+        echo 'paid';
+    } else {
+        echo 'pending';
     }
 }
 
@@ -131,5 +151,12 @@ function AppModeInfo($mode)
         return null;
     } else {
         echo 'App is under going development. Some features may be buggy. You can report whenever a problem occurs.';
+    }
+}
+
+function AppDashRoute($app)
+{
+    if ($app == "Rental Management App") {
+        return 'estate.rental.dashboard';
     }
 }

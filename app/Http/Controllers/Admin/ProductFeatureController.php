@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ProductFeature;
+use App\Models\v1\Product\ProductFeature;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -124,7 +124,6 @@ class ProductFeatureController extends Controller
             'status' => 0,
         ]);
     }
-
 
     /**
      * ProductFeatureController toggleStatus.

@@ -9,28 +9,97 @@
     </div>
     <!-- /input-group -->
 </li>
+<!-- /.sidebar-search -->
+<li class="visible-xs">
+    <a href="#">
+        <i class="fa fa-user fa-fw"></i> {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
+        <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+        <i class="fa arrow"></i>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('user.dashboard') }}">
+                <i class="fa fa-dashboard fa-fw"></i> User Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('user.notifications') }}">
+                <i class="fa fa-bell fa-fw"></i> Notifications <span
+                        class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a>
+        </li>
+        {{--<li>--}}
+        {{--<a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>--}}
+        {{--</li>--}}
+        <li class="divider"></li>
+        <li>
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                <i class="fa fa-sign-out fa-fw"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+    <!-- /.dropdown-user -->
+</li>
+<!-- /.dropdown-user -->
 <li>
-    <a href="{{ route('estate.dashboard', ['id' => $app->id]) }}">
+    <a href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}">
         <i class="fa fa-dashboard fa-fw"></i> Dashboard
     </a>
 </li>
+<li class="visible-xs">
+    <a href="#">
+        <i class="fa fa-envelope fa-fw"></i>
+        Messages
+        <i class="fa arrow"></i>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="#">
+                <strong>Coming soon</strong>
+            </a>
+        </li>
+    </ul>
+    <!-- /.dropdown-messages -->
+</li>
+<!-- /.dropdown-messages -->
+<li class="visible-xs">
+    <a href="#">
+        <i class="fa fa-tasks fa-fw"></i>
+        Tasks
+        <i class="fa arrow"></i>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="#">
+                <strong>Coming soon</strong>
+            </a>
+        </li>
+    </ul>
+    <!-- /.dropdown-tasks -->
+</li>
+<!-- /.dropdown-tasks -->
 <li>
-    <a href="{{ route('estate.notifications', ['id' => $app->id]) }}">
+    <a href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
         <i class="fa fa-bell fa-fw"></i>
         Notifications
         <span class="badge pull-right">{{ count($app->unreadNotifications) }}</span>
     </a>
 </li>
 <li>
-    <a href="{{ route('estate.profile', ['id' => $app->id]) }}" title="Estate Profile">
+    <a href="{{ route('estate.rental.profile', ['id' => $app->id]) }}" title="App Profile">
         <i class="fa fa-product-hunt fa-fw"></i>
         Profile
     </a>
 </li>
 <li>
-    <a href="{{ route('estate.settings', ['id' => $app->id]) }}">
+    <a href="{{ route('estate.rental.settings', ['id' => $app->id]) }}" title="App Settings">
         <i class="fa fa-cog fa-fw"></i>
-        Setting
+        Settings
     </a>
 </li>
 <li>
@@ -40,17 +109,17 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.amenities', ['id' => $app->id]) }}">Add amenities</a>
+            <a href="{{ route('estate.rental.amenities', ['id' => $app->id]) }}">Add amenities</a>
         </li>
         <li>
-            <a href="{{ route('estate.bills.service.add', ['id' => $app->id]) }}">Add billing
+            <a href="{{ route('estate.rental.bills.service.add', ['id' => $app->id]) }}">Add billing
                 service</a>
         </li>
         <li>
-            <a href="{{ route('estate.amenities', ['id' => $app->id]) }}">Amenities</a>
+            <a href="{{ route('estate.rental.amenities', ['id' => $app->id]) }}">Amenities</a>
         </li>
         <li>
-            <a href="{{ route('estate.bills.services', ['id' => $app->id, 'sort' => 'all']) }}">Billing
+            <a href="{{ route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'all']) }}">Billing
                 services</a>
         </li>
     </ul>
@@ -63,10 +132,10 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.group.add', ['id' => $app->id]) }}">Add property group</a>
+            <a href="{{ route('estate.rental.group.add', ['id' => $app->id]) }}">Add property group</a>
         </li>
         <li>
-            <a href="{{ route('estate.groups.index', ['id' => $app->id, 'sort' => 'all']) }}">Groups</a>
+            <a href="{{ route('estate.rental.groups.index', ['id' => $app->id, 'sort' => 'all']) }}">Groups</a>
         </li>
     </ul>
     <!-- /.nav-second-level -->
@@ -78,10 +147,10 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.property.add', ['id' => $app->id]) }}">Add property</a>
+            <a href="{{ route('estate.rental.property.add', ['id' => $app->id]) }}">Add property</a>
         </li>
         <li>
-            <a href="{{ route('estate.properties', ['id' => $app->id, 'sort' => 'all']) }}">Properties</a>
+            <a href="{{ route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all']) }}">Properties</a>
         </li>
     </ul>
     <!-- /.nav-second-level -->
@@ -93,10 +162,15 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.tenant.add', ['id' => $app->id]) }}">Add tenant</a>
+            <a href="{{ route('estate.rental.tenant.add', ['id' => $app->id]) }}">Add tenant</a>
         </li>
         <li>
-            <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Tenants</a>
+            <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Tenants</a>
+        </li>
+        <li>
+            <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all', 'leases' => 1]) }}">
+                Tenant Leases
+            </a>
         </li>
     </ul>
     <!-- /.nav-second-level -->
@@ -108,10 +182,10 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.rent.add', ['id' => $app->id]) }}">Add rent invoices</a>
+            <a href="{{ route('estate.rental.rent.add', ['id' => $app->id]) }}">Add rent invoices</a>
         </li>
         <li>
-            <a href="{{ route('estate.rents', ['id' => $app->id, 'sort' => 'all']) }}">Rent
+            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'all']) }}">Rent
                 Invoices</a>
         </li>
     </ul>
@@ -124,10 +198,10 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.bills.generate', ['id' => $app->id]) }}">Add bill invoices</a>
+            <a href="{{ route('estate.rental.bills.generate', ['id' => $app->id]) }}">Add bill invoices</a>
         </li>
         <li>
-            <a href="{{ route('estate.bills.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Bill
+            <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Bill
                 Invoices</a>
         </li>
     </ul>
@@ -141,7 +215,7 @@
 {{--</li>--}}
 
 {{--<li>--}}
-{{--<a href="{{ route('estate.settings', ['id' => $app->id]) }}">Settings</a>--}}
+{{--<a href="{{ route('estate.rental.settings', ['id' => $app->id]) }}">Settings</a>--}}
 {{--</li>--}}
 {{--</ul>--}}
 {{--<!-- /.nav-second-level -->--}}

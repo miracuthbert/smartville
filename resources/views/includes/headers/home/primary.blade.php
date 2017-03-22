@@ -17,36 +17,47 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
+                            <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                             {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
                             <span class="fa fa-user"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a>
+                                <a href="{{ route('user.dashboard') }}" title="my dashboard">
+                                    <i class="fa fa-dashboard fa-fw"></i> My dashboard</a>
                             </li>
+                            <!-- user dashboard -->
 
-                            <!-- Estate panel option -->
-                            {{--<li><a href="{{ route('estate.dashboard') }}" title="estate dashboard">Estates dashboard</a></li>--}}
+                            <li>
+                                <a href="{{ route('user.notifications') }}" title="notifications">
+                                    <i class="fa fa-bell fa-fw"></i> Notifications <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                                </a>
+                            </li>
+                            <!-- notifications -->
 
-                                    <!-- Tenant panel option -->
-                            {{--<li><a href="tenants/dashboard.html" title="tenant dashboard">Tenants dashboard</a></li>--}}
-
-                                    <!-- Admin panel option -->
                             @if(Auth::user()->root or Auth::user()->admin)
                                 <li>
-                                    <a href="{{ route('admin.dashboard')  }}" title="admin panel">Admin panel</a>
+                                    <a href="{{ route('admin.dashboard')  }}" title="admin panel">
+                                        <i class="fa fa-tachometer fa-fw"></i> Admin panel
+                                    </a>
                                 </li>
+                                <!-- Admin panel option -->
                             @endif
 
                             <li>
-                                <a href="{{ route('user.profile') }}" title="my profile">Profile</a>
+                                <a href="{{ route('user.profile') }}" title="my profile">
+                                    <i class="fa fa-user fa-fw"></i> Profile
+                                </a>
                             </li>
+                            <!-- profile -->
                         </ul>
                     </li>
                     <li>
                         <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa fa-sign-out fa-fw"></i> Logout
+                        </a>
                     </li>
 
                 @else
@@ -56,9 +67,9 @@
                     <li class="{{ ActivePage('login') }}">
                         <a href="{{ route('login') }}">Login</a>
                     </li>
-                    <li class="{{ ActivePage('password.reset') }}">
-                        <a href="{{ route('password.reset') }}">Forgot password?</a>
-                    </li>
+                    {{--<li class="{{ ActivePage('password.reset') }}">--}}
+                    {{--<a href="{{ route('password.reset') }}">Forgot password?</a>--}}
+                    {{--</li>--}}
                 @endif
 
             </ul>
