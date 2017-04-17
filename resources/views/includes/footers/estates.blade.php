@@ -1,4 +1,4 @@
-<footer id="footer">
+<footer id="footer hidden">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-sm-6">
@@ -84,7 +84,23 @@
 <section id="copyright">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="{{ route('support.index') }}">Support</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('forum.index') }}">Knowledge Base</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('manuals.index') }}">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('forum.create') }}">Ask a question</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
                 <p class="pull-left">&copy; {{ date('Y') }} {{ config('app.name') }}, Inc.</p>
             </div>
         </div>
