@@ -71,6 +71,25 @@ class AmenityController extends Controller
     }
 
     /**
+     * AmenityController create.
+     * Show Create Estate Amenity Form.
+     */
+    public function create($id)
+    {
+        $app = CompanyApp::find($id);
+
+        //check app
+        if($app == null)
+            abort(404);
+
+        //authorize
+        $this->authorize('view', $app);
+
+        return view('v1.estates.amenity.create')
+            ->with('app', $app);
+    }
+
+    /**
      * AmenityController edit.
      * Get Estate Amenities.
      */
@@ -89,7 +108,7 @@ class AmenityController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.amenity.show')
+        return view('v1.estates.amenity.edit')
             ->with('app', $app)
             ->with('amenity', $amenity);
     }

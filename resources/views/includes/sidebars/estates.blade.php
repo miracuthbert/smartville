@@ -109,7 +109,7 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.rental.amenities', ['id' => $app->id]) }}">Add amenities</a>
+            <a href="{{ route('estate.rental.amenity.create', ['id' => $app->id]) }}">Add amenity</a>
         </li>
         <li>
             <a href="{{ route('estate.rental.bills.service.add', ['id' => $app->id]) }}">Add billing

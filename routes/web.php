@@ -723,7 +723,13 @@ Route::group(['prefix' => 'estate/rental'], function () {
             'as' => 'estate.rental.amenities'
         ]);
 
-        //Get Amenity Route
+        //Create Amenity Route
+        Route::get('amenity/create/{id}', [
+            'uses' => 'Estate\AmenityController@create',
+            'as' => 'estate.rental.amenity.create'
+        ]);
+
+        //Edit Amenity Route
         Route::get('amenity/{id}', [
             'uses' => 'Estate\AmenityController@edit',
             'as' => 'estate.rental.amenity.edit'

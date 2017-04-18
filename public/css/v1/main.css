@@ -101,6 +101,11 @@ body {
     margin: 0;
 }
 
+#copyright #links a {
+    margin-right: 5px;
+    color: #eeeeee;
+}
+
 @media (max-width: 991px) {
     #copyright p {
         float: none !important;
