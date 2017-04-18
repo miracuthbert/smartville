@@ -467,6 +467,13 @@ class RentController extends Controller
         $rent->date_due = $due;
         $rent->status = $status;
 
+        //check rent status and assign paid date
+        if ($status == 0) {
+            $rent->paid_at = null;
+        } else{
+            $rent->paid_at = Carbon::now();
+        }
+
         if ($rent->update()) {
             return redirect()->back()
                 ->with('success', 'Rent invoice for ' . $rent->property->title . ' updated successfully.');
@@ -492,10 +499,13 @@ class RentController extends Controller
         $from = MonthNameReturn($app->date_from);
         $to = MonthNameReturn($app->date_to);
 
-        if ($app->status == 1)
+        if ($app->status == 1) {
             $app->status = 0;
-        else
+            $app->paid_at = null;
+        } else{
             $app->status = 1;
+            $app->paid_at = Carbon::now();
+        }
 
         if ($app->save())
             return redirect()->back()

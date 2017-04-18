@@ -22,12 +22,12 @@ class CreateTenantBillsTable extends Migration
             $table->integer('bill_id')->unsigned();
             $table->foreign('bill_id')->references('id')->on('estate_bills')->onDelete('cascade');
             $table->string('details')->nullable();
-            $table->double('previous_usage')->default(0);
-            $table->double('current_usage')->default(0);
+            $table->double('previous_usage')->default(0.00);
+            $table->double('current_usage')->default(0.00);
             $table->double('unit_cost');
-            $table->date('date_from');
-            $table->date('date_to');
-            $table->date('date_due');
+            $table->timestamp('date_from')->nullable();
+            $table->timestamp('date_to')->nullable();
+            $table->timestamp('date_due')->nullable();
             $table->string('hash')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();

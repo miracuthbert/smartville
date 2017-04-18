@@ -20,10 +20,10 @@ class CreateTenantRentsTable extends Migration
             $table->integer('property_id')->unsigned();
             $table->foreign('property_id')->references('id')->on('estate_properties')->onDelete('cascade');
             $table->string('details')->nullable();
-            $table->float('amount');
-            $table->date('date_from');
-            $table->date('date_to');
-            $table->date('date_due');
+            $table->double('amount')->default(0.00);
+            $table->timestamp('date_from')->nullable();
+            $table->timestamp('date_to')->nullable();
+            $table->timestamp('date_due')->nullable();
             $table->string('hash')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();

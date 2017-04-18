@@ -552,6 +552,14 @@ class BillController extends Controller
         $_bill->date_due = $bill_due;
         $_bill->status = $bill_status;
 
+        //check bill status and assign paid date
+        if ($bill_status == 0) {
+            $_bill->paid_at = null;
+        } else{
+            $_bill->paid_at = Carbon::now();
+        }
+
+
         //update
         if ($_bill->update()) {
             return redirect()->back()
@@ -581,10 +589,13 @@ class BillController extends Controller
         $from = MonthNameReturn($app->date_from);
         $to = MonthNameReturn($app->date_to);
 
-        if ($app->status == 1)
+        if ($app->status == 1) {
             $app->status = 0;
-        else
+            $app->paid_at = null;
+        } else{
             $app->status = 1;
+            $app->paid_at = Carbon::now();
+        }
 
         if ($app->save())
             return redirect()->back()
