@@ -1,0 +1,85 @@
+#invoices-wrapper blockquote.invoice-wrap {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    border-left: 5px solid #f0ad4e;
+}
+
+#invoices-wrapper blockquote.invoice-wrap.paid {
+    border-left: 5px solid #5cb85c;
+}
+
+#invoices-wrapper blockquote footer,
+#invoices-wrapper blockquote small,
+#invoices-wrapper blockquote .small {
+    display: block;
+    font-size: 80%;
+    line-height: 1.42857143;
+    color: #999999;
+}
+
+#invoices-wrapper blockquote footer:before,
+#invoices-wrapper blockquote small:before,
+#invoices-wrapper blockquote .small:before {
+    content: '\2014 \00A0';
+}
+
+#invoices-wrapper .blockquote-reverse.invoice-wrap,
+#invoices-wrapper blockquote.pull-right.invoice-wrap {
+    border-right: 5px solid #f0ad4e;
+}
+
+#invoices-wrapper .blockquote-reverse.invoice-wrap.paid,
+#invoices-wrapper blockquote.pull-right.invoice-wrap.paid {
+    border-right: 5px solid #5cb85c;
+}
+
+#invoices-wrapper .invoice-wrap {
+    padding: 9px 10px;
+    margin-bottom: 25px;
+}
+
+#lease-wrapper .lease-wrap {
+    padding: 9px 10px;
+    margin-bottom: 25px;
+    border-left: 5px solid #2C3E50;
+}
+
+#lease-wrapper .lease-wrap p, #lease-wrapper .lease-wrap .lead {
+    font-size: 17.5px;
+}
+
+#lease-wrapper .lease-wrap .lead > .small {
+    font-size: 75%;
+}
+
+@media (min-width: 768px) {
+    #lease-wrapper .lease-wrap .lead > .small {
+        float: right;
+        margin-top: 6px;
+    }
+}
+
+@media (max-width: 767px) {
+    #lease-wrapper .lease-wrap p, #lease-wrapper .lease-wrap .lead {
+        font-size: 16px;
+    }
+
+    #lease-wrapper .lease-wrap .lead > .small {
+        font-size: 16px;
+    }
+
+    #lease-wrapper .lease-wrap .lead > .text-right-xs {
+        font-size: 16px;
+        float: right;
+        margin-top: 1px;
+    }
+}
+
+#invoices-wrapper .invoice-wrap span.pull-right {
+    font-size: 14px;
+}
+
+#invoices-wrapper .invoice-wrap .btn-group, #lease-wrapper .lease-wrap .btn-group {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
