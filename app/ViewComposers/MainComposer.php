@@ -34,7 +34,7 @@ class MainComposer
         $property_types = Category::where('status', 1)->where('categorable_type', PropertyType::class)->get();
         $apps = Product::where('status', 1)->get();
         $apps_coming = Product::where('coming_soon', 1)->get();
-        $manuals = Manual::where('status', 1)->get();
+        $manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();
 
         //load view
         $view

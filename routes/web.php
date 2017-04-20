@@ -82,7 +82,7 @@ Route::resource('support/docs//manuals', 'Support\Documentation\ManualController
  * Support Manual Chapter Resource Route
  */
 Route::resource('support/docs/{manual}/man_chapter', 'Support\Documentation\ManualChapterController', ['except' => [
-    'index', 'create', 'store', 'edit', 'update', 'destroy',
+    'create', 'store', 'edit', 'update', 'destroy',
 ]]);
 
 /**
@@ -436,6 +436,12 @@ Route::group(['prefix' => 'admin'], function () {
      * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'docs/manual'], function () {
+        //change page manual
+        Route::post('change/pages', [
+            'uses' => 'Admin\Documentation\ManualController@pages',
+            'as' => 'manual.pages'
+        ]);
+
         //restore manual
         Route::get('restore/{manual}', [
             'uses' => 'Admin\Documentation\ManualController@restore',

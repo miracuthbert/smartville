@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-tenant-form" method="post" action="{{ route('estate.tenant.update') }}"
+            <form name="add-tenant-form" method="post" action="{{ route('estate.rental.tenant.update') }}"
                   enctype="application/x-www-form-urlencoded" autocomplete="off">
 
                 @include('includes.alerts.validation')
@@ -225,7 +225,7 @@
     </div>
 
     <script>
-        $urlGroupProperties = '{{ route('estate.tenant.group.properties') }}';
+        $urlGroupProperties = '{{ route('estate.rental.tenant.group.properties') }}';
         $app = '{{ $app->id }}';
         //        CKEDITOR.replace('property_desc');
     </script>

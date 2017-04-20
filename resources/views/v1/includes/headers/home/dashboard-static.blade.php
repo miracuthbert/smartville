@@ -162,11 +162,14 @@
                             <span class="fa fa-plus pull-right"></span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('forum.index', ['forum' => Auth::user()->id, 'sort' => 'user']) }}">My posts
-                            <span class="fa fa-user pull-right"></span>
-                        </a>
-                    </li>
+                    @if(Auth::check())
+                        <li>
+                            <a href="{{ route('forum.index', ['forum' => Auth::user()->id, 'sort' => 'user']) }}">My
+                                posts
+                                <span class="fa fa-user pull-right"></span>
+                            </a>
+                        </li>
+                    @endif
                     <li>
                         <a href="{{ route('forum.index') }}">Go to forum
                             <span class="fa fa-chevron-right pull-right"></span>

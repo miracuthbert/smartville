@@ -49,7 +49,7 @@ class ManualController extends Controller
 
         return view('v1.admin.documentation.manual.index')
             ->with('status', $status)
-            ->with('manuals', $manuals);
+            ->with('_manuals', $manuals);
     }
 
     /**
@@ -100,7 +100,7 @@ class ManualController extends Controller
         $manual->url = $url;
         $manual->status = $status;
 
-        if($stand_alone == 0){
+        if ($stand_alone == 0) {
             if ($product->manuals()->save($manual)) {
                 return redirect()->route('manual.index')
                     ->with('success', $title . ' manual created successfully.');
@@ -172,9 +172,52 @@ class ManualController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resources pages in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function pages(Request $request)
+    {
+        $this->validate($request, [
+            'index.*' => 'required|integer',
+            'manual.*' => 'required|integer',
+        ]);
+
+        $success = array();
+        $pg = 0;
+        $z = 0;
+
+        //index
+        $pages = $request->index;
+
+        //manuals
+        $manuals = $request->manual;
+
+        //manual count
+        $pgc = count($manuals);
+
+        for ($i = 0; $i < $pgc; $i++) {
+            $update = Manual::where('id', $manuals[$i])->update(['index' => $pages[$i]]);
+            if ($update)
+                $pg++;
+        }
+
+        if ($pg > 0) {
+            $success = array_add($success, $z++, $pg . ' of ' . $pgc . ' page numbers updated.');
+
+            return redirect()->back()
+                ->with('bulk_success', $success);
+        }
+
+        return redirect()->back()
+            ->with('error', 'Failed updating pages.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param StoreManualRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */

@@ -1,5 +1,12 @@
 <?php
 
+function ActiveUrl($url)
+{
+    if($url == url()->full()) {
+        return 'active';
+    }
+}
+
 function ActivePage($routeName)
 {
     if($routeName == \Illuminate\Support\Facades\Route::currentRouteName()) {

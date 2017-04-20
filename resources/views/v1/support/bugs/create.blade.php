@@ -1,19 +1,19 @@
-@extends('v1.layouts.dashboard')
+@extends('layouts.company')
 
 @section('title')
-    Support - Bug Report
-@endsection
-
-@section('page-header')
-    Bug Report
+    Support Center - Bug Report
 @endsection
 
 @section('content')
-    <section id="forumWrapper">
+    @include('includes.headers.home.primary')
+
+    <section id="support-wrapper">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-9 col-sm-8">
                 <form role="form" method="post" action="{{ route('bug.store') }}" enctype="multipart/form-data"
                       id="complaint-create-form" autocomplete="off">
+
+                    <h1 class="page-header">Report a bug/problem</h1>
 
                     @include('includes.alerts.default')
 
@@ -81,7 +81,11 @@
                     </div>
                 </form>
             </div>
+            <!-- /.col-lg-9 -->
+            <!-- support sidebar -->
+            @include('includes.sidebars.support-v1')
         </div>
+        <!-- /.row -->
     </section>
 @endsection
 

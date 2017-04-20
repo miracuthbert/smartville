@@ -42,8 +42,10 @@ class ManualChapterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $manual
+     * @param $url
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
     public function show($manual, $url)
     {
