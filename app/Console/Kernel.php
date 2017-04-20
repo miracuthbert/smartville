@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\AppSubscriptionHandler;
 use App\Http\Controllers\Estate\Rental\Billing\ReminderController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -27,9 +28,14 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call(function (ReminderController $reminder) {
-            $reminder->search();
-        })->daily();
+//        $schedule->call(function (ReminderController $reminder) {
+//            $reminder->search();
+//        })->daily();
+
+        //
+        $schedule->call(function (AppSubscriptionHandler $appSubscriptionHandler) {
+            $appSubscriptionHandler->subscriptionEnd();
+        })->everyMinute();
     }
 
     /**

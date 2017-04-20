@@ -35,4 +35,10 @@ class CompanyAppObserver
         }
     }
 
+    public function updated(CompanyApp $companyApp) {
+        
+        //find updated column
+//        $companyApp->
+    }
+
 }

@@ -44,7 +44,7 @@ class ReminderController extends Controller
     /**
      * Find the companies with billing reminder's today.
      *
-     * @param $bills
+     * @return
      */
     public function search()
     {

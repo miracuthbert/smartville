@@ -154,9 +154,9 @@ function AppModeInfo($mode)
     }
 }
 
-function AppDashRoute($app)
+function AppDashRoute($product)
 {
-    if ($app == "Rental Management App") {
+    if ($product == "Rental Management App") {
         return 'estate.rental.dashboard';
     }
 }
