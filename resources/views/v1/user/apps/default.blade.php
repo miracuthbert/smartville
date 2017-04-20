@@ -88,22 +88,22 @@
                                 </li>
 
                                 <!-- subscription details link -->
-                                <li class="">
-                                    @if($app->subscribed)
-                                        <a href="" class="" data-toggle="tooltip"
-                                           title="Subscription info">
-                                            <i class="fa fa-info-circle"></i>
-                                            Subscription
-                                        </a>
-                                    @else
-                                        <a href="{{ route('estate.subscription.add', ['id' => $app->id]) }}"
-                                           class="{{ $app->company->status === 1 ? '' : 'disabled' }}"
-                                           data-toggle="tooltip" title="Subscribe">
-                                            <i class="fa fa-credit-card-alt"></i>
-                                            Subscribe
-                                        </a>
-                                    @endif
-                                </li>
+                                {{--<li class="">--}}
+                                    {{--@if($app->subscribed)--}}
+                                        {{--<a href="" class="" data-toggle="tooltip"--}}
+                                           {{--title="Subscription info">--}}
+                                            {{--<i class="fa fa-info-circle"></i>--}}
+                                            {{--Subscription--}}
+                                        {{--</a>--}}
+                                    {{--@else--}}
+                                        {{--<a href="{{ route('estate.subscription.add', ['id' => $app->id]) }}"--}}
+                                           {{--class="{{ $app->company->status === 1 ? '' : 'disabled' }}"--}}
+                                           {{--data-toggle="tooltip" title="Subscribe">--}}
+                                            {{--<i class="fa fa-credit-card-alt"></i>--}}
+                                            {{--Subscribe--}}
+                                        {{--</a>--}}
+                                    {{--@endif--}}
+                                {{--</li>--}}
                                 @endif
 
                                         <!-- app status toggle link -->
@@ -154,13 +154,13 @@
                                     Subscription
                                 </a>
                             @else
-                                <a href="{{ route('estate.subscription.add', ['id' => $app->id]) }}"
-                                   class="btn btn-default {{ $app->company->status === 1 ? '' : 'disabled' }}"
-                                   data-toggle="tooltip"
-                                   title="Subscribe">
-                                    <i class="fa fa-credit-card-alt"></i>
-                                    Subscribe
-                                </a>
+                                {{--<a href="{{ route('estate.subscription.add', ['id' => $app->id]) }}"--}}
+                                   {{--class="btn btn-default {{ $app->company->status === 1 ? '' : 'disabled' }}"--}}
+                                   {{--data-toggle="tooltip"--}}
+                                   {{--title="Subscribe">--}}
+                                    {{--<i class="fa fa-credit-card-alt"></i>--}}
+                                    {{--Subscribe--}}
+                                {{--</a>--}}
                             @endif
 
                             {{-- app status toggle link --}}
