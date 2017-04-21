@@ -21,10 +21,10 @@ class AppSubscriptionHandler
     /**
      * Handles ending of expired subscription
      */
-    public function subscriptionEnd()
+    public static function subscriptionEnd()
     {
         //find companies with active subscriptions
-        $subscriptions = Paypal::where('completed', 1)->where('ends_at', '<', Carbon::now());
+        $subscriptions = Paypal::where('completed', 1)->where('ends_at', '<', Carbon::now())->get();
 
         //loop and end
         foreach ($subscriptions as $subscription) {
@@ -33,18 +33,20 @@ class AppSubscriptionHandler
             $company = $app->company;
 
             //check if app is subscribed
-            if ($app->subcribed) {
+            if ($app->subscribed == 1) {
                 //disable subscription
-                $update = $app->update(['subscribed', 1]);
+                $update = $app->update(['subscribed' => 0]);
 
-                if ($update)
+                if ($update) {
                     //notify
                     $app->notify(new CompanyAppSubscriptionEndedNotification($app, $company, $subscription, 'paypal'));
+
+                }
             }
         }
 
         //find companies with trial subscriptions
-        $subscriptions = AppTrial::where('is_ended', 0)->where('ends_at', '<', Carbon::now());
+        $subscriptions = AppTrial::where('is_ended', 0)->where('trial_ends_at', '<', Carbon::now())->get();
 
         //loop and end
         foreach ($subscriptions as $subscription) {
@@ -55,7 +57,7 @@ class AppSubscriptionHandler
             //check if app is subscribed
             if ($app->subcribed) {
                 //disable subscription
-                $update = $app->update(['subscribed', 1]);
+                $update = $app->update(['subscribed', 0]);
 
                 if ($update)
                     //notify

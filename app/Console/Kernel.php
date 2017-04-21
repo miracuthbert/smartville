@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
 
         //
         $schedule->call(function (AppSubscriptionHandler $appSubscriptionHandler) {
-            $appSubscriptionHandler->subscriptionEnd();
+            $appSubscriptionHandler::subscriptionEnd();
         })->everyMinute();
     }
 

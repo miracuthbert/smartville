@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Company;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -56,7 +57,7 @@ class CompanyAppSubscriptionEndedNotification extends Notification
     /**
      * Holds the notification message
      *
-     * @var string
+     * @var string $message
      */
     protected $message;
 
@@ -67,6 +68,13 @@ class CompanyAppSubscriptionEndedNotification extends Notification
      * @var $appRoute
      */
     protected $appRoute;
+
+    /**
+     * Holds notification subject
+     *
+     * @var string $subject
+     */
+    protected $subject;
 
     /**
      * Create a new notification instance.
@@ -82,7 +90,7 @@ class CompanyAppSubscriptionEndedNotification extends Notification
 
         $this->product = $app->product;
 
-        $this->appRoute = AppDashRoute($this->product);
+        $this->appRoute = AppDashRoute($this->product->title);
         
         $this->company = $company;
 
@@ -90,9 +98,13 @@ class CompanyAppSubscriptionEndedNotification extends Notification
 
         $this->type = $type;
 
+        $this->subject = 'App Subscription Ended';
+
         $this->greeting = 'Hello,';
 
         $this->message = 'Your subscription for ' . $this->product->title . ' ' . $company->title . ' has just ended.';
+
+        $this->delay = Carbon::now()->addSeconds(10);
     }
 
     /**
@@ -103,7 +115,7 @@ class CompanyAppSubscriptionEndedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['database'/*, 'mail'*/];
     }
 
     /**
@@ -115,7 +127,7 @@ class CompanyAppSubscriptionEndedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('App Subscription Ended')
+            ->subject($this->subject)
             ->greeting($this->greeting)
             ->line($this->message)
             ->action('Go to App Dashboard', route($this->appRoute, ['id' => $this->app->id]))
@@ -133,6 +145,8 @@ class CompanyAppSubscriptionEndedNotification extends Notification
         return [
             'subscription_id' => $this->subscription->id,
             'subscription_type' => $this->type,
+            'title' => $this->subject,
+            'message' => $this->message,
             'type' => 'subscription',
         ];
     }

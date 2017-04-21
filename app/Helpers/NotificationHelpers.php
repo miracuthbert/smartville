@@ -29,6 +29,8 @@ function NotificationIcon($type)
         return 'fa-bug';
     if($type == 'tenant bill')
         return 'fa-money';
+    if($type == 'subscription')
+        return 'fa-credit-card-alt';
 }
 
 //Notification Type

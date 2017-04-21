@@ -22,7 +22,7 @@ class CompanyAppObserver
             $product = $companyApp->product;
 
             //app route
-            $route = AppDashRoute($product);
+            $route = AppDashRoute($product->title);
 
             //company
             $company = $companyApp->company;

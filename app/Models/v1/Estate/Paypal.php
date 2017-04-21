@@ -2,6 +2,7 @@
 
 namespace App\Models\v1\Estate;
 
+use App\Models\v1\Company\CompanyApp;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
