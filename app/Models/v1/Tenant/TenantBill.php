@@ -11,6 +11,18 @@ class TenantBill extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['hash'];
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'date_from', 'date_to', 'date_due'];
+
+    /**
+     * Get bill owner app details
+     */
+    public function app()
+    {
+        return $this->belongsTo(EstateBill::class, 'bill_id', 'id');
+    }
+
     /**
      * Get bill details
      */

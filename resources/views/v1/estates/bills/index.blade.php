@@ -129,7 +129,7 @@
                                                     {{ BillTotal($bill->previous_usage, $bill->current_usage, $bill->unit_cost) }}
                                                 @endif
                                             </td>
-                                            <td>{{ $bill->date_due }}</td>
+                                            <td>{{ $bill->date_due->toDateString() }}</td>
                                             <td>
                                                 <a href="{{ route('estate.rental.bills.invoice.status', ['id' => $bill->id]) }}"
                                                    role="button"

@@ -10,6 +10,7 @@
     <!-- /input-group -->
 </li>
 <!-- /.sidebar-search -->
+
 <li class="visible-xs">
     <a href="#">
         <i class="fa fa-user fa-fw"></i> {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
@@ -19,18 +20,27 @@
     <ul class="nav nav-second-level">
         <li>
             <a href="{{ route('user.dashboard') }}">
-                <i class="fa fa-dashboard fa-fw"></i> User Dashboard
+                <i class="fa fa-dashboard fa-fw"></i> My Dashboard
             </a>
         </li>
+        <!-- user dashboard -->
+        <li>
+            <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                <i class="fa fa-laptop fa-fw"></i> My Apps
+            </a>
+        </li>
+        <!-- user apps -->
         <li>
             <a href="{{ route('user.notifications') }}">
                 <i class="fa fa-bell fa-fw"></i> Notifications <span
                         class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
             </a>
         </li>
+        <!-- user notifications -->
         <li>
             <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a>
         </li>
+        <!-- user profile -->
         {{--<li>--}}
         {{--<a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>--}}
         {{--</li>--}}
@@ -46,6 +56,7 @@
     <!-- /.dropdown-user -->
 </li>
 <!-- /.dropdown-user -->
+
 <li>
     <a href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}">
         <i class="fa fa-dashboard fa-fw"></i> Dashboard
@@ -87,7 +98,7 @@
     <a href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
         <i class="fa fa-bell fa-fw"></i>
         Notifications
-        <span class="badge pull-right">{{ count($app->unreadNotifications) }}</span>
+        <span class="badge pull-right">{{ count($app->unreadNotifications)> 0 ? count($app->unreadNotifications) : '' }}</span>
     </a>
 </li>
 <li>

@@ -79,7 +79,7 @@ trait AppSubscription
      */
     public function resume()
     {
-        if (! $this->onGenericTrial()) {
+        if (!$this->onGenericTrial()) {
             return false;
         }
 
@@ -90,7 +90,7 @@ trait AppSubscription
             $this->trials()->update(['is_cancelled' => 0]);
         }
 
-        return $this->update(['subscribed' => 1]);
+        return $this->update(['is_trial' => 1, 'subscribed' => 1]);
     }
 
 }

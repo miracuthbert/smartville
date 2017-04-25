@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Company;
+namespace App\Notifications\Rental\Bills;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -8,16 +8,16 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CompanyAppSubscriptionEndedNotification extends Notification
+class CreateInvoiceReminderNotification extends Notification
 {
     use Queueable;
 
     /**
-     * Used to hold app details
+     * Holds the app details
      *
      * @var $app
      */
-    protected $app;
+    public $app;
 
     /**
      * Used to hold app company details
@@ -34,18 +34,11 @@ class CompanyAppSubscriptionEndedNotification extends Notification
     protected $product;
 
     /**
-     * Holds the passed subscription object
+     * Holds the bill details
      *
-     * @var $subscription
+     * @var $bill
      */
-    protected $subscription;
-
-    /**
-     * Holds the passed subscription type
-     *
-     * @var $type
-     */
-    protected $type;
+    public $bill;
 
     /**
      * Holds the notification greeting
@@ -63,7 +56,7 @@ class CompanyAppSubscriptionEndedNotification extends Notification
 
     /**
      * Holds the app route
-     * 
+     *
      * @var $appRoute
      */
     protected $appRoute;
@@ -79,30 +72,35 @@ class CompanyAppSubscriptionEndedNotification extends Notification
      * Create a new notification instance.
      *
      * @param $app
-     * @param $company
-     * @param $subscription
-     * @param $type
+     * @param $bill
      */
-    public function __construct($app, $company, $subscription, $type)
+    public function __construct($app, $bill)
     {
+        //app
         $this->app = $app;
 
+        //app product
         $this->product = $app->product;
 
+        //app company
+        $this->company = $app->company;
+
+        //app dash route
         $this->appRoute = AppDashRoute($this->product->title);
-        
-        $this->company = $company;
 
-        $this->subscription = $subscription;
+        //billing service
+        $this->bill = $bill;
 
-        $this->type = $type;
+        //subject
+        $this->subject = title_case($this->bill->title) . ' Billing Reminder';
 
-        $this->subject = 'App Subscription Ended';
-
+        //greeting
         $this->greeting = 'Hello,';
 
-        $this->message = 'Your subscription for ' . $this->product->title . ' ' . $company->title . ' has just ended.';
+        //message
+        $this->message = 'You scheduled today for creating ' . $this->bill->title . ' bill invoices.';
 
+        //delay notification
         $this->delay = Carbon::now()->addSeconds(10);
     }
 
@@ -142,11 +140,10 @@ class CompanyAppSubscriptionEndedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'subscription_id' => $this->subscription->id,
-            'subscription_type' => $this->type,
+            'billing_id' => $this->bill->id,
             'title' => $this->subject,
             'message' => $this->message,
-            'type' => 'subscription',
+            'type' => 'create_bill_invoices',
         ];
     }
 }

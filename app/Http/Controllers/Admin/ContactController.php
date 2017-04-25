@@ -25,19 +25,19 @@ class ContactController extends Controller
     {
         //all
         if ($sort == "all")
-            $messages = ContactMessage::orderBy('created_at', 'DESC')->paginate(25);
+            $messages = ContactMessage::orderBy('created_at', 'DESC')->paginate();
 
         //trashed
         if ($sort == "trashed")
-            $messages = ContactMessage::onlyTrashed()->orderBy('deleted_at', 'DESC')->paginate(25);
+            $messages = ContactMessage::onlyTrashed()->orderBy('deleted_at', 'DESC')->paginate();
 
         //read
         if ($sort == "read")
-            $messages = ContactMessage::where('read_at', '<>', null)->orderBy('read_at', 'DESC')->paginate(25);
+            $messages = ContactMessage::where('read_at', '<>', null)->orderBy('read_at', 'DESC')->paginate();
 
         //unread
         if ($sort == "unread")
-            $messages = ContactMessage::where('read_at', null)->orderBy('read_at', 'DESC')->paginate(25);
+            $messages = ContactMessage::where('read_at', null)->orderBy('read_at', 'DESC')->paginate();
 
 
         return view('v1.admin.contact.index')
@@ -90,7 +90,7 @@ class ContactController extends Controller
         $this->validate($request, [
             'subject' => 'required|min:3|max:160',
             'email' => 'required|email|max:255',
-            'phone' => 'required|numeric|min:3',
+            'phone' => 'numeric|min:3',
             'message' => 'required|max:2500',
         ], [], [
             'phone' => 'phone number',

@@ -24,6 +24,12 @@
                             @forelse($_notifications as $notification)
                                 @if($notification->data['type'] == "subscription")
                                     @include('v1.estates.notifications.subscription')
+                                @elseif($notification->data['type'] == "create_bill_invoices")
+                                    @include('v1.estates.notifications.create_bill_invoice')
+                                @elseif($notification->data['type'] == "pending_bills_invoices")
+                                    @include('v1.estates.notifications.pending_bill_invoice')
+                                @elseif($notification->data['type'] == "pending_rent_invoices")
+                                    @include('v1.estates.notifications.pending_rent_invoice')
                                 @endif
                             @empty
                                 <p class="lead">

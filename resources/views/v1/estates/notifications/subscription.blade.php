@@ -6,14 +6,19 @@
         </div>
         <div class="pull-right">
             <div class="btn-group btn-group-xs">
-                <a href="#"
+                <a href="{{ route('estate.rental.notification.read', ['id' => $notification->id, 'app'=> $app->id]) }}"
                    class="btn {{ ToggleButtonRead($notification->read_at) }}">
                     {{ ToggleRead($notification->read_at) }}
                 </a>
 
-                <a href="#"
-                   class="btn btn-link">
-                    View message
+                {{--<a href="#"--}}
+                   {{--class="btn btn-link">--}}
+                    {{--View message--}}
+                {{--</a>--}}
+
+                <a href="{{ route('estate.rental.notification.delete', ['id' => $notification->id, 'app'=> $app->id]) }}"
+                   class="btn btn-default" data-toggle="tooltip" title="remove">
+                    <i class="fa fa-times-circle-o"></i>
                 </a>
             </div>
         </div>

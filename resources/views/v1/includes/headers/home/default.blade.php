@@ -24,9 +24,17 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="{{ route('user.dashboard') }}" title="my dashboard">
-                                    <i class="fa fa-dashboard fa-fw"></i>My dashboard
+                                    <i class="fa fa-dashboard fa-fw"></i> My dashboard
                                 </a>
                             </li>
+                            <!-- user dashboard -->
+
+                            <li>
+                                <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                    <i class="fa fa-laptop"></i> My Apps
+                                </a>
+                            </li>
+                            <!-- user apps -->
 
                             @if(Auth::user()->root or Auth::user()->admin)
                                 <li>

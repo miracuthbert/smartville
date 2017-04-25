@@ -14,7 +14,7 @@
     <div class="container">
         <section class="section-top section-btm section-pad" id="secHeader">
             @section('dashboard-title')
-                <span class="glyphicon glyphicon-plus"></span>
+                <i class="fa fa-laptop"></i>
                 Create a new app
             @endsection
 
@@ -32,7 +32,7 @@
                         </div>
                         <h4 class="service-heading">{{ $app->title }}</h4>
 
-                        <p class="text-muted">{{ $app->summary }}</p>
+                        <div class="clearfix">{!! $app->summary !!}</div>
 
                         <p class="text-muted">
                             <a href="{{ route('app.create', ['app' => str_slug($app->title)]) }}"

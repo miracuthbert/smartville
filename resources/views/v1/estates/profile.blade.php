@@ -69,12 +69,13 @@
                             <label>Subscription</label>
                             <p class="form-static-control">
                                 {{ $app->subscribed == 1 ? 'Subscribed' : 'No active subscription found' }}
-                                @if($subsClass == $trial && $app->onTrial() && !$subscription->is_cancelled)
+                                {{--{{ $subsClass }}--}}
+                                @if($app->is_trial && !$subscription->is_cancelled)
                                     <a href="{{ route('estate.trial.update', ['id' => $subscription->id, 'subscription' => 'cancel']) }}"
                                        class="btn btn-default">
                                         Cancel Subscription <i class="fa fa-times-circle-o"></i>
                                     </a>
-                                @elseif($subsClass == $trial && $app->onTrial() && $subscription->is_cancelled)
+                                @elseif($trial && $app->is_trial && $subscription->is_cancelled)
                                     <a href="{{ route('estate.trial.update', ['id' => $subscription->id, 'subscription' => 'resume']) }}"
                                        class="btn btn-default">
                                         Resume Subscription <i class="fa fa-check-square-o"></i>

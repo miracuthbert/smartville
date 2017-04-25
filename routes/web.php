@@ -651,6 +651,19 @@ Route::group(['prefix' => 'estate/rental'], function () {
             'uses' => 'Estate\NotificationController@index',
             'as' => 'estate.rental.notifications'
         ]);
+
+        //Toggle Notification As Read
+        Route::get('notification/toggle/read/{id}', [
+            'uses' => 'Estate\NotificationController@toggleRead',
+            'as' => 'estate.rental.notification.read'
+        ]);
+
+        //Delete Notification
+        Route::get('notification/delete/{id}', [
+            'uses' => 'Estate\NotificationController@delete',
+            'as' => 'estate.rental.notification.delete'
+        ]);
+
     });
 
     /**
@@ -844,7 +857,6 @@ Route::group(['prefix' => 'estate/rental'], function () {
      * Company Properties Routes
      * -----------------------------------------------------------------
      */
-
     Route::group(['prefix' => 'properties'], function () {
 
         //Add Property Route
@@ -1089,7 +1101,7 @@ Route::group(['prefix' => 'estate/rental'], function () {
      * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'bills'], function () {
-        //Add Bill Route
+        //Generate Bill Route
         Route::get('generate/invoices/{id}', [
             'uses' => 'Estate\BillController@generateInvoices',
             'as' => 'estate.rental.bills.generate'

@@ -8,7 +8,7 @@ class TenantLease extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['created_at, updated_at, deleted_at, move_in, move_out'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'move_in', 'move_out'];
 
     /**
      * Get tenant details

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Handlers;
 
 
 use App\Models\v1\Company\AppTrial;
@@ -33,7 +33,7 @@ class AppSubscriptionHandler
             $company = $app->company;
 
             //check if app is subscribed
-            if ($app->subscribed == 1) {
+            if ($app->subscribed == 1 && !$app->is_trial) {
                 //disable subscription
                 $update = $app->update(['subscribed' => 0]);
 

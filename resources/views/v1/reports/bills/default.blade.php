@@ -13,6 +13,10 @@
     <title>{{ config('app.name') }}</title>
 
     <style>
+        body {
+            font-family: Helvetica;
+        }
+
         .page-break {
             page-break-after: always;
         }
@@ -108,7 +112,7 @@
                                 {{ BillTotal($bill->previous_usage, $bill->current_usage, $bill->unit_cost) }}
                             @endif
                         </td>
-                        <td>{{ $bill->date_due }}</td>
+                        <td>{{ $bill->date_due->toDateString() }}</td>
                         <td>{{ BillStatusText($bill->status) }}</td>
                     </tr>
                 @endforeach

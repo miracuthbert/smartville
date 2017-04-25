@@ -22,7 +22,7 @@
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{ count($users) != null ? $users->total() : 0 }}</div>
+                            <div class="huge">{{ $users->total() }}</div>
                             <div>New Users!</div>
                         </div>
                     </div>
@@ -85,11 +85,11 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
+                            <i class="fa fa-bug fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">13</div>
-                            <div>Support Tickets!</div>
+                            <div class="huge">{{ $bugs->total() }}</div>
+                            <div>Bugs!</div>
                         </div>
                     </div>
                 </div>
@@ -109,8 +109,33 @@
 @section('content')
     <section>
         <div class="row">
-            <div class="col-lg-12">
-
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-sign-in fa-fw"></i> Logged In Users
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            @forelse($logged_users as $user)
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-user fa-fw"></i> {{ $user->firstname }} {{ $user->lastname }}
+                                    <span class="pull-right text-muted small"><em>{{ $user->last_login_at->diffForHumans() }}</em>
+                                    </span>
+                                </a>
+                            @empty
+                                <div class="list-group-item">
+                                    <h4 class="list-group-text">
+                                        No logged in users found.
+                                    </h4>
+                                </div>
+                            @endforelse
+                        </div>
+                        <!-- /.list-group -->
+                        {{--<a href="#" class="btn btn-default btn-block">View All Alerts</a>--}}
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
             </div>
         </div>
     </section>

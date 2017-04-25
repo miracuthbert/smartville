@@ -106,7 +106,7 @@
                             {{ MonthName($rent->date_from) }} - {{ MonthName($rent->date_to) }}
                         </td>
                         <td>{{ $rent->amount }}</td>
-                        <td>{{ $rent->date_due }}</td>
+                        <td>{{ $rent->date_due->toDateString() }}</td>
                         <td>{{ RentStatusText($rent->status) }}</td>
                     </tr>
                 @endforeach

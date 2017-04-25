@@ -61,6 +61,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                        <i class="fa fa-laptop"></i> My Apps
+                    </a>
+                </li>
+                <!-- user apps -->
+
                 <!-- Admin panel option -->
                 @if(Auth::user()->root or Auth::user()->admin)
                     <li>

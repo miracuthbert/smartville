@@ -73,7 +73,7 @@ class BillController extends Controller
     /**
      * BillController generateInvoices.
      */
-    public function generateInvoices($id)
+    public function generateInvoices(Request $request, $id)
     {
         //app
         $app = CompanyApp::find($id);
@@ -84,6 +84,16 @@ class BillController extends Controller
 
         //authorize
         $this->authorize('view', $app);
+
+        //check
+        $notification = $app->notifications()->where('id', $request->notify)->first();
+
+        if ($notification->read_at == null) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
+        //service
+        $service = $request->service;
 
         //groups
         $groups = $app->groups()->where('status', 1)->get();
@@ -96,6 +106,7 @@ class BillController extends Controller
 
         return view('v1.estates.bills.generate-invoices')
             ->with('app', $app)
+            ->with('service', $service)
             ->with('bills', $bills)
             ->with('groups', $groups)
             ->with('properties', $properties);
@@ -198,7 +209,7 @@ class BillController extends Controller
     /**
      * BillController index.
      */
-    public function index($id, $sort)
+    public function index(Request $request, $id, $sort)
     {
         //app
         $app = CompanyApp::find($id);
@@ -210,21 +221,53 @@ class BillController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        //trashed
-        if ($sort == "trashed")
-            $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->paginate(25);
+        $service = $request->service;
+        $today = $request->today;
 
+        //check
+        $notification = $app->notifications()->where('id', $request->notify)->first();
+
+        if ($notification != null) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
+        //trashed
+        if ($sort == "trashed") {
+            $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->paginate(25);
+        }
         //pending
-        if ($sort == "pending")
-            $bills = $app->bills()->where('tenant_bills.status', 0)->orderBy('date_due', 'ASC')->paginate(25);
+        if ($sort == "pending") {
+            if ($service == null)
+                $bills = $app->bills()->where('tenant_bills.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->paginate(25);
+            else {
+                if (!empty($today) && $today) {//get pending today
+                    $bills = $app->bills()->whereDate('date_due', $request->date)
+                        ->where('bill_id', $service)
+                        ->where('tenant_bills.status', 0)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->paginate(25);
+                } else {//get past due
+                    $bills = $app->bills()->whereDate('date_due', '<', $request->date)
+                        ->where('bill_id', $service)
+                        ->where('tenant_bills.status', 0)
+                        ->whereNull('paid_at')
+                        ->orWhere('paid_at', '<', $request->date)
+                        ->orderBy('date_due', 'ASC')
+                        ->paginate(25);
+                }
+            }
+        }
 
         //paid
-        if ($sort == "paid")
+        if ($sort == "paid") {
             $bills = $app->bills()->where('tenant_bills.status', 1)->orderBy('date_due', 'ASC')->orderBy('updated_at', 'DESC')->paginate(25);
+        }
 
         //all
-        if ($sort == "all")
+        if ($sort == "all") {
             $bills = $app->bills()->orderBy('date_due', 'ASC')->orderBy('tenant_bills.status', 'ASC')->paginate(25);
+        }
 
         return view('v1.estates.bills.index')
             ->with('app', $app)
@@ -555,7 +598,7 @@ class BillController extends Controller
         //check bill status and assign paid date
         if ($bill_status == 0) {
             $_bill->paid_at = null;
-        } else{
+        } else {
             $_bill->paid_at = Carbon::now();
         }
 
@@ -592,7 +635,7 @@ class BillController extends Controller
         if ($app->status == 1) {
             $app->status = 0;
             $app->paid_at = null;
-        } else{
+        } else {
             $app->status = 1;
             $app->paid_at = Carbon::now();
         }

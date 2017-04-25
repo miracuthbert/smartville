@@ -21,10 +21,10 @@
             <div class="panel panel-red">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-sm-4">
                             <i class="fa fa-money fa-5x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-sm-8 text-right">
                             <div class="huge">{{ $p_bills != null ? count($p_bills) : 0 }}</div>
                             <div>Pending Bills</div>
                         </div>
@@ -42,10 +42,10 @@
             <div class="panel panel-yellow">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <i class="fa fa-credit-card fa-5x"></i>
                         </div>
-                        <div class="col-sm-9 text-right">
+                        <div class="col-sm-8 text-right">
                             <div class="huge">{{ $p_rents != null ? count($p_rents) : 0 }}</div>
                             <div>Pending Rent</div>
                         </div>

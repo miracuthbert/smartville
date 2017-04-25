@@ -49,7 +49,7 @@ class UserController extends Controller
         View::share('section', $section);
 
         if ($section == "apps-new")
-            return view('v1.user.dashboard.dashboard');
+            return view('v1.user.dashboard.apps');
 
         if ($section == "apps") {
 

@@ -130,7 +130,7 @@
                                             </td>
                                             <td>{{ $rent->amount }}</td>
                                             <td>
-                                                {{ $rent->date_due }}
+                                                {{ $rent->date_due->toDateString() }}
                                             </td>
                                             <td>
                                                 <a href="{{ route('estate.rental.rent.status', ['id' => $rent->id]) }}"

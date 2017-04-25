@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Estate\Rental\Subscription;
 
 use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Company\CompanyApp;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -45,24 +46,41 @@ class TrialController extends Controller
         $trialDays = !empty($trialDays) ? $trialDays : 14;
 
         //app
-        $app = CompanyApp::find($id);
+        $app = CompanyApp::withCount('trials')->where('id', $id)->first();
 
         //check app
         if ($app == null)
             abort(404);
 
-        //authorize
-        $this->authorize('update', $app);
+        if ($app->trials_count == 0) {  //check if app has subscribed trials already
 
-        $trial = $app->newTrial($request->user(), $quantity, $trialDays)->create();
+            //authorize
+            $this->authorize('update', $app);
 
-        if (!empty($trial->id)) {
-            if ($app->update(['subscribed' => 1])) {
-                return redirect()->route('estate.rental.dashboard', ['id' => $app->id])
-                    ->with('success', 'Your free trial has been activated up to ' . $trial->trial_ends_at);
+            $trial = $app->newTrial($request->user(), $quantity, $trialDays)->create();
+
+            if (!empty($trial->id)) {
+                if ($app->update(['is_trial' => 1, 'subscribed' => 1])) {
+                    return redirect()->route('estate.rental.dashboard', ['id' => $app->id])
+                        ->with('success', 'Your free trial has been activated up to ' . $trial->trial_ends_at);
+                }
             }
+        } else {
+            //fetch trial
+            $trial = $app->trials()->where('is_ended', 0)->where('trial_ends_at', '>', Carbon::now())->first();
+
+            if ($trial != null) {
+                $update = $app->resume();
+
+                if ($update) {
+                    return redirect()->route('estate.rental.dashboard', ['id' => $app->id])
+                        ->with('success', 'App trial subscription resumed successfully. You can now keep using the free trial before it ends.');
+                }
+            }
+
+            return redirect()->back()->with('error', 'You have used up your free trial subscription.');
+
         }
-//        dd($trial);
 
         //error
         return redirect()->back()->with('error', 'Failed trial subscription. Try again!');
@@ -146,7 +164,7 @@ class TrialController extends Controller
 
             default:
                 return redirect()->back()
-                    ->with('error', 'Some error occured. Please try again');
+                    ->with('error', 'Some error occurred. Please try again');
         }
     }
 

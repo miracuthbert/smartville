@@ -206,7 +206,7 @@ class RentController extends Controller
     /**
      * RentController index.
      */
-    public function index($id, $sort)
+    public function index(Request $request, $id, $sort)
     {
         //app
         $app = CompanyApp::find($id);
@@ -218,6 +218,16 @@ class RentController extends Controller
         //authorize
         $this->authorize('view', $app);
 
+        $today = $request->today;
+        $date = $request->date;
+
+        //check
+        $notification = $app->notifications()->where('id', $request->notify)->first();
+
+        if ($notification != null) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
         //trashed
         if ($sort == "trashed")
             $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->paginate(25);
@@ -227,9 +237,25 @@ class RentController extends Controller
             $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
 
         //pending
-        if ($sort == "pending")
-            $rents = $app->rents()->where('tenant_rents.status', 0)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
-
+        if ($sort == "pending") {
+            if ($date == null)
+                $rents = $app->rents()->where('tenant_rents.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
+            else {
+                if (!empty($today) && $today) {//get pending today
+                    $rents = $app->rents()->where('tenant_rents.status', 0)
+                        ->whereDate('date_due', $date)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->paginate(25);
+                } else {
+                    $rents = $app->rents()->where('tenant_rents.status', 0)
+                        ->whereDate('date_due', '<', $date)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->paginate(25);
+                }
+            }
+        }
         //all
         if ($sort == "all")
             $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
@@ -470,7 +496,7 @@ class RentController extends Controller
         //check rent status and assign paid date
         if ($status == 0) {
             $rent->paid_at = null;
-        } else{
+        } else {
             $rent->paid_at = Carbon::now();
         }
 
@@ -502,7 +528,7 @@ class RentController extends Controller
         if ($app->status == 1) {
             $app->status = 0;
             $app->paid_at = null;
-        } else{
+        } else {
             $app->status = 1;
             $app->paid_at = Carbon::now();
         }
@@ -559,7 +585,7 @@ class RentController extends Controller
                     ->with('error', 'Failed moving ' . $title . ' rent invoice for ' . $from . ' - ' . $to . ' to trash. Try again!');
             }
 
-        } elseif($counted > 1) {
+        } elseif ($counted > 1) {
             foreach ($rents as $id) {
                 $app = TenantRent::find($id);
 

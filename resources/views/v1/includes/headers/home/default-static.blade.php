@@ -27,6 +27,12 @@
                                     <i class="fa fa-dashboard fa-fw"></i> My dashboard</a>
                             </li>
                             <!-- user dashboard -->
+                            <li>
+                                <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                    <i class="fa fa-laptop"></i> My Apps
+                                </a>
+                            </li>
+                            <!-- user apps -->
                             @if(Auth::user()->root or Auth::user()->admin)
                                 <li>
                                     <a href="{{ route('admin.dashboard')  }}" title="admin panel">
@@ -37,7 +43,8 @@
                             @endif
                             <li>
                                 <a href="{{ route('user.notifications') }}">
-                                    <i class="fa fa-bell fa-fw"></i> Notifications <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                                    <i class="fa fa-bell fa-fw"></i> Notifications <span
+                                            class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                                 </a>
                             </li>
                             <!-- user notifications -->

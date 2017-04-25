@@ -24,12 +24,24 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a></li>
+                            <li>
+                                <a href="{{ route('user.dashboard') }}" title="my dashboard">My dashboard</a>
+                            </li>
+                            <!-- user dashboard -->
+
+                            <li>
+                                <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                    <i class="fa fa-laptop"></i> My Apps
+                                </a>
+                            </li>
+                            <!-- user apps -->
+
                             <li>
                                 <a href="{{ route('user.notifications') }}" title="my dashboard">Notifications
                                     <span class="badge">{{ count($unread_notifications) }}</span>
                                 </a>
                             </li>
+                            <!-- user notification -->
 
                             <!-- Estate panel option -->
                             {{--<li><a href="{{ route('estate.dashboard') }}" title="estate dashboard">Estates dashboard</a></li>--}}

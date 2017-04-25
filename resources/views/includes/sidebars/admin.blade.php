@@ -18,7 +18,7 @@
 <li>
     <a href="{{ route('admin.notifications') }}">
         <i class="fa fa-bell fa-fw"></i> Notifications
-        <span class="badge pull-right">{{ count($unread_notifications) }}</span>
+        <span class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
     </a>
 </li>
 <!-- /.nav-first-level/notifications -->

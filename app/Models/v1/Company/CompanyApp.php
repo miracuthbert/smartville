@@ -22,7 +22,9 @@ class CompanyApp extends Model
 {
     use SoftDeletes, Notifiable, /*AppSubscribed,*/ AppSubscription;
 
-    protected $fillable = ['status', 'settings', 'subscribed'];
+    protected $guarded = [];
+
+//    protected $fillable = ['status', 'settings', 'subscribed'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -38,6 +40,16 @@ class CompanyApp extends Model
     public function routeNotificationForMail()
     {
         return $this->company->email;
+    }
+
+    /**
+     * App country.
+     *
+     * @return string
+     */
+    public function country()
+    {
+        return $this->company->country;
     }
 
     /**

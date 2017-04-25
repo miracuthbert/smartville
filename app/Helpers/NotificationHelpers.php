@@ -31,6 +31,12 @@ function NotificationIcon($type)
         return 'fa-money';
     if($type == 'subscription')
         return 'fa-credit-card-alt';
+    if($type == 'create_bill_invoices')
+        return 'fa-credit-card';
+    if($type == 'pending_bills_invoices')
+        return 'fa-money';
+    if($type == 'pending_rent_invoices')
+        return 'fa-credit-card-alt';
 }
 
 //Notification Type

@@ -26,10 +26,9 @@
 }
 
 .message-link-wrapper {
-    padding: 15px 0;
     color: #3c3c3c;
-    font-weight: 600;
-    border-bottom: 1px solid #CCCCCC;
+    font-weight: 400;
+    /*border-bottom: 1px solid #CCCCCC;*/
 }
 
 .message-link-wrapper:last-child {
@@ -38,18 +37,18 @@
 
 .message-link-wrapper.read {
     background-color: #FFFFFF;
-    border-left: 2px solid #CCCCCC;
+    /*border-left: 2px solid #CCCCCC;*/
 }
 
 .message-link-wrapper.unread {
+    font-weight: bold;
     background-color: #f8f8ff;
-    border-left: 2px solid #16A085;
+    /*border-left: 2px solid #16A085;*/
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
     .message-link-wrapper {
-        padding: 15px;
     }
 
     .message-link-wrapper .message-col {

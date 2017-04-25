@@ -76,7 +76,7 @@
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown hidden-xs">
+            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
@@ -91,7 +91,7 @@
                 <!-- /.dropdown/messages -->
             </li>
             <!-- /.dropdown -->
-            <li class="dropdown hidden-xs">
+            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
@@ -106,21 +106,20 @@
                 <!-- /.dropdown-tasks -->
             </li>
             <!-- /.dropdown/tasks -->
-            <li class="dropdown hidden-xs">
+            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="badge">{{ count($app->unreadNotifications) }}</span>
+                    <span class="badge">{{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}</span>
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    @forelse(collect($app->unreadNotifications)->slice(4, 0) as $notification)
+                    @forelse(collect($app->notifications)->splice(0, 4) as $notification)
                         @if(ToggleRead($notification->data['type']))
-                            <li>
+                            <li class="{{ $notification->read_at == null ? 'active' : '' }}">
                                 <a href="#">
                                     <div>
                                         <i class="fa {{ NotificationIcon($notification->data['type']) }} fa-fw"></i>
                                         <span class="small">
-                                            Message from
-                                            {{ str_limit($notification->data['name'], 10) }}
+                                            {{ str_limit($notification->data['title'], 30) }}
                                         </span>
                                         <span class="pull-right text-muted small">
                                             {{ $notification->created_at->diffForHumans() }}
@@ -130,11 +129,11 @@
                             </li>
                             <li class="divider"></li>
                         @endif
-                        @empty
-                            <li class="disabled">
-                                <a href="#" class="text-center">No notifications found.</a>
-                            </li>
-                            <li class="divider"></li>
+                    @empty
+                        <li class="disabled">
+                            <a href="#" class="text-center">No notifications found.</a>
+                        </li>
+                        <li class="divider"></li>
                     @endforelse
                     <li>
                         <a class="text-center" href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
@@ -146,7 +145,7 @@
                 <!-- /.dropdown-alerts -->
             </li>
             <!-- /.dropdown/notifications -->
-            <li class="dropdown hidden-xs">
+            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -155,6 +154,11 @@
                     <li>
                         <a href="{{ route('user.dashboard') }}">
                             <i class="fa fa-dashboard fa-fw"></i> My Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                            <i class="fa fa-laptop"></i> My Apps
                         </a>
                     </li>
                     <li>

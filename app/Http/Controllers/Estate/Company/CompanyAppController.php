@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Estate\Company;
 use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Company\CompanyApp;
 use App\Models\v1\Estate\Paypal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -99,10 +100,10 @@ class CompanyAppController extends Controller
 
         }
 
-        $subscribed = $app->paypal->first();
+        $subscribed = $app->paypal()->where('completed', 1)->where('ends_at', '>', Carbon::now())->first();
 
         if ($subscribed == null)
-            $subscribed = $app->trials->first();
+            $subscribed = $app->trials()->where('is_ended', 0)->where('trial_ends_at', '>', Carbon::now())->first();
 
         //get subscription class
         $subscribedClass = get_class($subscribed);

@@ -11,7 +11,12 @@ class TenantRent extends Model
 {
     use SoftDeletes;
 
-    protected $dates = ['created_at, updated_at, deleted_at, date_from, date_to, date_due'];
+    protected $guarded = ['hash'];
+
+    /**
+     * @var array $dates
+     */
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'date_from', 'date_to', 'date_due'];
 
     /**
      * Get Rent App

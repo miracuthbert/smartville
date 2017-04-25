@@ -203,7 +203,7 @@
             <!-- /.dropdown tasks-->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="badge">{{ count($unread_notifications) }}</span>
+                    <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
@@ -228,12 +228,19 @@
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
-                        <a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> User Dashboard</a>
+                        <a href="{{ route('user.dashboard') }}">
+                            <i class="fa fa-dashboard fa-fw"></i> My Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                            <i class="fa fa-laptop"></i> My Apps
+                        </a>
                     </li>
                     <li>
                         <a href="{{ route('user.notifications') }}">
                             <i class="fa fa-bell fa-fw"></i> Notifications
-                            <span class="badge pull-right">{{ count($unread_notifications) }}</span>
+                            <span class="badge pull-right">{{ count($unread_notifications)> 0 ? count($unread_notifications) : '' }}</span>
                         </a>
                     </li>
                     <li>

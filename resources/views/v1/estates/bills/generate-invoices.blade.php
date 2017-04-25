@@ -6,8 +6,8 @@
 
 @section('breadcrumb')
     <li>Bills</li>
-    <li></li>
-    <li class="active">Generate Bill Invoice</li>
+    <li>Invoices</li>
+    <li class="active">Generate</li>
 @endsection
 
 @section('page-header')
@@ -19,7 +19,8 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <form name="generate-bill-form" method="get" action="{{ route('estate.rental.bill.add', ['id' => $app->id]) }}"
+            <form name="generate-bill-form" method="get"
+                  action="{{ route('estate.rental.bill.add', ['id' => $app->id]) }}"
                   enctype="application/x-www-form-urlencoded" autocomplete="off">
 
                 @include('includes.alerts.validation')
@@ -37,11 +38,13 @@
                             <div class="row">
                                 @foreach($billsChunked as $bill)
                                     <div class="col-md-3">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="bill" value="{{ $bill->id }}"
-                                                    {{ Request::old('bill') == $bill->id ? 'checked' : '' }}>
-                                            {{ $bill->title }}
-                                        </label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="bill" value="{{ $bill->id }}"
+                                                        {{ $service == $bill->id ? 'checked' : Request::old('bill') == $bill->id ? 'checked' : '' }}>
+                                                {{ $bill->title }}
+                                            </label>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>

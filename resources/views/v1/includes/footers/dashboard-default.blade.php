@@ -59,15 +59,23 @@
                         <li>
                             <a href="{{ route('user.dashboard') }}">My dashboard</a>
                         </li>
+                        <!-- user dashboard -->
+                        <li>
+                            <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                My Apps
+                            </a>
+                        </li>
+                        <!-- user apps -->
                         <li>
                             <a href="{{ route('user.profile') }}">Profile</a>
                         </li>
+                        <!-- user profile -->
                     @endif
                 </ul>
                 <hr class="hidden-md hidden-lg hidden-sm">
             </div>
             <div class="col-lg-3 col-sm-6">
-                <h4>Pages</h4>
+                <h4>Site</h4>
                 <ul>
                     <li>
                         <a href="{{ route('about') }}">About</a>
