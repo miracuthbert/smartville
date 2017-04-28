@@ -181,9 +181,8 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="pagination">
-                                        <p></p>
-                                        <p class="label label-default">
-                                            {{ title_case($sort) }} bill invoices : {{ $bills->total() }}
+                                        <p>Showing {{ $bills->firstItem() }} to {{ $bills->lastItem() }} of
+                                            {{ $bills->total() }}
                                         </p>
                                     </div>
                                 </div>

@@ -66,8 +66,11 @@ class AmenityController extends Controller
         //authorize
         $this->authorize('view', $app);
 
+        $amenities = $app->amenities()->paginate();
+
         return view('v1.estates.amenity.index')
-            ->with('app', $app);
+            ->with('app', $app)
+            ->with('amenities', $amenities);
     }
 
     /**

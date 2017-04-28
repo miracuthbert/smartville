@@ -52,7 +52,8 @@
                                 </div>
 
                                 <div class="btn-group btn-group-sm">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
                                         <strong>
                                             More Actions
                                             <span class="caret"></span>
@@ -177,25 +178,22 @@
                             </p>
                         @endif
                     </div>
-                    @if(count($rents) > 0)
-                        <div class="panel-footer">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="pagination">
-                                        <p></p>
-                                        <p class="label label-default">
-                                            {{ title_case($sort) }} rent invoices : {{ $rents->total() }}
-                                        </p>
-                                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="pagination">
+                                    <p>Showing {{ $rents->firstItem() }} to {{ $rents->lastItem() }} of
+                                        {{ $rents->total() }}
+                                    </p>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="pull-right">
-                                        {{ $rents->links() }}
-                                    </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="pull-right">
+                                    {{ $rents->links() }}
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </form>
         </div>

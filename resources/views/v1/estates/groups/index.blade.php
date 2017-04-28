@@ -63,7 +63,8 @@
                                 <tbody>
                                 @foreach($groups as $group)
                                     <tr>
-                                        <td>{{ $group->id }}</td>
+                                        <td>
+                                            {{ $loop->first ? $groups->firstItem() : ($groups->firstItem() + $loop->index) }}</td>
                                         <td>{{ $group->title }}</td>
                                         <td>{{ $group->location }}</td>
                                         <td>

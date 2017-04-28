@@ -24,43 +24,50 @@
                     <span class="badge">{{ count($app->amenities) }}</span>
                 </h3>
                 <hr>
-                @forelse($app->amenities as $amenity)
-                    <div class="row">
-                        <div class="col-sm-8 col-xs-10">
-                            <p>
-                                {{ $loop->iteration }}. {{ $amenity->title }}
-                            </p>
-                        </div>
-                        <div class="col-sm-2 col-xs-2">
-                            <p class="text-center-xs">
-                                <a href="{{ route('estate.rental.amenity.status', ['id' => $amenity->id]) }}"
-                                   class="btn btn-default btn-xs" data-toggle="tooltip"
-                                   title="{{ AppStatusToggleText($amenity->status) }}">
-                                    <span class="{{ AppStatusIcon($amenity->status) }}"></span>
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-sm-2 col-xs-12">
-                            <div class="pull-right">
-                                <div class="btn-group btn-group-xs">
-                                    <a href="{{ route('estate.rental.amenity.edit', ['id' => $amenity->id]) }}"
-                                       role="button" class="btn btn-primary" data-toggle="tooltip" title="edit">
-                                        <span class="fa fa-edit"></span>
-                                    </a>
-                                    <a href="{{ route('estate.rental.amenity.delete', ['id' => $amenity->id]) }}"
-                                       role="button" class="btn btn-warning" data-toggle="tooltip"
-                                       title="move to trash">
-                                        <span class="fa fa-remove"></span>
-                                    </a>
+                <div class="list-group">
+                    @forelse($amenities as $amenity)
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-8 col-xs-10">
+                                    <p>
+                                        {{ $loop->first ? $amenities->firstItem() : ($amenities->firstItem() + $loop->index) }}
+                                        . {{ $amenity->title }}
+                                    </p>
+                                </div>
+                                <div class="col-sm-2 col-xs-2">
+                                    <p class="text-center-xs">
+                                        <a href="{{ route('estate.rental.amenity.status', ['id' => $amenity->id]) }}"
+                                           class="btn btn-default btn-xs" data-toggle="tooltip"
+                                           title="{{ AppStatusToggleText($amenity->status) }}">
+                                            <span class="{{ AppStatusIcon($amenity->status) }}"></span>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-sm-2 col-xs-12">
+                                    <div class="pull-right">
+                                        <div class="btn-group btn-group-xs">
+                                            <a href="{{ route('estate.rental.amenity.edit', ['id' => $amenity->id]) }}"
+                                               role="button" class="btn btn-primary" data-toggle="tooltip" title="edit">
+                                                <span class="fa fa-edit"></span>
+                                            </a>
+                                            <a href="{{ route('estate.rental.amenity.delete', ['id' => $amenity->id]) }}"
+                                               role="button" class="btn btn-warning" data-toggle="tooltip"
+                                               title="move to trash">
+                                                <span class="fa fa-remove"></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="alert alert-success">
-                        No amenities found
-                    </div>
-                @endforelse
+                    @empty
+                        <div class="list-group-item">
+                            <h4>
+                                No amenities found
+                            </h4>
+                        </div>
+                    @endforelse
+                </div>
             </div>
 
             <h3>
@@ -69,42 +76,48 @@
                 <span class="badge">{{ count($app->amenitiesTrashed) }}</span>
             </h3>
             <div class="box" id="amenities-trashed">
-                @forelse($app->amenitiesTrashed as $amenity)
-                    <div class="row">
-                        <div class="col-sm-8">
-                            {{ $loop->iteration }}. {{ $amenity->title }}
-                        </div>
-                        <div class="col-sm-2 col-xs-6">
-                            <p class="text-center-xs">
-                                <a href="{{ route('estate.rental.amenity.status', ['id' => $amenity->id]) }}"
-                                   class="btn btn-default btn-xs" data-toggle="tooltip"
-                                   title="{{ AppStatusToggleText($amenity->status) }}">
-                                    <span class="{{ AppStatusIcon($amenity->status) }}"></span>
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-sm-2 col-xs-6">
-                            <div class="pull-right">
-                                <div class="btn-group btn-group-xs">
-                                    <a href="{{ route('estate.rental.amenity.restore', ['id' => $amenity->id]) }}"
-                                       role="button" class="btn btn-success" data-toggle="tooltip"
-                                       title="restore amenity">
-                                        <span class="fa fa-refresh"></span>
-                                    </a>
-                                    <a href="{{ route('estate.rental.amenity.destroy', ['id' => $amenity->id]) }}"
-                                       role="button" class="btn btn-danger" data-toggle="tooltip"
-                                       title="delete completely">
-                                        <span class="fa fa-trash"></span>
-                                    </a>
+                <div class="list-group">
+                    @forelse($app->amenitiesTrashed as $amenity)
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    {{ $loop->iteration }}. {{ $amenity->title }}
+                                </div>
+                                <div class="col-sm-2 col-xs-6">
+                                    <p class="text-center-xs">
+                                        <a href="{{ route('estate.rental.amenity.status', ['id' => $amenity->id]) }}"
+                                           class="btn btn-default btn-xs" data-toggle="tooltip"
+                                           title="{{ AppStatusToggleText($amenity->status) }}">
+                                            <span class="{{ AppStatusIcon($amenity->status) }}"></span>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="col-sm-2 col-xs-6">
+                                    <div class="pull-right">
+                                        <div class="btn-group btn-group-xs">
+                                            <a href="{{ route('estate.rental.amenity.restore', ['id' => $amenity->id]) }}"
+                                               role="button" class="btn btn-success" data-toggle="tooltip"
+                                               title="restore amenity">
+                                                <span class="fa fa-refresh"></span>
+                                            </a>
+                                            <a href="{{ route('estate.rental.amenity.destroy', ['id' => $amenity->id]) }}"
+                                               role="button" class="btn btn-danger" data-toggle="tooltip"
+                                               title="delete completely">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="alert alert-success">
-                        No amenities found in trash
-                    </div>
-                @endforelse
+                    @empty
+                        <div class="list-group-item">
+                            <h4>
+                                No amenities found in trash
+                            </h4>
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>

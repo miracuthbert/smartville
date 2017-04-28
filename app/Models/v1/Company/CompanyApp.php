@@ -14,6 +14,7 @@ use App\Models\v1\Tenant\TenantProperty;
 use App\Models\v1\Tenant\TenantRent;
 use App\Traits\AppSubscribed;
 use App\Traits\AppSubscription;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -66,6 +67,17 @@ class CompanyApp extends Model
     public function paypal()
     {
         return $this->hasMany(Paypal::class, 'company_app_id')->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * Get app paypal subscription
+     */
+    public function paypal_active()
+    {
+        return $this->hasMany(Paypal::class, 'company_app_id')
+            ->where('completed', 1)
+            ->where('ends_at', '>', Carbon::now())
+            ->orderBy('created_at', 'DESC');
     }
 
     /**

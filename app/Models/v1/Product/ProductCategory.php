@@ -10,9 +10,9 @@ class ProductCategory extends Model
     protected $table = "categories";
 
     /**
-     * Category
+     * Get all of the owning categorable models.
      */
-    public function category()
+    public function categorable()
     {
         return $this->hasOne(Category::class, 'categorable');
     }

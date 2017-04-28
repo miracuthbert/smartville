@@ -233,12 +233,12 @@ class BillController extends Controller
 
         //trashed
         if ($sort == "trashed") {
-            $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->paginate(25);
+            $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->paginate();
         }
         //pending
         if ($sort == "pending") {
             if ($service == null)
-                $bills = $app->bills()->where('tenant_bills.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->paginate(25);
+                $bills = $app->bills()->where('tenant_bills.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->paginate();
             else {
                 if (!empty($today) && $today) {//get pending today
                     $bills = $app->bills()->whereDate('date_due', $request->date)
@@ -246,7 +246,7 @@ class BillController extends Controller
                         ->where('tenant_bills.status', 0)
                         ->whereNull('paid_at')
                         ->orderBy('date_due', 'ASC')
-                        ->paginate(25);
+                        ->paginate();
                 } else {//get past due
                     $bills = $app->bills()->whereDate('date_due', '<', $request->date)
                         ->where('bill_id', $service)
@@ -254,19 +254,19 @@ class BillController extends Controller
                         ->whereNull('paid_at')
                         ->orWhere('paid_at', '<', $request->date)
                         ->orderBy('date_due', 'ASC')
-                        ->paginate(25);
+                        ->paginate();
                 }
             }
         }
 
         //paid
         if ($sort == "paid") {
-            $bills = $app->bills()->where('tenant_bills.status', 1)->orderBy('date_due', 'ASC')->orderBy('updated_at', 'DESC')->paginate(25);
+            $bills = $app->bills()->where('tenant_bills.status', 1)->orderBy('date_due', 'ASC')->orderBy('updated_at', 'DESC')->paginate();
         }
 
         //all
         if ($sort == "all") {
-            $bills = $app->bills()->orderBy('date_due', 'ASC')->orderBy('tenant_bills.status', 'ASC')->paginate(25);
+            $bills = $app->bills()->orderBy('date_due', 'ASC')->orderBy('tenant_bills.status', 'ASC')->paginate();
         }
 
         return view('v1.estates.bills.index')

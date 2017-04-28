@@ -84,6 +84,51 @@
     <!-- /.nav-second-level -->
 </li>
 <li>
+    <a href="#"><i class="fa fa-sort-alpha-asc fa-fw"></i> Categories
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('category.create') }}">Create New</a>
+        </li>
+        <li>
+            <a href="{{ route('category.index') }}">All</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+<li>
+    <a href="#"><i class="fa fa-globe fa-fw"></i> Companies
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('admin_company.index') }}">All</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li>
+<li>
+    <a href="#"><i class="fa fa-laptop fa-fw"></i> Company Apps
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('admin_company_app.index', ['sort' => 'subscribed', 'on_trial' => 1]) }}">
+                On Trial
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin_company_app.index', ['sort' => 'subscribed', 'on_trial' => 0]) }}">
+                Normal Subscriptions
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin_company_app.index') }}">All</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li>
+<li>
     <a href="#"><i class="fa fa-users fa-fw"></i> Users
         <span class="fa arrow"></span>
     </a>

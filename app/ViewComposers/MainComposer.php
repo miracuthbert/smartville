@@ -29,9 +29,9 @@ class MainComposer
     public function compose(View $view)
     {
         //Load Model in each view
-        $categories = Category::where('status', 1)->where('categorable_type', ProductCategory::class)->get();
-        $payments = Category::where('status', 1)->where('categorable_type', Monetization::class)->get();
-        $property_types = Category::where('status', 1)->where('categorable_type', PropertyType::class)->get();
+        $categories = Category::where('status', 1)->where('categorable_type', 'product_categories')->get();
+        $payments = Category::where('status', 1)->where('categorable_type', 'monetizations')->get();
+        $property_types = Category::where('status', 1)->where('categorable_type', 'property_types')->get();
         $apps = Product::where('status', 1)->get();
         $apps_coming = Product::where('coming_soon', 1)->get();
         $manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();

@@ -230,35 +230,35 @@ class RentController extends Controller
 
         //trashed
         if ($sort == "trashed")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->paginate(25);
+            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->paginate();
 
         //paid
         if ($sort == "paid")
-            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
+            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
 
         //pending
         if ($sort == "pending") {
             if ($date == null)
-                $rents = $app->rents()->where('tenant_rents.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
+                $rents = $app->rents()->where('tenant_rents.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
             else {
                 if (!empty($today) && $today) {//get pending today
                     $rents = $app->rents()->where('tenant_rents.status', 0)
                         ->whereDate('date_due', $date)
                         ->whereNull('paid_at')
                         ->orderBy('date_due', 'ASC')
-                        ->paginate(25);
+                        ->paginate();
                 } else {
                     $rents = $app->rents()->where('tenant_rents.status', 0)
                         ->whereDate('date_due', '<', $date)
                         ->whereNull('paid_at')
                         ->orderBy('date_due', 'ASC')
-                        ->paginate(25);
+                        ->paginate();
                 }
             }
         }
         //all
         if ($sort == "all")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate(25);
+            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
 
         return view('v1.estates.rent.index')
             ->with('app', $app)

@@ -63,6 +63,15 @@ function AppStatusToggle($status)
     }
 }
 
+function AppStatusText($status)
+{
+    if ($status == 1) {
+        echo 'Active';
+    } else {
+        echo 'Disabled';
+    }
+}
+
 function AppStatusToggleText($status)
 {
     if ($status == 1) {

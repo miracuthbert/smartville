@@ -14,7 +14,9 @@
         <tbody>
         @foreach($properties as $property)
             <tr class="{{ $property->status == 1 ? 'info' : '' }}">
-                <td>{{ $loop->iteration }}</td>
+                <td>
+                    {{ $loop->first ? $properties->firstItem() : ($properties->firstItem() + $loop->index) }}
+                </td>
                 <td>{{ $property->title }}</td>
                 <td>
                     @if($property->property_group != null)

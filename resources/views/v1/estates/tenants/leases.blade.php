@@ -14,7 +14,9 @@
             <tbody>
             @foreach($tenants as $tenant)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>
+                        {{ $loop->first ? $tenants->firstItem() : ($tenants->firstItem() + $loop->index) }}
+                    </td>
                     <td>
                         {{ $tenant->tenant->user->firstname . ' ' . $tenant->tenant->user->lastname }}
                     </td>
@@ -34,20 +36,20 @@
                     <td>
                         <div class="btn-group btn-group-xs">
                             @if($sort != "trashed")
-                                <a href="{{ route('estate.lease.edit', ['id' => $tenant->id]) }}" role="button"
+                                <a href="{{ route('estate.rental.lease.edit', ['id' => $tenant->id]) }}" role="button"
                                    class="btn btn-primary" data-toggle="tooltip" title="edit lease">
                                     <span class="fa fa-edit"></span>
                                 </a>
-                                {{--<a href="{{ route('estate.lease.delete', ['id' => $tenant->id]) }}" role="button"--}}
+                                {{--<a href="{{ route('estate.rental.lease.delete', ['id' => $tenant->id]) }}" role="button"--}}
                                    {{--class="btn btn-warning" data-toggle="tooltip" title="remove lease">--}}
                                     {{--<i class="fa fa-remove"></i>--}}
                                 {{--</a>--}}
                             @else
-                                <a href="{{ route('estate.lease.restore', ['id' => $tenant->id]) }}" role="button"
+                                <a href="{{ route('estate.rental.lease.restore', ['id' => $tenant->id]) }}" role="button"
                                    class="btn btn-success" data-toggle="tooltip" title="restore lease">
                                     <span class="fa fa-refresh"></span>
                                 </a>
-                                <a href="{{ route('estate.lease.destroy', ['id' => $tenant->id]) }}" role="button"
+                                <a href="{{ route('estate.rental.lease.destroy', ['id' => $tenant->id]) }}" role="button"
                                    class="btn btn-danger" data-toggle="tooltip" title="delete completely">
                                     <i class="fa fa-trash"></i>
                                 </a>

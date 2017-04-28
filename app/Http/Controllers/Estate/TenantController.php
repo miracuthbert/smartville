@@ -134,7 +134,7 @@ class TenantController extends Controller
                 $tenants = $app->leasesTrashed()->paginate(25);
             if ($sort == "active")
                 $tenants = $app->tenants()->where('status', 1)->paginate(25);
-            if ($sort == "disabled")
+            if ($sort == "vacated")
                 $tenants = $app->tenants()->where('status', 0)->paginate(25);
         }
 

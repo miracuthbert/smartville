@@ -15,6 +15,7 @@ class HelperServiceProvider extends ServiceProvider
         'BillingHelpers',
         'NotificationHelpers',
         'ForumHelpers',
+        'CategoryHelpers',
     ];
 
 

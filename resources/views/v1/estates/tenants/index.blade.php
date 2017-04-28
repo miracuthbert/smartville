@@ -32,38 +32,38 @@
                         <ul class="dropdown-menu pull-right">
                             <li class="dropdown-header">Sort by Leases</li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'all', 'leases' => 1]) }}">
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all', 'leases' => 1]) }}">
                                     All
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'trashed', 'leases' => 1]) }}">
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'trashed', 'leases' => 1]) }}">
                                     Trashed
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'active', 'leases' => 1]) }}">
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'active', 'leases' => 1]) }}">
                                     Active
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'vacated', 'leases' => 1]) }}">
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'vacated', 'leases' => 1]) }}">
                                     Vacated
                                 </a>
                             </li>
                             <li role="separator" class="divider"></li>
                             <li class="dropdown-header">Sort by Tenants</li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'active']) }}">Active</a>
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'active']) }}">Active</a>
                             </li>
                             <li>
-                                <a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'disabled']) }}">Vacated</a>
+                                <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'vacated']) }}">Vacated</a>
                             </li>
                         </ul>
                     </div>

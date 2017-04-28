@@ -70,7 +70,9 @@
                                 <tbody>
                                 @foreach($bills as $bill)
                                     <tr>
-                                        <td>{{ $bill->id }}</td>
+                                        <td>
+                                            {{ $loop->first ? $bills->firstItem() : ($bills->firstItem() + $loop->index) }}
+                                        </td>
                                         <td>{{ $bill->title }}</td>
                                         <td>{{ BillPlan($bill->bill_plan) }}</td>
                                         <td>{{ $bill->billing_interval }} {{ $bill->interval_type }}</td>

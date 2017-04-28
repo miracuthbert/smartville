@@ -229,6 +229,41 @@ Route::group(['prefix' => 'admin'], function () {
         'as' => 'admin.contact.messages'
     ]);
 
+    /**
+     * Category Routes
+     */
+    Route::get('category/destroy/{category}', [
+        'uses' => 'Admin\Category\CategoryController@destroy',
+        'as' => 'category.destroy',
+    ]);
+
+    Route::resource('category', 'Admin\Category\CategoryController', ['except' => [
+        'destroy',
+    ]]);
+
+    /**
+     * Company & Company Apps Routes
+     */
+    Route::group(['prefix' => 'companies'], function () {
+
+        /**
+         * Company Routes
+         */
+        Route::resource('admin_company', 'Admin\Company\CompanyController', ['except' => [
+            'destroy',
+        ]]);
+
+        /**
+         * Company Apps Routes
+         */
+        Route::resource('admin_company_app', 'Admin\Company\CompanyAppController', ['except' => [
+            'destroy',
+        ]]);
+    });
+
+    /**
+     * Users Routes
+     */
     Route::group(['prefix' => 'users'], function () {
         //View Users Route
         Route::get('index', [
@@ -255,7 +290,10 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
     });
 
-    Route::group(['prefix' => 'apps'], function () {
+    /**
+     * App Products Routes
+     */
+    Route::group(['prefix' => 'apps/products'], function () {
         //Get Admin Add Product
         Route::get('add-new-app', [
             'uses' => 'Admin\ProductController@getCreate',
@@ -311,6 +349,9 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
     });
 
+    /**
+     * App Features Routes
+     */
     Route::group(['prefix' => 'app/features'], function () {
         //Post Admin Add App Feature
         Route::post('add-feature', [
@@ -1330,7 +1371,7 @@ Route::group(['prefix' => 'tenant'], function () {
      * prefix: downloads
      * -----------------------------------------------------------------
      */
-    Route::group(['prefix' => 'downloads'], function() {
+    Route::group(['prefix' => 'downloads'], function () {
 
         //tenant bill invoice to pdf
         Route::get('/bill/invoice/{id}/pdf', [
@@ -1348,7 +1389,7 @@ Route::group(['prefix' => 'tenant'], function () {
 
     //tenant rent status
     Route::get('rent/status/{id}', [
-        'uses' => 'Tenant\RentController@toggleStatus',
+        'uses' => 'Tenant\Rent\RentController@toggleStatus',
         'as' => 'tenant.rent.status'
     ]);
 });

@@ -45,12 +45,12 @@
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             @if($sort != "trashed")
-                                                <a href="{{ route('estate.lease.edit', ['id' => $lease->id]) }}"
+                                                <a href="{{ route('estate.rental.lease.edit', ['id' => $lease->id]) }}"
                                                    role="button" class="btn btn-primary" data-toggle="tooltip"
                                                    title="edit lease">
                                                     <span class="fa fa-edit"></span>
                                                 </a>
-                                                {{--<a href="{{ route('estate.lease.delete', ['id' => $lease->id]) }}"--}}
+                                                {{--<a href="{{ route('estate.rental.lease.delete', ['id' => $lease->id]) }}"--}}
                                                    {{--role="button" class="btn btn-warning" data-toggle="tooltip"--}}
                                                    {{--title="remove lease">--}}
                                                     {{--<i class="fa fa-remove"></i>--}}
