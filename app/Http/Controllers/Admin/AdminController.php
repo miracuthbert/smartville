@@ -29,10 +29,10 @@ class AdminController extends Controller
     public function getDashboard()
     {
         //users
-        $users = User::where('created_at', Carbon::today())->paginate();
+        $users = User::whereDate('created_at', Carbon::today())->paginate();
 
         return view('v1.admin.dashboard')
-            ->with('users', $users);
+            ->with('new_users', $users);
     }
 
     /**
