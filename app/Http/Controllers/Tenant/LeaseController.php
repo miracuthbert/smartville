@@ -64,7 +64,7 @@ class LeaseController extends Controller
         $app = $lease->tenant->company;
 
         //group
-        $group = $lease->property->property_group;
+        $group = $lease->property->group;
 
         //property
         $property = $lease->property;
