@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant\Rent;
 
 use App\Models\v1\Tenant\Tenant;
 use App\Models\v1\Tenant\TenantRent;
+use Carbon\Carbon;
 use PDF;
 use ExtCountries;
 use Illuminate\Http\Request;
@@ -81,7 +82,7 @@ class RentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -92,11 +93,22 @@ class RentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $notify_id = $request->read;
+
+        if ($notify_id != null) {
+            //find notification
+            $notification = $request->user()->notifications()->where('id', $notify_id)->first();
+
+            //mark as read
+            $notification->read_at == null ? $notification->update(['read_at' => Carbon::now()]) : '';
+        }
+
         //rent
         $rent = TenantRent::find($id);
 
@@ -134,7 +146,7 @@ class RentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -145,8 +157,8 @@ class RentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -157,7 +169,7 @@ class RentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
