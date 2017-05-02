@@ -29,14 +29,14 @@ class UserController extends Controller
         $total_users = User::withTrashed()->paginate();
 
         //trashed users
-        $trashed_users = User::onlyTrashed()->orderBy('deleted_at', 'DESC')->paginate(25);
+        $trashed_users = User::onlyTrashed()->orderBy('deleted_at', 'DESC')->paginate();
 
         //new users
-        $new_users = User::where('created_at', Carbon::now()->toDateString())->paginate();
+        $new_users = User::whereDate('created_at', Carbon::now()->toDateString())->paginate();
 
         //users
         if ($sort == null)
-            $users = User::orderBy('created_at', 'DESC')->paginate(25);
+            $users = User::orderBy('created_at', 'DESC')->paginate();
 
         //new users
         if ($sort == "new")
