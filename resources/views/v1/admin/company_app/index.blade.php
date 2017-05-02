@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <div class="col-sm-5">
                                             <p>
-                                                {{ $loop->first ? $categories->firstItem() : ($app_trials->firstItem() + $loop->index) }}
+                                                {{ $loop->first ? $app_trials->firstItem() : ($app_trials->firstItem() + $loop->index) }}
                                                 .
                                                 {{ $app_trial->app->company->title }} -
                                                 <small>{{ $app_trial->app->product->title }}</small>
