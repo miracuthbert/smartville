@@ -36,6 +36,20 @@
                     {{ csrf_field() }}
 
                     <div class="form-group">
+                        <label>Stand alone manual</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="stand_alone" id="false"
+                                   value="0" {{ Request::old('stand_alone') == 0 ? 'checked' : !empty($product) ? 'checked' : '' }}>
+                            No
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="stand_alone" id="true"
+                                   value="1" {{ Request::old('stand_alone') == 1 ? 'checked' : empty($product) ? 'checked' : '' }}>
+                            Yes, I want to create a standalone manual
+                        </label>
+                    </div>
+
+                    <div class="form-group">
                         <label>Choose an app</label>
                         <select name="app" class="form-control" id="app">
                             <option>Select an app</option>
@@ -43,7 +57,7 @@
                                 <option value="{{ $app->id }}"
                                         title="{{ $app->title .' ver ('. $app->version_no . ')' }}"
                                         data-url="{{ str_slug($app->title .' '. $app->version_no) }}"
-                                        {{ Request::old('app') == $app->id ? 'selected' : $product->id == $app->id ? 'selected' : '' }}>
+                                        {{ Request::old('app') == $app->id ? 'selected' : $product != null ? $product->id == $app->id ? 'selected' : '' : '' }}>
                                     {{ $app->title }} (ver {{ $app->version_no }})
                                 </option>
                             @endforeach

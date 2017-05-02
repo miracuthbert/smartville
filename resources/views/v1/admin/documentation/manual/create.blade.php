@@ -29,12 +29,12 @@
                         <label class="radio-inline">
                             <input type="radio" name="stand_alone" id="false"
                                    value="0" {{ Request::old('stand_alone') == 0 ? 'checked' : '' }}>
-                            No, I want to create and app manual
+                            No
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="stand_alone" id="true"
                                    value="1" {{ Request::old('stand_alone') == 1 ? 'checked' : '' }}>
-                            Yes
+                            Yes, I want to create a standalone manual
                         </label>
                     </div>
 
