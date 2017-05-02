@@ -22,7 +22,7 @@
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{ $users->total() }}</div>
+                            <div class="huge">{{ $new_users->total() }}</div>
                             <div>New Users!</div>
                         </div>
                     </div>
