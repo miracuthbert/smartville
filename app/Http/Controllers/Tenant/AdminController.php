@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Models\v1\Tenant\Tenant;
+use Carbon\Carbon;
 use ExtCountries;
 use Illuminate\Http\Request;
 
@@ -22,13 +23,26 @@ class AdminController extends Controller
 
     /**
      * AdminController dashboard.
+     * @param Request $request
+     * @param $id
+     * @return
      */
-    public function dashboard($id)
+    public function dashboard(Request $request, $id)
     {
         //tenant
         $tenant = Tenant::find($id);
 
         $this->authorize('view', $tenant);
+
+        $notify_id = $request->read;
+
+        if ($notify_id != null) {
+            //find notification
+            $notification = $request->user()->notifications()->where('id', $notify_id)->first();
+
+            //mark as read
+            $notification->read_at == null ? $notification->update(['read_at' => Carbon::now()]) : '';
+        }
 
         //app
         $app = $tenant->company;
