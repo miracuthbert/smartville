@@ -116,26 +116,25 @@ class TenantController extends Controller
         //leases
         $leases = $request->leases;
 
-//        dd($app->leases()->orderBy('move_in', 'DESC')->get());
         if ($leases == 1) {
             if ($sort == "all")
-                $tenants = $app->leases()->orderBy('move_in', 'DESC')->paginate(25);
+                $tenants = $app->leases()->orderBy('move_in', 'DESC')->paginate();
             if ($sort == "trashed")
-                $tenants = $app->leasesTrashed()->orderBy('deleted_at', 'DESC')->paginate(25);
+                $tenants = $app->leasesTrashed()->orderBy('deleted_at', 'DESC')->paginate();
             if ($sort == "active")
-                $tenants = $app->leases()->orderBy('move_in', 'DESC')->where('tenant_properties.status', 1)->paginate(25);
+                $tenants = $app->leases()->orderBy('move_in', 'DESC')->where('tenant_properties.status', 1)->paginate();
             if ($sort == "vacated")
-                $tenants = $app->leases()->orderBy('move_out', 'DESC')->where('tenant_properties.status', 0)->paginate(25);
+                $tenants = $app->leases()->orderBy('move_out', 'DESC')->where('tenant_properties.status', 0)->paginate();
         } else {
             //sort
             if ($sort == "all")
-                $tenants = $app->tenants()->orderBy('created_at', 'DESC')->paginate(25);
+                $tenants = $app->tenants()->orderBy('created_at', 'DESC')->paginate();
             if ($sort == "trashed")
-                $tenants = $app->leasesTrashed()->paginate(25);
+                $tenants = $app->leasesTrashed()->paginate();
             if ($sort == "active")
-                $tenants = $app->tenants()->where('status', 1)->paginate(25);
+                $tenants = $app->tenants()->where('status', 1)->paginate();
             if ($sort == "vacated")
-                $tenants = $app->tenants()->where('status', 0)->paginate(25);
+                $tenants = $app->tenants()->where('status', 0)->paginate();
         }
 
         return view('v1.estates.tenants.index')
