@@ -7,6 +7,7 @@ use App\Models\v1\Estate\EstateBill;
 use App\Models\v1\Estate\EstateProperty;
 use App\Models\v1\Tenant\TenantBill;
 use App\Models\v1\Tenant\TenantProperty;
+use App\Notifications\Tenant\TenantBilledNotification;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class BillController extends Controller
 
         if ($type === "update") {
             return $validate = Validator::make($data, [
-                '_bill' => 'required|integer|exists:tenant_bills,id',
+                'id' => 'required|integer|exists:tenant_bills,id',
                 'bill_plan' => 'required|boolean',
                 'bill_from_date' => 'required|date',
                 'bill_to_date' => 'required|date|after:bill_from_date.*',
@@ -85,11 +86,15 @@ class BillController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        //check
-        $notification = $app->notifications()->where('id', $request->notify)->first();
+        $notify = $request->notify;
 
-        if ($notification->read_at == null) {
-            $notification->update(['read_at' => Carbon::now()]);
+        if (!empty($notify)) {
+            //check
+            $notification = $app->notifications()->where('id', $notify)->first();
+
+            if ($notification->read_at == null) {
+                $notification->update(['read_at' => Carbon::now()]);
+            }
         }
 
         //service
@@ -223,6 +228,8 @@ class BillController extends Controller
 
         $service = $request->service;
         $today = $request->today;
+        $date = $request->date;
+        $month = $request->month;
 
         //check
         $notification = $app->notifications()->where('id', $request->notify)->first();
@@ -237,25 +244,55 @@ class BillController extends Controller
         }
         //pending
         if ($sort == "pending") {
-            if ($service == null)
-                $bills = $app->bills()->where('tenant_bills.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->paginate();
-            else {
-                if (!empty($today) && $today) {//get pending today
-                    $bills = $app->bills()->whereDate('date_due', $request->date)
+            if ($service != null && $today != null && $date != null) {   //get pending bills today with service
+                if ($today) {
+                    $bills = $app->bills()
+                        ->whereDate('date_due', $date)
                         ->where('bill_id', $service)
                         ->where('tenant_bills.status', 0)
                         ->whereNull('paid_at')
+                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
-                } else {//get past due
-                    $bills = $app->bills()->whereDate('date_due', '<', $request->date)
+                    $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
+                } else {
+                    $bills = $app->bills()
+                        ->whereDate('date_due', '<', $date)
                         ->where('bill_id', $service)
                         ->where('tenant_bills.status', 0)
                         ->whereNull('paid_at')
-                        ->orWhere('paid_at', '<', $request->date)
+                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
+                    $date = "Before or on: " . $date;
                 }
+            } elseif (!empty($today) && $today) {   //get pending bills today
+                $bills = $app->bills()
+                    ->whereDate('date_due', $date)
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+            } elseif (!empty($month) && $month) {     //get pending bills month
+                $bills = $app->bills()
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->whereMonth('date_due', Carbon::today()->month)
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+            } elseif ($service != null) {   //get pending bills with service
+                $bills = $app->bills()
+                    ->where('bill_id', $service)
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+            } else {    //get pending bills past due
+                $bills = $app->bills()
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
             }
         }
 
@@ -266,11 +303,20 @@ class BillController extends Controller
 
         //all
         if ($sort == "all") {
-            $bills = $app->bills()->orderBy('date_due', 'ASC')->orderBy('tenant_bills.status', 'ASC')->paginate();
+            $bills = $app->bills()->orderBy('tenant_bills.status', 'ASC')->orderBy('date_due', 'ASC')->paginate();
         }
+
+        //find passed billing service
+        $service = EstateBill::find($service);
+
+        //pass month date
+        $_month = $month != null ? Carbon::today() : '';
 
         return view('v1.estates.bills.index')
             ->with('app', $app)
+            ->with('service', $service)
+            ->with('month', $_month)
+            ->with('today', $date)
             ->with('sort', $sort)
             ->with('bills', $bills);
 
@@ -507,6 +553,19 @@ class BillController extends Controller
 
                     //check if saved
                     if ($tenant->bills()->save($_bill)) {
+
+                        //bill
+                        $bill = $_bill->bill;
+
+                        //company
+                        $company = $bill->app->company;
+
+                        //get user
+                        $user = $_bill->lease->tenant->user;
+
+                        //notify
+                        $user->notify(new TenantBilledNotification($_bill, $bill, $company));
+
                         $invoice_gen++;
 
                         //property message
@@ -583,7 +642,7 @@ class BillController extends Controller
 
         $_bill->details = null;
 
-        //for continous billing plan
+        //for continuous billing plan
         if ($bill->bill_plan == 1) {
             $_bill->previous_usage = $previous;
             $_bill->current_usage = $current;
