@@ -8,6 +8,7 @@ use App\Models\v1\Estate\EstateProperty;
 use App\Models\v1\Tenant\TenantRent;
 use App\Models\v1\Property\PropertyPrice;
 use App\Models\v1\Tenant\TenantProperty;
+use App\Notifications\Tenant\RentInvoiceSentNotification;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -63,9 +64,9 @@ class RentController extends Controller
     }
 
     /**
-     * RentController create.
+     * RentController invoice.
      */
-    public function create($id)
+    public function invoice($id)
     {
         //app
         $app = CompanyApp::find($id);
@@ -90,9 +91,9 @@ class RentController extends Controller
     }
 
     /**
-     * RentController invoice.
+     * RentController create.
      */
-    public function invoice($id)
+    public function create($id)
     {
         //app
         $app = CompanyApp::find($id);
@@ -121,7 +122,7 @@ class RentController extends Controller
         //properties
         $properties = $app->properties()->where('status', 1)->get();
 
-        return view('v1.estates.rent.generate')
+        return view('v1.estates.rent.create')
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('invoices', $generate)
             ->with('properties', $properties)
@@ -220,6 +221,7 @@ class RentController extends Controller
 
         $today = $request->today;
         $date = $request->date;
+        $month = $request->month;
 
         //check
         $notification = $app->notifications()->where('id', $request->notify)->first();
@@ -230,38 +232,72 @@ class RentController extends Controller
 
         //trashed
         if ($sort == "trashed")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->paginate();
+            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')
+                ->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->paginate();
 
         //paid
         if ($sort == "paid")
-            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
+            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')
+                ->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
 
         //pending
         if ($sort == "pending") {
-            if ($date == null)
-                $rents = $app->rents()->where('tenant_rents.status', 0)->whereNull('paid_at')->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
-            else {
-                if (!empty($today) && $today) {//get pending today
-                    $rents = $app->rents()->where('tenant_rents.status', 0)
+            if ($today != null && $date != null) {   //get pending rents today
+                if ($today) {
+                    $rents = $app->rents()
+                        ->where('tenant_rents.status', 0)
                         ->whereDate('date_due', $date)
                         ->whereNull('paid_at')
+                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
+                    $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
                 } else {
-                    $rents = $app->rents()->where('tenant_rents.status', 0)
+                    $rents = $app->rents()
+                        ->where('tenant_rents.status', 0)
                         ->whereDate('date_due', '<', $date)
                         ->whereNull('paid_at')
+                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
+                    $date = "Before or on: " . $date;
                 }
+            } elseif (!empty($date) && empty($today)) {    //get pending rents by date
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereDate('date_due', $date)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+            } elseif (!empty($month) && $month) { //get pending this month
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereNull('paid_at')
+                    ->whereMonth('date_due', Carbon::today()->month)
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+            } else {    //get pending rents
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->orderBy('date_from', 'ASC')
+                    ->orderBy('status', 'ASC')
+                    ->paginate();
             }
         }
         //all
         if ($sort == "all")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
+            $rents = $app->rents()->where('tenant_rents.status', 'ASC')->orderBy('date_due', 'ASC')
+                ->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->paginate();
+
+        //pass month date
+        $_month = $month != null ? Carbon::today() : '';
 
         return view('v1.estates.rent.index')
             ->with('app', $app)
+            ->with('month', $_month)
+            ->with('today', $date)
             ->with('sort', $sort)
             ->with('rents', $rents);
     }
@@ -429,6 +465,26 @@ class RentController extends Controller
 
                         //save
                         if ($property->rents()->save($rent)) {
+                            //lease
+                            $lease = $rent->lease;
+
+                            //tenant
+                            $tenant = $lease->tenant;
+
+                            //user
+                            $user = $tenant->user;
+
+                            //user dash route
+                            $route = route('tenant.rent', ['id' => $rent->id]);
+
+                            //app
+                            $app = $tenant->company;
+
+                            //company
+                            $company = $app->company;
+
+                            //notify
+                            $user->notify(new RentInvoiceSentNotification($rent, $app, $company, $user, $route));
 
                             $invoice_gen++;
 
@@ -445,7 +501,7 @@ class RentController extends Controller
             } //end of properties loop
 
             if ($invoice_gen > 0)
-                return redirect()->route('estate.rents', ['id' => $app->id, 'sort' => 'all'])
+                return redirect()->route('estate.rental.rents', ['id' => $app->id, 'sort' => 'all'])
                     ->with('bulk_success', $success)
                     ->with('bulk_error', $error)
                     ->withInput();
@@ -560,9 +616,8 @@ class RentController extends Controller
         $counted = count($rents);
 
         if ($counted == 1) {
-
             //id
-            $id = $rents[0];
+            $id = $rents;
 
             //find
             $app = TenantRent::find($id);
@@ -668,7 +723,8 @@ class RentController extends Controller
         if ($counted == 1) {
 
             //id
-            $id = $rents[0];
+            $id = $rents;
+
             //find
             $app = TenantRent::onlyTrashed()->where('id', $id)->first();
 
