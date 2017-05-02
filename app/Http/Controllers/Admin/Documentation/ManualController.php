@@ -227,6 +227,7 @@ class ManualController extends Controller
         //validation successful
 
         //input
+        $stand_alone = $request->input('stand_alone');
         $app = $request->input('app');
         $user = $request->user();
         $title = $request->input('title');
@@ -248,9 +249,16 @@ class ManualController extends Controller
         $manual->url = $url;
         $manual->status = $status;
 
-        if ($product->manuals()->save($manual)) {
-            return redirect()->back()
-                ->with('success', $title . ' manual updated successfully.');
+        if ($stand_alone == 0) {
+            if ($product->manuals()->save($manual)) {
+                return redirect()->back()
+                    ->with('success', $title . ' manual updated successfully.');
+            }
+        } else {
+            if ($manual->save()) {
+                return redirect()->back()
+                    ->with('success', $title . ' manual updated successfully.');
+            }
         }
 
         //error
