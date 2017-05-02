@@ -173,7 +173,7 @@
                                         <div class="col-sm-4">
                                             <span class="pull-right text-muted small">
                                                 <em>
-                                                    {{ $app_subscriber->paypal_active()->first()->ends_at->toDateTimeString() }}
+                                                    {{--{{ $app_subscriber->paypal_active()->first()->ends_at->toDateTimeString() }}--}}
                                                 </em>
                                             </span>
                                         </div>
