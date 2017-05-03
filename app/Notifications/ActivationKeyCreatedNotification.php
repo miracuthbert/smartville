@@ -16,7 +16,7 @@ class ActivationKeyCreatedNotification extends Notification implements ShouldQue
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $activationKey
      */
     public function __construct($activationKey)
     {
