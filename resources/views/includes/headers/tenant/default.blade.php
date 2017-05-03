@@ -13,7 +13,7 @@
                 {{ $app->company->title }} | Tenant Panel
                 </span>
                 <small class="visible-xs">
-                {{ $app->company->title }} | Tenant Panel
+                    {{ $app->company->title }} | Tenant Panel
                 </small>
             </a>
         </div>
@@ -52,17 +52,41 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> My Dashboard</a>
+                            <a href="{{ route('user.dashboard') }}" title="my dashboard">
+                                <i class="fa fa-dashboard fa-fw"></i> My dashboard</a>
                         </li>
+                        <!-- user dashboard -->
+
                         <li>
-                            <a href="{{ route('user.notifications') }}">
-                                <i class="fa fa-bell fa-fw"></i> Notifications
-                                <span class="badge pull-right">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                            <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                <i class="fa fa-laptop"></i> My Apps
                             </a>
                         </li>
+                        <!-- user apps -->
+
                         <li>
-                            <a href="{{ route('user.profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                            <a href="{{ route('user.notifications') }}" title="notifications">
+                                <i class="fa fa-bell fa-fw"></i> Notifications <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                            </a>
                         </li>
+                        <!-- notifications -->
+
+                        @if(Auth::user()->root or Auth::user()->admin)
+                            <li>
+                                <a href="{{ route('admin.dashboard')  }}" title="admin panel">
+                                    <i class="fa fa-tachometer fa-fw"></i> Admin panel
+                                </a>
+                            </li>
+                            <!-- Admin panel option -->
+                        @endif
+
+                        <li>
+                            <a href="{{ route('user.profile') }}" title="my profile">
+                                <i class="fa fa-user fa-fw"></i> Profile
+                            </a>
+                        </li>
+                        <!-- profile -->
+
                         <li class="hidden">
                             <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>

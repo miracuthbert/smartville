@@ -193,7 +193,7 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.rental.rent.add', ['id' => $app->id]) }}">Add rent invoices</a>
+            <a href="{{ route('estate.rental.rent.add', ['id' => $app->id]) }}">Create rent invoices</a>
         </li>
         <li>
             <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'all']) }}">Rent
@@ -209,7 +209,7 @@
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('estate.rental.bills.generate', ['id' => $app->id]) }}">Add bill invoices</a>
+            <a href="{{ route('estate.rental.bills.generate', ['id' => $app->id]) }}">Create bill invoices</a>
         </li>
         <li>
             <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Bill
