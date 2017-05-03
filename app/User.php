@@ -137,6 +137,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
+     * Get User Apps
+     */
+    public function apps()
+    {
+        return $this->hasManyThrough(CompanyApp::class, CompanyUser::class, 'user_id', 'company_id', 'id');
+    }
+
+    /**
      * Get User Apps Active
      */
     public function activeApps()
@@ -153,7 +161,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get User Disabled Apps
+     * Get User Trashed Apps
      */
     public function trashedApps()
     {
