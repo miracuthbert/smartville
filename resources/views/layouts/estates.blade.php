@@ -112,16 +112,16 @@
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    @forelse(collect($app->notifications)->splice(0, 4) as $notification)
+                    @forelse(collect($app->notifications)->splice(0, 10) as $notification)
                         @if(ToggleRead($notification->data['type']))
                             <li class="{{ $notification->read_at == null ? 'active' : '' }}">
-                                <a href="#">
+                                <a href="{{ NotificationEstateRoute($notification, $app) }}">
                                     <div>
                                         <i class="fa {{ NotificationIcon($notification->data['type']) }} fa-fw"></i>
                                         <span class="small">
                                             {{ str_limit($notification->data['title'], 30) }}
                                         </span>
-                                        <span class="pull-right text-muted small">
+                                        <span class="pull-right {{ $notification->read_at != null ? 'text-muted' : '' }} small">
                                             {{ $notification->created_at->diffForHumans() }}
                                         </span>
                                     </div>
