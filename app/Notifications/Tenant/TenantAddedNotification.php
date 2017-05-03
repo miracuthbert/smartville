@@ -40,18 +40,25 @@ class TenantAddedNotification extends Notification
     protected $user;
 
     /**
-     * Holds user message
-     * 
+     * Holds notification message
+     *
      * @var $message
      */
     protected $message;
 
     /**
      * Holds user route
-     * 
+     *
      * @var $userRoute
      */
     protected $userRoute;
+
+    /**
+     * Holds notification subject
+     *
+     * @var string $subject
+     */
+    protected $subject;
 
     /**
      * Create a new notification instance.
@@ -60,10 +67,9 @@ class TenantAddedNotification extends Notification
      * @param $app
      * @param $company
      * @param $user
-     * @param $message
      * @param $route
      */
-    public function __construct($lease, $app, $company, $user, $message, $route)
+    public function __construct($lease, $app, $company, $user, $route)
     {
         $this->lease = $lease;
 
@@ -73,11 +79,13 @@ class TenantAddedNotification extends Notification
 
         $this->user = $user;
 
-        $this->message = $message;
+        $this->message = "You have been added to " . $company->title . " as a tenant. Go to your dashboard to access this company's tenant panel; where you will find your lease details plus invoices and other details that will be sent by your landlord (property manager or host).";
 
         $this->userRoute = $route;
 
         $this->greeting = 'Hello and congratulations ' . $user->firstname . ',';
+
+        $this->subject = 'Tenancy Activated';
     }
 
     /**
@@ -88,7 +96,7 @@ class TenantAddedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['database', /*'mail'*/];
     }
 
     /**
@@ -100,11 +108,11 @@ class TenantAddedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Tenancy ')
+            ->subject($this->subject)
             ->greeting($this->greeting)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+            ->line($this->message)
+            ->action('Go to your dashboard', $this->userRoute)
+            ->line('Thank you for using ' . config('app.name') . '!');
     }
 
     /**
@@ -116,7 +124,10 @@ class TenantAddedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'tenant_id' => $this->lease->tenant->id,
+            'title' => $this->subject,
+            'message' => $this->message,
+            'type' => 'activated_tenancy',
         ];
     }
 }
