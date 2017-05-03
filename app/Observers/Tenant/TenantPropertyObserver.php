@@ -26,7 +26,7 @@ class TenantPropertyObserver
             $user = $tenant->user;
             
             //user dash route
-            $route = AppDashRoute('user.dashboard');
+            $route = route('tenant.dashboard', ['id' => $tenant->id]);
 
             //app
             $app = $tenant->company;
@@ -34,11 +34,8 @@ class TenantPropertyObserver
             //company
             $company = $app->company;
 
-            //message
-            $message = "You have been added to " . $company->title;
-
             //notify
-            $user->notify(new TenantAddedNotification($tenantProperty, $app, $company, $user, $message, $route));
+            $user->notify(new TenantAddedNotification($tenantProperty, $app, $company, $user, $route));
         }
     }
 
