@@ -19,7 +19,7 @@
         <div class="col-lg-12">
             @if(count($invoices) > 0)
                 <form class="form-horizontal" name="create-rent-invoice" method="post"
-                      action="{{ route('estate.rent.store') }}" enctype="application/x-www-form-urlencoded"
+                      action="{{ route('estate.rental.rent.store') }}" enctype="application/x-www-form-urlencoded"
                       autocomplete="off">
                     @include('includes.alerts.validation')
 
@@ -299,10 +299,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box">
-                                <button type="submit" name="btnAddTntRent" role="button"
-                                        class="btn btn-success" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
-                                    Create
-                                </button>
+                                <div class="pull-right">
+                                    <button type="submit" name="btnAddTntRent" role="button"
+                                            class="btn btn-success btn-lg" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
+                                        Create <i class="fa fa-check-square-o"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -313,8 +315,8 @@
     </div>
 
     <script>
-        $urlGroupRentProperties = '{{ route('estate.rent.group.properties') }}';
-        $urlRentProperty = '{{ route('estate.rent.group.property') }}';
+        $urlGroupRentProperties = '{{ route('estate.rental.rent.group.properties') }}';
+        $urlRentProperty = '{{ route('estate.rental.rent.group.property') }}';
         $urlDateGenerator = '{{ route('parse.date') }}';
         $app = '{{ $app->id }}';
 

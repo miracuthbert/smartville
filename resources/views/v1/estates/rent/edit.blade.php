@@ -89,7 +89,7 @@
                         <div class="col-md-6">
                             <div class="form-group input-group">
                                 <input type="text" name="rent_from_date" class="form-control rent_from"
-                                       value="{{ $rent->date_from }}" required>
+                                       value="{{ $rent->date_from->toDateString() }}" required>
                                 <span class="input-group-addon">
                                     <i class="fa fa-calendar-plus-o"></i>
                                 </span>
@@ -107,7 +107,7 @@
                                 <input type="hidden" name="duration" class="form-control rent_duration"
                                        id="rent_duration" value="1">
                                 <input type="text" name="rent_to_date" class="form-control rent_date_to"
-                                       id="rent_date_to" value="{{ $rent->date_to }}" readonly required>
+                                       id="rent_date_to" value="{{ $rent->date_to->toDateString() }}" readonly required>
                             </div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                         <div class="col-md-6">
                             <div class="form-group input-group">
                                 <input type="text" name="rent_due" class="form-control rent_due"
-                                       value="{{ $rent->date_due }}" required>
+                                       value="{{ $rent->date_due->toDateString() }}" required>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default">
                                                 <i class="fa fa-calendar-plus-o"></i>
@@ -139,6 +139,21 @@
                                     <option value="0" {{ $rent->status == 0 ? 'selected' : '' }}>Pending</option>
                                     <option value="1" {{ $rent->status == 1 ? 'selected' : '' }}>Paid</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="bill_paid_at">Paid at:</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p class="form-static-control">
+                                        {{ $rent->paid_at != null ? $bill->paid_at->toDateTimeString() : '' }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

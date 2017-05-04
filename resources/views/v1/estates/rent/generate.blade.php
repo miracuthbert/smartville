@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    @foreach($properties->chunk(4) as $_properties)
+                    @forelse($properties->chunk(4) as $_properties)
                         <div class="row">
                             @foreach($_properties as $property)
                                 <div class="col-md-3">
@@ -69,12 +69,12 @@
                                     </div>
                                 </div>
                             @endforeach
-
-                            <p class="text-muted">
-                                {{ count($properties) > 0 ? '' : 'No ungrouped properties found.' }}
-                            </p>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="text-muted">
+                            {{ count($properties) > 0 ? '' : 'No ungrouped properties found.' }}
+                        </p>
+                    @endforelse
                 </section>
 
                 @foreach($groups as $group)
@@ -129,11 +129,13 @@
                 <section class="box">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit"
-                                    class="btn btn-default btn-lg" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
-                                Procced to next step
-                                <i class="fa fa-chevron-right"></i>
-                            </button>
+                            <div class="pull-right">
+                                <button type="submit"
+                                        class="btn btn-default btn-lg" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
+                                    Next Step
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>

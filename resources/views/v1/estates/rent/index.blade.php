@@ -24,7 +24,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="clearfix">
-                            <strong>Sorted by: {{ title_case($sort) }} Invoices</strong>
+                            <strong>Sorted by:
+                                <span class="label label-default">{{ !empty(title_case($sort)) ? title_case($sort) . ";" : '' }}</span>
+                                <span class="label label-default">{{ !empty($today) ? $today . ";" : '' }}</span>
+                                <span class="label label-default">{{ $month != null ? MonthName($month) . ";" : '' }}</span>
+                            </strong>
                             <div class="pull-right">
                                 <div class="btn-group btn-group-sm">
                                     <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
