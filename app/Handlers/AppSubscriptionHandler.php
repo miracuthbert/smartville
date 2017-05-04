@@ -7,6 +7,7 @@ use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Estate\Paypal;
 use App\Notifications\Company\CompanyAppSubscriptionEndedNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AppSubscriptionHandler
 {
@@ -55,9 +56,12 @@ class AppSubscriptionHandler
             $company = $app->company;
 
             //check if app is subscribed
-            if ($app->subcribed) {
+            if ($app->subscribed && $app->is_trial) {
+
+                $ended = $subscription->update(['is_ended' => 1]);
+
                 //disable subscription
-                $update = $app->update(['subscribed', 0]);
+                $update = $app->update(['is_trial' => 0, 'subscribed' => 0]);
 
                 if ($update)
                     //notify
