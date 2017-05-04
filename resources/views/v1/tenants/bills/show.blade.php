@@ -76,7 +76,7 @@
                             <strong>From date</strong>
                         </td>
                         <td class="col-md-6 text-right">
-                            {{ $bill->date_from }}
+                            {{ $bill->date_from->toDateString() }}
                         </td>
                     </tr>
 
@@ -85,7 +85,7 @@
                             <strong>To date</strong>
                         </td>
                         <td class="col-md-6 text-right">
-                            {{ $bill->date_to }}
+                            {{ $bill->date_to->toDateString() }}
                         </td>
                     </tr>
 
@@ -149,7 +149,7 @@
                             <strong>Payment due</strong>
                         </td>
                         <td class="col-md-6 text-right">
-                            {{ $bill->date_due }}
+                            {{ $bill->date_due->toDateString() }}
                         </td>
                     </tr>
                     </tfoot>
