@@ -1218,13 +1218,13 @@ Route::group(['prefix' => 'estate/rental'], function () {
     Route::group(['prefix' => 'rents'], function () {
         //Add Rent Route
         Route::get('rent/generate/invoice/{id}', [
-            'uses' => 'Estate\RentController@create',
+            'uses' => 'Estate\RentController@invoice',
             'as' => 'estate.rental.rent.add'
         ]);
 
         //Add Rent Route
         Route::get('rent/create/{id}', [
-            'uses' => 'Estate\RentController@invoice',
+            'uses' => 'Estate\RentController@create',
             'as' => 'estate.rental.rent.generate.invoice'
         ]);
 
