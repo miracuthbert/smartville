@@ -5,7 +5,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('estate.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Tenants</a></li>
+    <li><a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all']) }}">Tenants</a></li>
     <li class="active">{{ $tenant->user->firstname }} {{ $tenant->user->lastname }}</li>
 @endsection
 
