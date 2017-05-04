@@ -23,8 +23,12 @@
                                 @forelse ($notifications as $notification)
                                     @if($notification->data['type'] == "forum")
                                         @include('v1.user.notify.forum-comment')
-                                    @elseif($notification->data['type'] == "tenant bill")
+                                    @elseif($notification->data['type'] == "tenant_bill_invoice")
                                         @include('v1.user.notify.tenant-bill')
+                                    @elseif($notification->data['type'] == "tenant_rent_invoice")
+                                        @include('v1.user.notify.tenant-rent-invoice')
+                                    @elseif($notification->data['type'] == "activated_tenancy")
+                                        @include('v1.user.notify.activated-tenancy')
                                     @endif
                                 @empty
                                     <p class="lead">You have no notifications</p>

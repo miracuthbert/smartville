@@ -1,7 +1,7 @@
 @extends('layouts.company')
 
 @section('title')
-    My Dashboard
+    My Apps
 @endsection
 
 @section('styles')
@@ -16,14 +16,14 @@
             <div class="col-lg-12">
                 <div class="section-top section-btm" id="myApps">
                     @section('dashboard-title')
-                        <span class="glyphicon glyphicon-dashboard"></span>
+                        <i class="fa fa-laptop"></i>
                         My Apps
-                        <span class="badge">{{ count(Auth::user()->companies) }}</span>
+                        <span class="badge">{{ count(Auth::user()->apps) }}</span>
                     @endsection
 
                     @include('v1.user.dashboard.header')
 
-                    @if(count(Auth::user()->companies) > 0)
+                    @if(count(Auth::user()->apps) > 0)
                         <div class="row">
                             <div class="col-md-12">
                                 <p class="lead">Active Apps
@@ -90,7 +90,23 @@
                     @else
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="lead">Apps you create or added to will appear here.</p>
+                                <p class="lead">Seems like you have no apps. Apps you create or added to will appear
+                                    here.</p>
+                                <hr>
+                                <div class="clearfix box">Are you a property manager, owner or landlord and would like
+                                    to
+                                    manage your properties, click the link below and choose which app you would like to
+                                    create and get started.
+                                    <br>
+                                    <br>
+                                    <hr>
+                                    <p>
+                                        <a href="{{ route('user.dashboard', ['section' => 'apps-new']) }}"
+                                           class="btn btn-default pull-right">
+                                            Get started <i class="fa fa-chevron-right"></i>
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     @endif
