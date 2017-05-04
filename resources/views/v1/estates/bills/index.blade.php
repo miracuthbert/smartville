@@ -23,7 +23,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="clearfix">
-                            <strong>Sorted by: {{ title_case($sort) }} Bills</strong>
+                            <strong>
+                                Sorted by:
+                                <span class="label label-default">{{ !empty(title_case($sort)) ? title_case($sort) . ";" : '' }}</span>
+                                <span class="label label-default">{{ !empty($today) ? $today . ";" : '' }}</span>
+                                <span class="label label-default">{{ $month != null ? MonthName($month) . ";" : '' }}</span>
+                                <span class="label label-default">{{ !empty($service) ? strtoupper($service->title) . ";" : '' }}</span>
+                            </strong>
                             <div class="pull-right">
                                 <div class="btn-group btn-group-sm">
                                     <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
@@ -121,7 +127,7 @@
                                                 </label>
                                             </td>
                                             <td>{{ $bill->property->title }}</td>
-                                            <td>{{ $bill->bill->title }}</td>
+                                            <td>{{ strtoupper($bill->bill->title) }}</td>
                                             <td>
                                                 @if($bill->bill->bill_plan == 0)
                                                     {{ $bill->unit_cost }}

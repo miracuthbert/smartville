@@ -142,7 +142,8 @@
                                     <div class="form-group input-group">
                                         <input type="text" name="bill_from_date"
                                                class="form-control bill_from"
-                                               placeholder="bill from date" value="{{ $bill->date_from }}"
+                                               placeholder="bill from date"
+                                               value="{{ $bill->date_from->toDateString() }}"
                                                required>
 
                                             <span class="input-group-addon">
@@ -163,7 +164,7 @@
                                     <div class="form-group">
                                         <input type="text" name="bill_to_date"
                                                class="form-control bill_date_to"
-                                               id="bill_to_date" value="{{ $bill->date_to }}" readonly
+                                               id="bill_to_date" value="{{ $bill->date_to->toDateString() }}" readonly
                                                required>
 
                                         <input type="hidden" name="duration"
@@ -183,7 +184,7 @@
                                     <div class="form-group input-group">
                                         <input type="text" name="bill_due"
                                                class="form-control bill_due"
-                                               placeholder="bill due date" value="{{ $bill->date_due }}"
+                                               placeholder="bill due date" value="{{ $bill->date_due->toDateString() }}"
                                                required>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default">
@@ -207,6 +208,21 @@
                                             </option>
                                             <option value="1" {{ $bill->status == 1 ? 'selected' : '' }}>Paid</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="bill_paid_at">Paid at:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p class="form-static-control">
+                                            {{ $bill->paid_at != null ? $bill->paid_at->toDateTimeString() : '' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
