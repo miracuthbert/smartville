@@ -46,7 +46,7 @@
                             <div class="col-sm-6">
                                 <p>Payment due on
                                         <span class="text-muted small">
-                                            {{ $rent->date_due }}
+                                            {{ $rent->date_due->toDateString() }}
                                         </span>
                                 </p>
                             </div>

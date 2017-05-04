@@ -74,13 +74,13 @@
                     <tr>
                         <td class="col-md-6">From date</td>
                         <td class="col-md-6 text-right">
-                            {{ $rent->date_from }}
+                            {{ $rent->date_from->toDateString() }}
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-6">To date</td>
                         <td class="col-md-6 text-right">
-                            {{ $rent->date_to }}
+                            {{ $rent->date_to->toDateString() }}
                         </td>
                     </tr>
                     </tbody>
@@ -94,7 +94,7 @@
                     <tr>
                         <td class="col-md-6">Rent due</td>
                         <td class="col-md-6 text-right">
-                            {{ $rent->date_due }}
+                            {{ $rent->date_due->toDateString() }}
                         </td>
                     </tr>
                     </tfoot>
