@@ -137,7 +137,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <p>Payment due
-                                        <span class="text-muted small">{{ $bill->date_due }}</span>
+                                        <span class="text-muted small">{{ $bill->date_due->toDateString() }}</span>
                                     </p>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
@@ -213,7 +213,7 @@
                                 <div class="col-sm-6">
                                     <p>Payment due on
                                         <span class="text-muted small">
-                                            {{ $rent->date_due }}
+                                            {{ $rent->date_due->toDateString() }}
                                         </span>
                                     </p>
                                 </div>
