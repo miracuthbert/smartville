@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('home') }}">
+            <a class="navbar-brand" href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}">
                 <small>
                     <span class="hidden-xs">{{ $app->product->title }} | </span>{{ $app->company->title }}
                 </small>
