@@ -2,6 +2,7 @@
 
 namespace App\Models\v1\Property;
 
+use App\Models\v1\Shared\Amenity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
