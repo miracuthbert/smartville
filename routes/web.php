@@ -1024,55 +1024,55 @@ Route::group(['prefix' => 'estate/rental'], function () {
 
         //Create Property Gallery Route
         Route::get('create/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@create',
+            'uses' => 'Estate\Rental\Property\GalleryController@create',
             'as' => 'estate.rental.property.gallery.create'
         ]);
 
         //Get Property Gallery Route
         Route::get('index/{id}/{sort?}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@index',
+            'uses' => 'Estate\Rental\Property\GalleryController@index',
             'as' => 'estate.rental.property.gallery.index'
         ]);
 
         //Edit Property Gallery Route
         Route::get('edit/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@edit',
+            'uses' => 'Estate\Rental\Property\GalleryController@edit',
             'as' => 'estate.rental.property.gallery.edit'
         ]);
 
         //Store Property Gallery Route
         Route::post('store', [
-            'uses' => 'Estate\Rental\Property\PropertyController@store',
+            'uses' => 'Estate\Rental\Property\GalleryController@store',
             'as' => 'estate.rental.property.gallery.store'
         ]);
 
         //Update Property Gallery Route
         Route::put('update/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@update',
+            'uses' => 'Estate\Rental\Property\GalleryController@update',
             'as' => 'estate.rental.property.gallery.update'
         ]);
 
         //Update Property Gallery Status Route
         Route::get('property/status/{id}', [
-            'uses' => 'Estate\PropertyController@toggleStatus',
+            'uses' => 'Estate\GalleryController@toggleStatus',
             'as' => 'estate.rental.property.gallery.status'
         ]);
 
         //Delete Property Gallery Route
         Route::get('property/delete/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@delete',
+            'uses' => 'Estate\Rental\Property\GalleryController@delete',
             'as' => 'estate.rental.property.gallery.delete'
         ]);
 
         //Restore Property Gallery Route
         Route::get('property/restore/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@restore',
+            'uses' => 'Estate\Rental\Property\GalleryController@restore',
             'as' => 'estate.rental.property.gallery.restore'
         ]);
 
         //Destroy Property Gallery Route
         Route::get('property/destroy/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@destroy',
+            'uses' => 'Estate\Rental\Property\GalleryController@destroy',
             'as' => 'estate.rental.property.gallery.destroy'
         ]);
 
@@ -1087,55 +1087,55 @@ Route::group(['prefix' => 'estate/rental'], function () {
 
         //Create Property Image Route
         Route::get('create/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@create',
+            'uses' => 'Estate\Rental\Property\ImageController@create',
             'as' => 'estate.rental.property.image.create'
         ]);
 
         //Get Property Image Route
         Route::get('index/{id}/{sort?}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@index',
+            'uses' => 'Estate\Rental\Property\ImageController@index',
             'as' => 'estate.rental.property.image.index'
         ]);
 
         //Edit Property Image Route
         Route::get('edit/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@edit',
+            'uses' => 'Estate\Rental\Property\ImageController@edit',
             'as' => 'estate.rental.property.image.edit'
         ]);
 
         //Store Property Image Route
         Route::post('store', [
-            'uses' => 'Estate\Rental\Property\PropertyController@store',
+            'uses' => 'Estate\Rental\Property\ImageController@store',
             'as' => 'estate.rental.property.image.store'
         ]);
 
         //Update Property Image Route
         Route::put('update/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@update',
+            'uses' => 'Estate\Rental\Property\ImageController@update',
             'as' => 'estate.rental.property.image.update'
         ]);
 
         //Update Property Image Status Route
         Route::get('property/status/{id}', [
-            'uses' => 'Estate\PropertyController@toggleStatus',
+            'uses' => 'Estate\ImageController@toggleStatus',
             'as' => 'estate.rental.property.image.status'
         ]);
 
         //Delete Property Image Route
         Route::get('property/delete/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@delete',
+            'uses' => 'Estate\Rental\Property\ImageController@delete',
             'as' => 'estate.rental.property.image.delete'
         ]);
 
         //Restore Property Image Route
         Route::get('property/restore/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@restore',
+            'uses' => 'Estate\Rental\Property\ImageController@restore',
             'as' => 'estate.rental.property.image.restore'
         ]);
 
         //Destroy Property Image Route
         Route::get('property/destroy/{id}', [
-            'uses' => 'Estate\Rental\Property\PropertyController@destroy',
+            'uses' => 'Estate\Rental\Property\ImageController@destroy',
             'as' => 'estate.rental.property.image.destroy'
         ]);
 
