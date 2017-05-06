@@ -34,7 +34,10 @@
 
                         <div class="clearfix">{!! $app->summary !!}</div>
 
-                        <p class="text-muted">
+                        <p>
+                            <a href="{{ route('service', ['id' => $app->id]) }}" class="btn btn-default">
+                                Learn more <i class="fa {{ $app->icon }}"></i>
+                            </a>
                             <a href="{{ route('app.create', ['app' => str_slug($app->title)]) }}"
                                class="btn btn-success btn-sm" data-toggle="tooltip"
                                title="Add {{ $app->title }}">
