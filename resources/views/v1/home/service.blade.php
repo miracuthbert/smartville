@@ -84,7 +84,7 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <a href="{{ route('app.create', ['app' => str_slug($product->title)]) }}"
                            class="btn btn-default btn-lg pull-right" data-toggle="tooltip"
-                           title="Add {{ $product->title }}">
+                           title="Create {{ $product->title }}">
                             Get Started
                             <i class="fa fa-chevron-circle-right"></i>
                         </a>
