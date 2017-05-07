@@ -73,10 +73,10 @@
 
                 @else
                     <li class="{{ ActivePage('register') }}">
-                        <a href="{{ route('register') }}">Sign Up</a>
+                        <a href="{{ route('register') }}">Sign Up <i class="fa fa-user-plus"></i></a>
                     </li>
                     <li class="{{ ActivePage('login') }}">
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login <i class="fa fa-sign-in"></i></a>
                     </li>
                     {{--<li class="{{ ActivePage('password.reset') }}">--}}
                     {{--<a href="{{ route('password.reset') }}">Forgot password?</a>--}}
