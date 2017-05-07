@@ -44,6 +44,11 @@
                                     Property Features
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('estate.rental.property.gallery.index', ['id' => $property->id]) }}">
+                                    Property Galleries
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
