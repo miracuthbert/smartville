@@ -115,7 +115,7 @@
                                         <i class="fa fa-upload"></i> Set as Profile Picture
                                     </a>
                                     <a href="{{ route('user.avatar.delete', ['id' =>$avatar->id]) }}" role="button"
-                                       class="btn btn-danger {{ $avatar->status == 1 ? 'disabled' : '' }}">
+                                       class="btn btn-danger">
                                         <i class="fa fa-trash"></i> Delete
                                     </a>
                                 </div>
