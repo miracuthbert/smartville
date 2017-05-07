@@ -2,6 +2,7 @@
 
 namespace App\ViewComposers;
 
+use App\Models\Post\PostAudience;
 use App\Models\v1\Documentation\Manual;
 use App\Models\v1\Shared\Category;
 use App\Models\v1\Shared\Monetization;
@@ -32,6 +33,7 @@ class MainComposer
         $categories = Category::where('status', 1)->where('categorable_type', 'product_categories')->get();
         $payments = Category::where('status', 1)->where('categorable_type', 'monetizations')->get();
         $property_types = Category::where('status', 1)->where('categorable_type', 'property_types')->get();
+        $post_audiences = Category::where('status', 1)->where('categorable_type', 'post_audiences')->get();
         $apps = Product::where('status', 1)->get();
         $apps_coming = Product::where('coming_soon', 1)->get();
         $manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();
@@ -43,7 +45,8 @@ class MainComposer
             ->with('app_products', $apps)
             ->with('apps_coming', $apps_coming)
             ->with('manuals', $manuals)
-            ->with('property_types', $property_types);
+            ->with('property_types', $property_types)
+            ->with('post_audiences', $post_audiences);
 
         if (Auth::check()) {
             //user
