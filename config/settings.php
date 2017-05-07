@@ -14,6 +14,8 @@ return [
 
     'avatar_storage_company' => 'images/avatars/companies',
 
+    'property_storage_gallery' => 'images/galleries/properties',
+
     /**
      * Rental App
      * Default Settings
