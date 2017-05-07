@@ -26,25 +26,12 @@
                 </div>
                 <div class="panel-body">
 
-                    @if(count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <p><strong>Whoops!</strong> Something went wrong.</p>
-
-                            <ul>
-                                @foreach($errors->all() as $error)
-
-                                    <li>{{ $error }}</li>
-
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     @include('includes.alerts.default')
+                    @include('includes.alerts.validation')
 
-                    <input type="hidden" name="_token" value="{{ Session::token() }}">
+                    {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('email') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                         <label for="email" class="sr-only">Email address</label>
                         <input type="email" name="email" id="email" class="form-control" placeholder="email address"
                                value="{{ Request::old('email') }}" required autofocus>
@@ -56,7 +43,7 @@
                         @endif
                     </div>
 
-                    <div class="form-group{{ $errors->has('password') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" name="password" id="password" class="form-control" placeholder="Password"
                                required>

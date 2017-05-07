@@ -30,7 +30,7 @@
 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                                <div class="form-group{{ $errors->has('first_name') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
                                     <label class="control-label" for="store">First name</label>
                                     <input type="text" name="first_name" class="form-control" id="first_name"
                                            placeholder="first name"
@@ -43,7 +43,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('last_name') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('last_name') ? 'has-error' : '' }}">
                                     <label class="control-label" for="store">Last name</label>
                                     <input type="text" name="last_name" class="form-control" id="last_name"
                                            placeholder="last name"
@@ -56,7 +56,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('email') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                                     <label class="control-label" for="email">Email address</label>
                                     <input type="email" name="email" class="form-control" required id="email"
                                            placeholder="email address"
@@ -69,7 +69,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('password') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
                                     <label class="control-label" for="password">Password</label>
                                     <input type="password" name="password" class="form-control" required id="password"
                                            placeholder="password"/>
@@ -81,7 +81,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                                     <label class="control-label" for="password_confirmation">Confirm Password</label>
                                     <input type="password" name="password_confirmation" class="form-control" required
                                            id="password_confirmation"
