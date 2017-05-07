@@ -42,7 +42,7 @@ class ActivationController extends Controller
 
     public function showKeyResendForm(Request $request)
     {
-        return view('auth.resend_key');
+        return view('v1.auth.resend_key');
     }
 
     public function activateKey($activation_key)
