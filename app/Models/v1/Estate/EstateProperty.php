@@ -2,6 +2,7 @@
 
 namespace App\Models\v1\Estate;
 
+use App\Models\Image\Gallery;
 use App\Models\v1\Company\CompanyApp;
 use App\Models\v1\Property\PropertyAmenity;
 use App\Models\v1\Property\PropertyFeature;
@@ -38,6 +39,14 @@ class EstateProperty extends Model
     public function features()
     {
         return $this->hasMany(PropertyFeature::class, 'property_id', 'id');
+    }
+
+    /**
+     * Get Property Galleries
+     */
+    public function galleries()
+    {
+        return $this->morphMany(Gallery::class, 'galleryable');
     }
 
     /**
