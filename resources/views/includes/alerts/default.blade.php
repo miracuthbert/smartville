@@ -4,6 +4,10 @@
             <span aria-hidden="true">&times;</span>
         </button>
         {{ Session::get('error') }}
+
+        @if(Session::has('error_link'))
+            <a href="{{ Session::get('error_link') }}" class="alert-link">{{ Session::get('link_name') }}</a>
+        @endif
     </div>
 @elseif(Session::has('success'))
     <div class="alert alert-success">
@@ -11,6 +15,10 @@
             <span aria-hidden="true">&times;</span>
         </button>
         {{ Session::get('success') }}
+
+        @if(Session::has('success_link'))
+            <a href="{{ Session::get('success_link') }}" class="alert-link">{{ Session::get('link_name') }}</a>
+        @endif
     </div>
 @endif
 
