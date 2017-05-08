@@ -16,7 +16,9 @@
                 galleries. You can browse them continuously or start from a gallery of your choice.</p>
             <p>
                 <a href="#" class="btn btn-primary">Browse</a>
-                <a href="#" class="btn btn-default">Property Details</a>
+                <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}" class="btn btn-default">
+                    Property Details
+                </a>
                 @can('view', $app)
                 <a href="{{ route('estate.rental.property.gallery.create', ['id' => $property->id]) }}"
                    class="btn btn-success" title="Create a new gallery">
@@ -56,15 +58,23 @@
                                     <h3>{{ $gallery->title }}</h3>
                                     <p>{{ str_limit($gallery->summary) }}</p>
                                     <p>
-                                        <a href="" class="btn btn-default">
-                                            Browse <i class="fa fa-camera-retro"></i>
+                                        <a href="{{ route('estate.rental.property.gallery.show', ['id' => $gallery->id]) }}"
+                                           class="btn btn-primary">Browse Gallery
+                                            <i class="fa fa-camera-retro"></i>
                                         </a>
-                                        @can('view', $app)
-                                        <a href="" class="btn btn-primary">
-                                            Edit <i class="fa fa-camera-edit"></i>
-                                        </a>
-                                        @endcan
                                     </p>
+                                    @can('view', $app)
+                                    <p>
+                                        <a href="{{ route('estate.rental.property.gallery.edit', ['id' => $gallery->id]) }}"
+                                           class="btn btn-primary" title="Edit gallery">
+                                            Edit <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('estate.rental.property.image.create', ['id' => $gallery->id]) }}"
+                                           class="btn btn-success" title="Add photo to gallery">
+                                            Add photo <i class="fa fa-photo fa-fw"></i>
+                                        </a>
+                                    </p>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
