@@ -118,7 +118,7 @@ class GalleryController extends Controller
         $title = $request->input('name');
         $property = $request->input('property');
         $audience = $request->input('audience');
-        $desc = $request->input('desc');
+        $desc = $request->input('description');
         $cover = $request->file('cover');
         $status = $request->input('status');
 
@@ -206,7 +206,46 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
-        //
+        //gallery
+        $gallery = Gallery::find($id);
+
+        //check app
+        if ($gallery == null)
+            abort(404);
+
+        //Property
+        $property = $gallery->galleryable;
+
+        //Property App
+        $app = $property->app;
+
+        //company
+        $company = $app->company;
+
+        //photos
+        $photos = $gallery->photos()->orderBy('created_at', 'DESC')->paginate();
+
+        //country code
+        $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
+
+        //currency sign or iso code
+        $currency = ExtCountries::where('name.common', $company->country)->first()->currency;
+        $currency = $currency[0]['sign'] != null ? $currency[0]['sign'] : $currency[0]['ISO4217Code'];
+
+        //authorize
+//        $this->authorize('view', $app);
+
+        //TODO: use for debug only
+        //dd($property->prices()->where('status',1)->first());
+
+        return view('v1.estates.properties.galleries.show')
+            ->with('app', $app)
+            ->with('code', $code)
+            ->with('currency', $currency)
+            ->with('company', $company)
+            ->with('property', $property)
+            ->with('photos', $photos)
+            ->with('gallery', $gallery);
     }
 
     /**
@@ -217,7 +256,42 @@ class GalleryController extends Controller
      */
     public function edit($id)
     {
-        //
+        //gallery
+        $gallery = Gallery::find($id);
+
+        //check app
+        if ($gallery == null)
+            abort(404);
+
+        //Property
+        $property = $gallery->galleryable;
+
+        //Property App
+        $app = $property->app;
+
+        //company
+        $company = $app->company;
+
+        //country code
+        $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
+
+        //currency sign or iso code
+        $currency = ExtCountries::where('name.common', $company->country)->first()->currency;
+        $currency = $currency[0]['sign'] != null ? $currency[0]['sign'] : $currency[0]['ISO4217Code'];
+
+        //authorize
+//        $this->authorize('view', $app);
+
+        //TODO: use for debug only
+        //dd($property->prices()->where('status',1)->first());
+
+        return view('v1.estates.properties.galleries.edit')
+            ->with('app', $app)
+            ->with('code', $code)
+            ->with('currency', $currency)
+            ->with('company', $company)
+            ->with('property', $property)
+            ->with('gallery', $gallery);
     }
 
     /**
@@ -227,9 +301,95 @@ class GalleryController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreGalleryRequest $request, $id)
     {
-        //
+        //on success-proceed
+
+        //catch input
+        $title = $request->input('name');
+        $property = $request->input('property');
+        $audience = $request->input('audience');
+        $desc = $request->input('description');
+        $cover = $request->file('cover');
+        $status = $request->input('status');
+
+        //get gallery property
+        $property = EstateProperty::find($property);
+
+        //gallery instance
+        $gallery = Gallery::find($id);
+
+        //check if image not null
+        if (!empty($cover)) {
+
+            //ext
+            $fileExt = $cover->getClientOriginalExtension();
+
+            //org name
+            #TODO: Uncomment line below if you need to use original file name
+//            $orgName = $cover->getClientOriginalName();
+
+            //org path
+            $orgPath = $cover->getRealPath();
+
+            //mime
+            #TODO: Uncomment line below if you need to use file mime
+//            $mime = $cover->getMimeType();
+
+            //new name
+            $newName = md5(str_random(16)) . '.' . $fileExt;
+
+            //directory
+            $directory = config('settings.property_storage_gallery') . '/' . $property->id . '/' . 'covers';
+
+            //thumb
+            $thumbDir = $directory . '/thumbs';
+
+            //create directories
+            Storage::disk('common')->makeDirectory($directory);
+            Storage::disk('common')->makeDirectory($thumbDir);
+
+            //storage paths
+            $path = public_path($directory);
+            $thumbPath = public_path($thumbDir . '/' . $newName);
+
+            //url paths
+            $url = ($directory . '/' . $newName);
+            $thumbUrl = ($thumbDir . '/' . $newName);
+
+//            dd(array($cover->path(), $cover->getRealPath(), $orgPath));
+
+            //resize and save thumbnail
+            Image::make($orgPath)->resize(96, 96)->save($thumbPath);
+
+            //save cover
+            $cover->move($path, $newName);
+
+            //pass cover url only if cover present
+            $gallery->cover = $url;
+            $gallery->thumbnail = $thumbUrl;
+
+        }
+
+        $gallery->audience_id = $audience;
+        $gallery->title = $title;
+        $gallery->summary = $desc;
+        $gallery->status = $status;
+
+        //check if saved
+        if ($property->galleries()->save($gallery)) {
+            //redirect with success message
+            //pass link name
+            //pass success link route
+            return redirect()->route('estate.rental.property.gallery.show', ['id' => $gallery->id])
+                ->with('success', $title . ' gallery updated.')
+                ->with('link_name', 'Add photos to gallery')
+                ->with('success_link', route('estate.rental.property.image.create', ['id' => $gallery->id]));
+        }
+
+        //error
+        return redirect()->back()
+            ->with('error', 'Failed updating gallery. Please try again!')->withInput();
     }
 
     /**
