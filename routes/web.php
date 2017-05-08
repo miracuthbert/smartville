@@ -1040,6 +1040,12 @@ Route::group(['prefix' => 'estate/rental'], function () {
             'as' => 'estate.rental.property.gallery.edit'
         ]);
 
+        //Show Property Gallery Route
+        Route::get('show/{id}', [
+            'uses' => 'Estate\Rental\Property\GalleryController@show',
+            'as' => 'estate.rental.property.gallery.show'
+        ]);
+
         //Store Property Gallery Route
         Route::post('store', [
             'uses' => 'Estate\Rental\Property\GalleryController@store',
