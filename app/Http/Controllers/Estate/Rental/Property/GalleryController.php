@@ -204,7 +204,7 @@ class GalleryController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //gallery
         $gallery = Gallery::find($id);
@@ -222,9 +222,15 @@ class GalleryController extends Controller
         //company
         $company = $app->company;
 
-        //photos
-        $photos = $gallery->photos()->orderBy('created_at', 'DESC')->paginate();
-
+        if (auth()->check() && $this->authorize('view', $app)) {
+            //photos
+            $photos = $gallery->photos()->orderBy('created_at', 'DESC')->paginate();
+        } else {
+            //photos
+            $photos = $gallery->photos()->where('status', '1')->where('audience_id', '17')
+                ->orderBy('created_at', 'DESC')->paginate();
+        }
+        
         //country code
         $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
 
