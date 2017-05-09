@@ -21,7 +21,7 @@ class CreatePhotosTable extends Migration
             $table->string('caption');
             $table->string('description')->nullable();
             $table->string('location')->nullable();
-            $table->text('image');
+            $table->text('photo');
             $table->text('thumbnail');
             $table->text('data')->nullable();
             $table->boolean('status')->default(0);
