@@ -1,7 +1,7 @@
 @extends('layouts.gallery')
 
 @section('title')
-    {{ $property->title }} {{ $gallery->title }}
+    {{ $property->title }} - {{ $gallery->title }} Gallery
 @endsection
 
 @section('content')
@@ -59,25 +59,36 @@
                     @foreach($_photos as $photo)
                         <div class="col-lg-4 col-sm-6">
                             <div class="thumbnail">
-                                @if($photo->image != null)
-                                    <img src="{{ url($photo->image) }}"
+                                @if($photo->photo != null)
+                                    <img src="{{ url($photo->data['shelfUrl']) }}"
                                          style="height: 280px; width: 100%; display: block;"
                                          alt="{{ $photo->title }}">
                                 @else
-                                    <img data-src="holder.js/100px280/thumb" alt="No cover found"
-                                         title="No cover found">
+                                    <img data-src="holder.js/100px280/thumb" alt="No image found"
+                                         title="No image found">
                                 @endif
                                 <div class="caption">
                                     <h3>{{ $photo->caption }}</h3>
-                                    <p>{{ str_limit($photo->description) }}</p>
-                                    <p><i class="fa fa-map-o"></i> {{ $photo->location }}</p>
                                     <p>
-                                        <a href="" class="btn btn-default">
-                                            Browse <i class="fa fa-camera-retro"></i>
+                                        <i class="fa fa-map-marker"></i>
+                                        <span class="text-muted">
+                                            {{ $photo->location != null ? $photo->location : 'None' }}
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-{{ $photo->audience_id == 17 ? 'globe' : '' }}"></i>
+                                        {{ $photo->audience->title }}
+                                    </p>
+                                    <p>{{ str_limit($photo->description) }}</p>
+                                    <p>
+                                        <a href="{{ url($photo->photo) }}" class="btn btn-default btn-sm"
+                                           data-toggle="modal" data-target="#">
+                                            View large <i class="fa fa-expand"></i>
                                         </a>
                                         @can('view', $app)
-                                        <a href="" class="btn btn-primary">
-                                            Edit <i class="fa fa-camera-edit"></i>
+                                        <a href="{{ route('estate.rental.property.image.edit', ['id' => $photo->id]) }}"
+                                           class="btn btn-primary btn-sm" title="edit">
+                                            Edit <i class="fa fa-edit"></i>
                                         </a>
                                         @endcan
                                     </p>
