@@ -206,19 +206,93 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
-        //
+        //photo
+        $photo = Photo::find($id);
+
+        //check app
+        if ($photo == null)
+            abort(404);
+
+        //gallery
+        $gallery = $photo->photoable;
+
+        //Property
+        $property = $gallery->galleryable;
+
+        //Property App
+        $app = $property->app;
+
+        //company
+        $company = $app->company;
+
+        //country code
+        $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
+
+        //currency sign or iso code
+        $currency = ExtCountries::where('name.common', $company->country)->first()->currency;
+        $currency = $currency[0]['sign'] != null ? $currency[0]['sign'] : $currency[0]['ISO4217Code'];
+
+        //authorize
+        $this->authorize('view', $app);
+
+        return view('v1.estates.properties.photos.edit')
+            ->with('app', $app)
+            ->with('code', $code)
+            ->with('currency', $currency)
+            ->with('company', $company)
+            ->with('property', $property)
+            ->with('gallery', $gallery)
+            ->with('photo', $photo);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StorePhotoRequest|Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePhotoRequest $request, $id)
     {
-        //
+        //on validation success
+
+        //catch input
+        $caption = $request->input('caption');
+        $property = $request->input('property');
+        $gallery = $request->input('gallery');
+        $audience = $request->input('audience');
+        $desc = $request->input('description');
+        $location = $request->input('location');
+        $status = $request->input('status');
+
+        //property
+        $property = EstateProperty::find($property);
+
+        //gallery
+        $gallery = Gallery::find($gallery);
+
+        //new photo init
+        $photo = Photo::find($id);
+        $photo->audience_id = $audience;
+        $photo->description = $desc;
+        $photo->location = $location;
+        $photo->caption = $caption;
+        $photo->status = $status;
+
+        //check if saved
+        if ($gallery->photos()->save($photo)) {
+            //redirect with success message
+            //pass link name
+            //pass success link route
+            return redirect()->route('estate.rental.property.gallery.show', ['id' => $gallery->id])
+                ->with('success', $caption . ' photo details updated successfully.')
+                ->with('link_name', 'Add more photos to gallery')
+                ->with('success_link', route('estate.rental.property.image.create', ['id' => $gallery->id]));
+        }
+
+        //on error
+        return redirect()->back()
+            ->with('error', 'Failed updating photo details. Please try again!')->withInput();
     }
 
     /**
