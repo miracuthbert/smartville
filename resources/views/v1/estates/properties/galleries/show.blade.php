@@ -60,10 +60,12 @@
                 <div class="row">
                     @foreach($_photos as $photo)
                         <div class="col-lg-4 col-sm-6 col-xs-6">
-                            <div class="thumbnail">
+                            <div class="thumbnail" id="{{ $photo->id }}">
                                 @if($photo->photo != null)
-                                    <img src="{{ url($photo->data['shelfUrl']) }}" class="img-responsive"
-                                         alt="{{ $photo->caption }}">
+                                    <img src="{{ url($photo->data['shelfUrl']) }}"
+                                         class="img-responsive btn-gallery-show"
+                                         alt="{{ $photo->caption }}" data-link="{{ url($photo->photo) }}"
+                                         data-id="{{ $photo->id }}" id="{{ $photo->id }}">
                                 @else
                                     <img data-src="holder.js/100px280/thumb" alt="No image found"
                                          title="No image found">
@@ -80,12 +82,16 @@
                                         <i class="fa fa-{{ $photo->audience_id == 17 ? 'globe' : '' }}"></i>
                                         {{ $photo->audience->title }}
                                     </p>
-                                    <p>{{ str_limit($photo->description) }}</p>
+                                    <p class="details" data-desc="{{ $photo->description }}">
+                                        {{ str_limit($photo->description) }}
+                                    </p>
                                     <p>
-                                        <a href="{{ url($photo->photo) }}" class="btn btn-default btn-xs"
-                                           data-toggle="modal" data-target="#">
+                                        <button type="button" data-link="{{ url($photo->photo) }}"
+                                                data-id="{{ $photo->id }}"
+                                                class="btn btn-default btn-xs btn-gallery-show"
+                                                data-toggle="modal" data-target=".gallery-modal-carousel">
                                             View large <i class="fa fa-expand"></i>
-                                        </a>
+                                        </button>
                                         @can('view', $app)
                                         <a href="{{ route('estate.rental.property.image.edit', ['id' => $photo->id]) }}"
                                            class="btn btn-primary btn-xs" title="edit">
@@ -108,4 +114,5 @@
     </div>
     <!-- /.album -->
 
+    @include('includes.modals.gallery.carousel')
 @endsection
