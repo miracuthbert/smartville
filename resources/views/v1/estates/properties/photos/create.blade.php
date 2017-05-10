@@ -33,28 +33,34 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Property <span class="text-danger">*</span></label>
-                            <p class="form-control-static">{{ $property->title }}
-                                <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}"
-                                   class="btn btn-primary btn-xs pull-right">
-                                    Edit Property <i class="fa fa-edit"></i>
-                                </a>
-                            </p>
+                            <span class="form-control-static">{{ $property->title }}</span>
+                            <div class="pull-right">
+                                <div class="btn-group btn-group-xs">
+                                    <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}"
+                                       class="btn btn-primary btn-xs pull-right">
+                                        Edit Property <i class="fa fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
                             <input type="hidden" name="property" id="property" value="{{ $property->id }}">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Gallery <span class="text-danger">*</span></label>
-                            <p class="form-control-static">{{ $gallery->title }}
-                                <a href="{{ route('estate.rental.property.gallery.show', ['id' => $gallery->id]) }}"
-                                   class="btn btn-default btn-xs pull-right">
-                                    View Gallery <i class="fa fa-camera-retro"></i>
-                                </a>
-                                <a href="{{ route('estate.rental.property.gallery.edit', ['id' => $gallery->id]) }}"
-                                   class="btn btn-primary btn-xs pull-right">
-                                    Edit Gallery <i class="fa fa-edit"></i>
-                                </a>
-                            </p>
+                            <span class="form-control-static">{{ $gallery->title }}</span>
+                            <div class="pull-right">
+                                <div class="btn-group btn-group-xs">
+                                    <a href="{{ route('estate.rental.property.gallery.show', ['id' => $gallery->id]) }}"
+                                       class="btn btn-default">
+                                        View Gallery <i class="fa fa-camera-retro"></i>
+                                    </a>
+                                    <a href="{{ route('estate.rental.property.gallery.edit', ['id' => $gallery->id]) }}"
+                                       class="btn btn-primary">
+                                        Edit Gallery <i class="fa fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
                             <input type="hidden" name="gallery" id="gallery" value="{{ $gallery->id }}">
                         </div>
                     </div>
@@ -134,7 +140,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Upload <i class="fa fa-upload"></i></button>
-                <button type="reset" class="btn btn-default">Reset Button
+                <button type="reset" class="btn btn-default">Reset
                     <i class="fa fa-times-circle-o"></i>
                 </button>
             </form>
