@@ -230,7 +230,11 @@ class GalleryController extends Controller
             $photos = $gallery->photos()->where('status', '1')->where('audience_id', '17')
                 ->orderBy('created_at', 'DESC')->paginate();
         }
-        
+
+        $_photos = $gallery->photos()->where('status', '1')->where('audience_id', '17')
+            ->orderBy('created_at', 'DESC')->get();
+
+
         //country code
         $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
 
@@ -251,6 +255,7 @@ class GalleryController extends Controller
             ->with('company', $company)
             ->with('property', $property)
             ->with('photos', $photos)
+            ->with('_photos', $_photos)
             ->with('gallery', $gallery);
     }
 
