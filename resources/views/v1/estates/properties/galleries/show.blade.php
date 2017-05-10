@@ -33,6 +33,8 @@
                        class="btn btn-primary" title="Edit gallery">
                         Edit Gallery <i class="fa fa-camera fa-fw"></i>
                     </a>
+                </div>
+                <div class="btn-group btn-group-xs">
                     <a href="{{ route('estate.rental.property.image.create', ['id' => $gallery->id]) }}"
                        class="btn btn-success" title="Add photo to gallery">
                         Add photo <i class="fa fa-photo fa-fw"></i>
@@ -57,12 +59,11 @@
             @forelse($photos->chunk(3) as $_photos)
                 <div class="row">
                     @foreach($_photos as $photo)
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-4 col-sm-6 col-xs-6">
                             <div class="thumbnail">
                                 @if($photo->photo != null)
-                                    <img src="{{ url($photo->data['shelfUrl']) }}"
-                                         style="height: 280px; width: 100%; display: block;"
-                                         alt="{{ $photo->title }}">
+                                    <img src="{{ url($photo->data['shelfUrl']) }}" class="img-responsive"
+                                         alt="{{ $photo->caption }}">
                                 @else
                                     <img data-src="holder.js/100px280/thumb" alt="No image found"
                                          title="No image found">
@@ -81,13 +82,13 @@
                                     </p>
                                     <p>{{ str_limit($photo->description) }}</p>
                                     <p>
-                                        <a href="{{ url($photo->photo) }}" class="btn btn-default btn-sm"
+                                        <a href="{{ url($photo->photo) }}" class="btn btn-default btn-xs"
                                            data-toggle="modal" data-target="#">
                                             View large <i class="fa fa-expand"></i>
                                         </a>
                                         @can('view', $app)
                                         <a href="{{ route('estate.rental.property.image.edit', ['id' => $photo->id]) }}"
-                                           class="btn btn-primary btn-sm" title="edit">
+                                           class="btn btn-primary btn-xs" title="edit">
                                             Edit <i class="fa fa-edit"></i>
                                         </a>
                                         @endcan
