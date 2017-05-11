@@ -224,11 +224,11 @@ class GalleryController extends Controller
 
         if (auth()->check() && $this->authorize('view', $app)) {
             //photos
-            $photos = $gallery->photos()->orderBy('created_at', 'DESC')->paginate();
+            $photos = $gallery->photos()->orderBy('created_at', 'DESC')->simplePaginate();
         } else {
             //photos
             $photos = $gallery->photos()->where('status', '1')->where('audience_id', '17')
-                ->orderBy('created_at', 'DESC')->paginate();
+                ->orderBy('created_at', 'DESC')->simplePaginate();
         }
 
         $_photos = $gallery->photos()->where('status', '1')->where('audience_id', '17')
@@ -255,7 +255,7 @@ class GalleryController extends Controller
             ->with('company', $company)
             ->with('property', $property)
             ->with('photos', $photos)
-            ->with('_photos', $_photos)
+            ->with('gallery_photos', $_photos)
             ->with('gallery', $gallery);
     }
 
