@@ -34,6 +34,7 @@
                         Edit Gallery <i class="fa fa-camera fa-fw"></i>
                     </a>
                 </div>
+                <p></p>
                 <div class="btn-group btn-group-xs">
                     <a href="{{ route('estate.rental.property.image.create', ['id' => $gallery->id]) }}"
                        class="btn btn-success" title="Add photo to gallery">
@@ -65,7 +66,13 @@
                                     <img src="{{ url($photo->data['shelfUrl']) }}"
                                          class="img-responsive btn-gallery-show"
                                          alt="{{ $photo->caption }}" data-link="{{ url($photo->photo) }}"
-                                         data-id="{{ $photo->id }}" id="{{ $photo->id }}">
+                                         data-id="{{ $photo->id }}" id="{{ $photo->id }}" data-toggle="modal"
+                                         data-target=".gallery-modal-carousel" role="button">
+                                <span class="expand" role="button" data-link="{{ url($photo->photo) }}"
+                                      data-id="{{ $photo->id }}" id="{{ $photo->id }}" data-toggle="modal"
+                                      data-target=".gallery-modal-carousel" role="button">
+                                    <i class="fa fa-expand"></i>
+                                </span>
                                 @else
                                     <img data-src="holder.js/100px280/thumb" alt="No image found"
                                          title="No image found">
@@ -82,23 +89,17 @@
                                         <i class="fa fa-{{ $photo->audience_id == 17 ? 'globe' : '' }}"></i>
                                         {{ $photo->audience->title }}
                                     </p>
-                                    <p class="details" data-desc="{{ $photo->description }}">
+                                    <p class="details hidden-xs" data-desc="{{ $photo->description }}">
                                         {{ str_limit($photo->description) }}
                                     </p>
+                                    @can('view', $app)
                                     <p>
-                                        <button type="button" data-link="{{ url($photo->photo) }}"
-                                                data-id="{{ $photo->id }}"
-                                                class="btn btn-default btn-xs btn-gallery-show"
-                                                data-toggle="modal" data-target=".gallery-modal-carousel">
-                                            View large <i class="fa fa-expand"></i>
-                                        </button>
-                                        @can('view', $app)
                                         <a href="{{ route('estate.rental.property.image.edit', ['id' => $photo->id]) }}"
                                            class="btn btn-primary btn-xs" title="edit">
                                             Edit <i class="fa fa-edit"></i>
                                         </a>
-                                        @endcan
                                     </p>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
@@ -109,6 +110,13 @@
             @empty
                 <p class="lead text-center">Seems like this gallery has no images</p>
             @endforelse
+            <div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{ $photos->links() }}
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.container -->
     </div>
