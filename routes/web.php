@@ -607,7 +607,7 @@ Route::group(['prefix' => 'estate/rental'], function () {
 
     //dashboard
     Route::get('dashboard/{id}', [
-        'uses' => 'Estate\Company\CompanyAppController@index',
+        'uses' => 'Estate\Rental\App\DashboardController',
         'as' => 'estate.rental.dashboard'
     ]);
 
