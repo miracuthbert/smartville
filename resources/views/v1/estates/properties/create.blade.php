@@ -164,8 +164,8 @@
                         <div class="col-lg-12">
                             <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
                                 <label for="summary">Property summary*</label>
-                            <textarea name="summary" class="form-control ckeditor" cols="30" rows="3" id="summary"
-                                      placeholder="summary details">{{ Request::old('summary') }}</textarea>
+                            <textarea name="summary" class="form-control" cols="30" rows="3" id="summary"
+                                      placeholder="summary details" maxlength="255">{{ Request::old('summary') }}</textarea>
                             </div>
 
                             <p class="help-block">

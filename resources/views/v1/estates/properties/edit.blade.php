@@ -27,6 +27,10 @@
                     </p>
                 </div>
                 <div class="pull-right">
+                    <a href="{{ route('estate.rental.property.show', ['id' => $property->id]) }}"
+                       class="btn btn-default btn-sm" title="Preview">
+                        Preview <i class="fa fa-eye"></i>
+                    </a>
                     <div class="btn-group btn-group-sm">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false">
@@ -58,7 +62,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-property-form" method="post" action="{{ route('estate.rental.property.update', ['id' => $property->id]) }}"
+            <form name="add-property-form" method="post"
+                  action="{{ route('estate.rental.property.update', ['id' => $property->id]) }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
 
@@ -228,8 +233,9 @@
                         <div class="col-lg-12">
                             <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
                                 <label for="summary">Property summary info</label>
-                            <textarea name="summary" class="form-control ckeditor" cols="30" rows="3" id="summary"
-                                      placeholder="summary details">{{ Request::old('summary') != null ? Request::old('summary') : $property->summary }}</textarea>
+                            <textarea name="summary" class="form-control" cols="30" rows="3" id="summary"
+                                      placeholder="summary details"
+                                      maxlength="255">{{ Request::old('summary') != null ? Request::old('summary') : $property->summary }}</textarea>
                             </div>
                             @if($errors->has('summary'))
                                 <p class="text-danger">
@@ -242,7 +248,8 @@
                         <div class="col-lg-12">
                             <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                                 <label for="description">Property description</label>
-                            <textarea name="description" class="form-control ckeditor" cols="30" rows="3" id="description"
+                            <textarea name="description" class="form-control ckeditor" cols="30" rows="3"
+                                      id="description"
                                       placeholder="detailed description">{{ Request::old('description') != null ? Request::old('description') : $property->description }}</textarea>
                             </div>
                             @if($errors->has('description'))
@@ -331,12 +338,8 @@
                 </div>
 
             </form>
-
         </div>
-
     </div>
-
-    <p></p>
 
     <script>
         CKEDITOR.replace('ckeditor');
