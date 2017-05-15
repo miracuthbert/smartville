@@ -19,6 +19,8 @@
                 <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}" class="btn btn-default">
                     Property Details
                 </a>
+            </p>
+            <p>
                 @can('view', $app)
                 <a href="{{ route('estate.rental.property.gallery.create', ['id' => $property->id]) }}"
                    class="btn btn-success" title="Create a new gallery">
@@ -85,46 +87,6 @@
             @empty
                 <p class="lead text-center">Seems like this property has no images or galleries.</p>
             @endforelse
-
-            <div class="row">
-                <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                        <img src="{{ url('images/site/v1/landing/6.jpg') }}" height="280px" alt="Card image cap">
-                        <div class="caption">
-                            <h3>Gallery 1</h3>
-                            <p>This is a wider thumbnail with supporting text below as a natural
-                                lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.thumbnail -->
-                <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                        <img src="{{ url('images/site/v1/landing/7.jpg') }}" height="280px" alt="Card image cap">
-                        <div class="caption">
-                            <h3>Gallery 2</h3>
-                            <p>This is a wider thumbnail with supporting text below as a natural
-                                lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.thumbnail -->
-                <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                        <img src="{{ url('images/site/v1/landing/77.jpg') }}" height="280px" alt="Card image cap">
-                        <div class="caption">
-                            <h3>Gallery 3</h3>
-                            <p>This is a wider thumbnail with supporting text below as a natural
-                                lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.thumbnail -->
-            </div>
-            <!-- /.row -->
         </div>
         <!-- /.container -->
     </div>

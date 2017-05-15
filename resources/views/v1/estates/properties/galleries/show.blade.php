@@ -45,7 +45,10 @@
             </div>
 
             <p class="text-center">
-                <a href="#" class="btn btn-default">Property Details <i class="fa fa-home fa-fw"></i></a>
+                <a href="{{ route('estate.rental.property.show', ['id' => $property->id]) }}" class="btn btn-default"
+                   title="View property details">
+                    Property Details <i class="fa fa-home fa-fw"></i>
+                </a>
             </p>
         </div>
     </section>
@@ -68,9 +71,9 @@
                                          alt="{{ $photo->caption }}" data-link="{{ url($photo->photo) }}"
                                          data-id="{{ $photo->id }}" id="{{ $photo->id }}" data-toggle="modal"
                                          data-target=".gallery-modal-carousel" role="button">
-                                <span class="expand" role="button" data-link="{{ url($photo->photo) }}"
-                                      data-id="{{ $photo->id }}" id="{{ $photo->id }}" data-toggle="modal"
-                                      data-target=".gallery-modal-carousel" role="button">
+                                    <span class="expand" role="button" data-link="{{ url($photo->photo) }}"
+                                          data-id="{{ $photo->id }}" id="{{ $photo->id }}" data-toggle="modal"
+                                          data-target=".gallery-modal-carousel" role="button">
                                     <i class="fa fa-expand"></i>
                                 </span>
                                 @else
