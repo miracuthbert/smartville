@@ -912,43 +912,49 @@ Route::group(['prefix' => 'estate/rental'], function () {
             'as' => 'estate.rental.properties'
         ]);
 
-        //Get Property Route
+        //Display Property Route
+        Route::get('property/{id}', [
+            'uses' => 'Estate\Rental\Property\PropertyController@show',
+            'as' => 'estate.rental.property.show'
+        ]);
+
+        //Show Property Form  Route
         Route::get('property/{id}/edit', [
             'uses' => 'Estate\Rental\Property\PropertyController@edit',
             'as' => 'estate.rental.property.edit'
         ]);
 
-        //Post Add Property Route
+        //Store Property Route
         Route::post('property/store', [
             'uses' => 'Estate\Rental\Property\PropertyController@store',
             'as' => 'estate.rental.property.store'
         ]);
 
-        //Post Update Property Route
+        //Update Property Route
         Route::put('property/update/{id}', [
             'uses' => 'Estate\Rental\Property\PropertyController@update',
             'as' => 'estate.rental.property.update'
         ]);
 
-        //Get Update Property Status Route
+        //Update Property Status Route
         Route::get('property/status/{id}', [
             'uses' => 'Estate\PropertyController@toggleStatus',
             'as' => 'estate.rental.property.status'
         ]);
 
-        //Get Delete Property Route
+        //Delete Property Route
         Route::get('property/delete/{id}', [
             'uses' => 'Estate\Rental\Property\PropertyController@delete',
             'as' => 'estate.rental.property.delete'
         ]);
 
-        //Get Restore Property Route
+        //Restore Property Route
         Route::get('property/restore/{id}', [
             'uses' => 'Estate\Rental\Property\PropertyController@restore',
             'as' => 'estate.rental.property.restore'
         ]);
 
-        //Get Destroy Property Route
+        //Destroy Property Route
         Route::get('property/destroy/{id}', [
             'uses' => 'Estate\Rental\Property\PropertyController@destroy',
             'as' => 'estate.rental.property.destroy'
@@ -1004,13 +1010,13 @@ Route::group(['prefix' => 'estate/rental'], function () {
 
         //Get Property Amenities Route
         Route::get('index/{id}', [
-            'uses' => 'Estate\PropertyController@amenities',
+            'uses' => 'Estate\Rental\Property\PropertyAmenityController@index',
             'as' => 'estate.rental.property.amenities'
         ]);
 
-        //Post Update Property Amenities Route
+        //Update Property Amenities Route
         Route::post('/update', [
-            'uses' => 'Estate\PropertyController@updateAmenities',
+            'uses' => 'Estate\Rental\Property\PropertyAmenityController@update',
             'as' => 'estate.rental.property.amenities.update'
         ]);
     });
