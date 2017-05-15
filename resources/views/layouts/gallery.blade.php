@@ -29,6 +29,8 @@
 
     <link href="{{ url('css/colors.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="{{ url('css/jquery.fancybox.min.css') }}">
+
     @yield('styles')
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -59,6 +61,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
+<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
 
 <script src="{{ url('js/holder.min.js') }}"></script>
@@ -69,6 +72,8 @@
 </script>
 <script src="{{ url('js/bootstrap.min.js') }}"></script>
 <script src="{{ url('js/app.js') }}"></script>
+
+<script src="{{ url('js/jquery.fancybox.min.js') }}"></script>
 
 <!-- Custom Text Editor -->
 <script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
