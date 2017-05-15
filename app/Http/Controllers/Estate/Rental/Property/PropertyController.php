@@ -16,6 +16,14 @@ use ExtCountries;
 class PropertyController extends Controller
 {
     /**
+     * PropertyController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('company.app.admin')->except(['show']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -262,7 +270,85 @@ class PropertyController extends Controller
      */
     public function show($id)
     {
-        //
+        //Property
+        $property = EstateProperty::withCount([
+            'galleries' => function ($query) {
+                $query->where('status', 1)
+                    ->where('audience_id', 17);
+            },
+            'features' => function ($query) {
+                $query->where('status', 1);
+            },
+            'amenities' => function ($query) {
+                $query->where('status', 1);
+            },
+        ])->with([
+            'galleries' => function ($query) {
+                $query->where('status', 1)
+                    ->where('audience_id', 17);
+            },
+            'features' => function ($query) {
+                $query->where('status', 1);
+            },
+            'amenities' => function ($query) {
+                $query->where('status', 1);
+            },
+            'prices' => function ($query) {
+                $query->where('status', 1);
+            },
+        ])->find($id);
+
+        //check app
+        if ($property == null)
+            abort(404);
+
+//        dd($property->galleries()->whereNotNull('cover')->get()->random()->cover);
+
+        //cover
+        $cover = $property->galleries()->whereNotNull('cover')->get();
+        $cover = count($cover) > 0 ? $cover->random()->cover : null;
+
+        //amenities
+        $amenities = $property->amenities;
+
+        //features
+        $features = $property->features;
+
+        //Property App
+        $app = $property->app;
+
+        //company
+        $company = $app->company;
+
+        //price
+        $price = $property->prices()->first();
+
+        //country code
+        $code = ExtCountries::where('name.common', $company->country)->first()->callingCode[0];
+
+        //currency sign or iso code
+        $currency = ExtCountries::where('name.common', $company->country)->first()->currency;
+        $currency = $currency[0]['sign'] != null ? $currency[0]['sign'] : $currency[0]['ISO4217Code'];
+
+        // authorize
+        //TODO: to show only to company admins' uncomment
+//        $this->authorize('view', $app);
+
+        //TODO: use for debug only
+        //dd($property->prices()->where('status',1)->first());
+
+        return view('v1.estates.properties.show')
+            ->with('app', $app)
+            ->with('code', $code)
+            ->with('currency', $currency)
+            ->with('company', $company)
+            ->with('old_prices', $property->prices()->where('status', 0)->get())
+            ->with('price', $price)
+            ->with('amenities', $amenities)
+            ->with('features', $features)
+            ->with('groups', $app->groups()->where('status', 1)->get())
+            ->with('cover', $cover)
+            ->with('property', $property);
     }
 
     /**
