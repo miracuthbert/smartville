@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Storage;
 class GalleryController extends Controller
 {
     /**
+     * GalleryController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('company.app.admin')->except('show');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
