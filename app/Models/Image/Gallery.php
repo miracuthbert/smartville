@@ -29,4 +29,14 @@ class Gallery extends Model
     {
         return $this->morphMany(Photo::class, 'photoable');
     }
+
+    /**
+     * Get all public photos of gallery
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function public_photos()
+    {
+        return $this->morphMany(Photo::class, 'photoable')->where('status', 1)->where('audience_id', 17);
+    }
 }

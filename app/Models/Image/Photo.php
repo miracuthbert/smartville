@@ -34,4 +34,26 @@ class Photo extends Model
     {
         return $this->belongsTo(Category::class, 'audience_id', 'id');
     }
+
+    /**
+     * Check if photo can be shared to the public
+     *
+     * @param $query
+     * @return bool
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('audience_id', 17);
+    }
+
+    /**
+     * Check if photo is final
+     *
+     * @param $query
+     * @return bool
+     */
+    public function scopeFinal($query)
+    {
+        return $query->where('status', 1);
+    }
 }
