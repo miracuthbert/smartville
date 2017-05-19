@@ -32,9 +32,9 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="pull-right">
-                                <a href="" class="btn btn-primary btn-sm">
-                                    Mark as solved
-                                    <i class="fa fa-check-square"></i>
+                                <a href="{{ route('bugs.status', ['bug' => $bug->id]) }}"
+                                   class="btn {{ bug_button_state($bug->solved_at) }}">
+                                    {{ bug_button_text($bug->solved_at) }} <i class="fa fa-check-square-o"></i>
                                 </a>
                             </div>
                         </div>
