@@ -14,11 +14,20 @@ class BugController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(BugReport $bugReport)
+    public function index(Request $request, BugReport $bugReport)
     {
-        $bugReport = $bugReport->orderBy('created_at', 'DESC')->paginate();
+        $sort = $request->sort;
 
-        return $bugReport;
+        if ($sort == "new")
+            $bugReport = $bugReport->whereDate('created_at', Carbon::today())->orderBy('created_at', 'DESC')->paginate();
+        elseif ($sort == "pending")
+            $bugReport = $bugReport->whereNull('solved_at')->orderBy('created_at', 'ASC')->paginate();
+        elseif ($sort == "solved")
+            $bugReport = $bugReport->whereNotNull('solved_at')->orderBy('created_at', 'DESC')->paginate();
+        else
+            $bugReport = $bugReport->orderBy('created_at', 'DESC')->paginate();
+
+        return view('v1.admin.bugs.index')->with('rep_bugs', $bugReport);
     }
 
     /**
@@ -79,6 +88,31 @@ class BugController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    /**
+     * Update bug status
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status($id)
+    {
+        $route = route('bugs.status', ['bug' => $id]);
+
+        $bug = BugReport::findOrFail($id);
+        $bug->solved_at = empty($bug->solved_at) ? Carbon::now() : null;
+
+        if ($bug->update())
+            return redirect()->back()
+                ->with('success', "'" . $bug->title . "'" . " status updated successfully.")
+                ->with('link_name', empty($bug->solved_at) ? 'Mark as Solved' : 'Mark as Pending')
+                ->with('success_link', $route);
+        else
+            return redirect()->back()
+                ->with('error', "'" . $bug->title . "'" . " status update failed.")
+                ->with('link_name', 'Try again!')
+                ->with('error_link', $route);
     }
 
     /**
