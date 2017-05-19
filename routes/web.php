@@ -466,9 +466,17 @@ Route::group(['prefix' => 'admin'], function () {
 
     /**
      * -----------------------------------------------------------------
-     * Support Bug Routes
+     * Admin Support Bugs Routes
      * -----------------------------------------------------------------
      */
+    Route::group(['prefix' => 'bugs'], function () {
+        //update bug status route
+        Route::get('{bug}/status', [
+            'uses' => 'Admin\Support\BugController@status',
+            'as' => 'bugs.status'
+        ]);
+    });
+    //Bugs Resource routes
     Route::resource('bugs', 'Admin\Support\BugController');
 
     /**
