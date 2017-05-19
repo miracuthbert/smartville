@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class BugReport extends Model
 {
+
+    protected $guarded = [];
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'solved_at'];
+
     protected $casts = [
         'data' => 'array',
     ];
