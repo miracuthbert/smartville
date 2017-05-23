@@ -31,3 +31,18 @@ footer {
 .resize {
     resize: none;
 }
+
+/* scaffolding*/
+/* buttons  */
+.btn, .btn-group-lg > .btn, .btn-group-sm > .btn, .btn-group-xs > .btn, .btn-lg, .btn-sm, .btn-xs {
+    border-radius: 0;
+}
+
+/* forms */
+.form-control, .input-group-addon {
+    border-radius: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}

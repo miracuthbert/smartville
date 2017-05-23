@@ -143,26 +143,26 @@ $(document).ready(function () {
         $output = '<div class="row">';
         $output += '<div class="col-md-3">';
         $output += '<div class="form-group">';
-        $output += '<label>Feature:</label>';
-        $output += '<input type="text" name="feature[]" class="form-control _add_feature">';
+        $output += '<label class="sr-only">Feature</label>';
+        $output += '<input type="text" name="feature[]" class="form-control _add_feature" placeholder="Feature">';
         $output += '</div>';
         $output += '</div>';
         $output += '<div class="col-md-6">';
         $output += '<div class="form-group">';
-        $output += '<label>Details:</label>';
-        $output += '<input type="text" name="details[]" class="form-control _add_details">';
+        $output += '<label class="sr-only">Feature Details</label>';
+        $output += '<input type="text" name="details[]" class="form-control _add_details" placeholder="Feature Details" maxlength="255">';
         $output += '</div>';
         $output += '</div>';
         $output += '<div class="col-md-2">';
         $output += '<div class="form-group">';
-        $output += '<label>No.:</label>';
-        $output += '<input type="text" name="value[]" class="form-control _add_value">';
+        $output += '<label class="sr-only">#</label>';
+        $output += '<input type="text" name="value[]" class="form-control _add_value" placeholder="# of feature">';
         $output += '</div>';
         $output += '</div>';
         $output += '<div class="col-md-1">';
-        $output += '<label class="hidden-xs"><span class="text-warning">Remove</span></label>';
-        $output += '<button type="button" name="btnFeatureGen" class="btn btn-warning btnRemoveFeature" ';
-        $output += 'data-toggle="tooltip" title="Remove feature">';
+        $output += '<button type="button" name="btnFeatureGen" class="btn btn-warning btn-sm btnRemoveFeature pull-right"';
+        $output += ' data-toggle="tooltip" title="Remove feature">';
+        $output += '<span class="text-warning visible-xs-inline">Remove</span>';
         $output += '<span class="fa fa-remove"></span>';
         $output += '</button>';
         $output += '</div>';
@@ -185,7 +185,7 @@ $(document).ready(function () {
         $this = $(this);
 
         //transverse to top parent
-        $this.parent().parent().empty().slideUp();
+        $this.parent().parent().remove();
     });
 
     /**
@@ -197,17 +197,14 @@ $(document).ready(function () {
         //hide alert
         $('form#feature-edit div#feature-alert').alert('close')
 
-        //remove 'active' class from all blockquotes
-        $('#features-body blockquote').removeClass('active');
-
-        //assign 'active' class to current blockquote
-        $this.parent().parent().parent().addClass('active');
+        //assign 'active' class to current .list-group-item, remove 'active' class from all siblings
+        $this.parent().parent().addClass('active').siblings().removeClass('active');
 
         //get feature data
-        $id = $('#features-body blockquote.active input._id').val();
-        $feat = $('#features-body blockquote.active input._feat').val();
-        $details = $('#features-body blockquote.active input._details').val();
-        $value = $('#features-body blockquote.active input._value').val();
+        $id = $('#features-body .list-group-item.active input._id').val();
+        $feat = $('#features-body .list-group-item.active input._feat').val();
+        $details = $('#features-body .list-group-item.active input._details').val();
+        $value = $('#features-body .list-group-item.active input._value').val();
 
         //assign values
         $('input#_fid').val($id);
@@ -435,16 +432,17 @@ $(document).ready(function () {
                     $('form#feature-edit div#feature-alert').addClass('alert-success').html($alertdismiss + response.message);
 
                     //assign new values
-                    $('#features-body blockquote.active .feature-heading').html($feature);
+                    $('#features-body .list-group-item.active .feature-heading').html($feature);
 
                     $badge = '<span class="badge">' + $value + '</span>';
 
-                    $('#features-body blockquote.active input._id').val($id);
-                    $('#features-body blockquote.active input._feat').val($feature);
-                    $('#features-body blockquote.active input._details').val($details);
-                    $('#features-body blockquote.active strong.feature-heading span.badge').empty();
-                    $('#features-body blockquote.active strong.feature-heading').append($badge);
-                    $('#features-body blockquote.active p._feature_details').html($details);
+                    $('#features-body .list-group-item.active input._id').val($id);
+                    $('#features-body .list-group-item.active input._feat').val($feature);
+                    $('#features-body .list-group-item.active input._details').val($details);
+                    $('#features-body .list-group-item.active input._value').val($value);
+                    $('#features-body .list-group-item.active h4.feature-heading > span.badge').remove();
+                    $('#features-body .list-group-item.active h4.feature-heading').append($badge);
+                    $('#features-body .list-group-item.active p._feature_details').html($details);
 
                     //hide modal
                     $('#featureEdit').modal('hide');
