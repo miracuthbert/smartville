@@ -44,16 +44,17 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="title">
-                    404 Error - Page Not Found
+                    404 Error
                 </div>
             </div>
             <div class="panel-body">
-                <h3 class="text-info">Sorry, seems like the page you are looking for does not exist.</h3>
+                <h3>Oops! Page Not Found</h3>
 
-                <p class="lead">You can resume where you were by clicking the button below.</p>
+                <h4 class="text-info">Sorry, seems like the page you are looking for.</h4>
 
                 <p class="text-center">
-                    <a href="{{ url(url()->previous()) }}" class="btn btn-primary btn-lg">Resume Now!</a>
+                    Meanwhile you can <a href="{{ url(url()->previous()) }}" class="btn btn-link btn-sm">resume</a> to
+                    where you were
                 </p>
 
             </div>
