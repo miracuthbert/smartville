@@ -293,7 +293,7 @@ Route::group(['prefix' => 'admin'], function () {
     /**
      * App Products Routes
      */
-    Route::group(['prefix' => 'apps/products'], function () {
+    Route::group(['prefix' => 'apps'], function () {
         //Get Admin Add Product
         Route::get('add-new-app', [
             'uses' => 'Admin\ProductController@getCreate',
