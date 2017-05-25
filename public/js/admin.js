@@ -8,3 +8,6 @@ $(document).ready(function () {
         $('form#replyEmail').slideDown();
     });
 });
+
+//init ckeditor
+$('textarea.ckeditor').ckeditor(options);

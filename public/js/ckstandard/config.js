@@ -22,6 +22,10 @@ CKEDITOR.editorConfig = function (config) {
     ];
 
     config.removeButtons = 'About';
+
+    config.uiColor = '#F0FFF0';
+    config.height = 300;
+    config.toolbarCanCollapse = true;
 };
 
 // CKEDITOR.editorConfig = function( config ) {
