@@ -308,8 +308,14 @@ Route::group(['prefix' => 'admin'], function () {
 
         //Get Admin Product
         Route::get('app/{id}', [
-            'uses' => 'Admin\ProductController@getApp',
+            'uses' => 'Admin\ProductController@show',
             'as' => 'admin.app.view'
+        ]);
+
+        //Get Admin Product
+        Route::get('app/{id}/edit', [
+            'uses' => 'Admin\ProductController@edit',
+            'as' => 'admin.app.edit'
         ]);
 
         //Get Admin Update Product Status
