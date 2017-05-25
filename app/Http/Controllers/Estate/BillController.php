@@ -226,7 +226,13 @@ class BillController extends Controller
         //authorize
         $this->authorize('view', $app);
 
+        //query string
+        $query_string = $request->getQueryString();
+
+        //find passed billing service
         $service = $request->service;
+        $service = EstateBill::find($service);
+
         $today = $request->today;
         $date = $request->date;
         $month = $request->month;
@@ -242,52 +248,61 @@ class BillController extends Controller
         if ($sort == "trashed") {
             $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->paginate();
         }
+
         //pending
         if ($sort == "pending") {
-            if ($service != null && $today != null && $date != null) {   //get pending bills today with service
-                if ($today) {
-                    $bills = $app->bills()
+            if ($request->has(['service', 'today', 'date'])) {   //get pending bills today with service
+                if (Carbon::today()->toDateString() === $date && $today == true) {
+                    $bills = $service->tenantBills()
                         ->whereDate('date_due', $date)
-                        ->where('bill_id', $service)
                         ->where('tenant_bills.status', 0)
                         ->whereNull('paid_at')
-                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
                     $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
                 } else {
-                    $bills = $app->bills()
+                    $bills = $service->tenantBills()
                         ->whereDate('date_due', '<', $date)
-                        ->where('bill_id', $service)
                         ->where('tenant_bills.status', 0)
                         ->whereNull('paid_at')
-                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
                     $date = "Before or on: " . $date;
                 }
-            } elseif (!empty($today) && $today) {   //get pending bills today
+            }
+            elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
                 $bills = $app->bills()
                     ->whereDate('date_due', $date)
                     ->where('tenant_bills.status', 0)
                     ->whereNull('paid_at')
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            } elseif (!empty($month) && $month) {     //get pending bills month
+            }
+            elseif ($request->has('today') && $today == true) {   //get pending bills today
+                $bills = $app->bills()
+                    ->whereDate('date_due', Carbon::today())
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+                $date = "Today";
+            }
+            elseif ($request->has('month') && $month == true) {     //get pending bills month
                 $bills = $app->bills()
                     ->where('tenant_bills.status', 0)
                     ->whereNull('paid_at')
                     ->whereMonth('date_due', Carbon::today()->month)
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            } elseif ($service != null) {   //get pending bills with service
-                $bills = $app->bills()
-                    ->where('bill_id', $service)
+            }
+            elseif ($request->has('service') && !empty($service)) {   //get pending bills with service
+                $bills = $service->tenantBills()
                     ->where('tenant_bills.status', 0)
                     ->whereNull('paid_at')
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            } else {    //get pending bills past due
+            }
+            else {    //get pending bills past due
                 $bills = $app->bills()
                     ->where('tenant_bills.status', 0)
                     ->whereNull('paid_at')
@@ -306,9 +321,6 @@ class BillController extends Controller
             $bills = $app->bills()->orderBy('tenant_bills.status', 'ASC')->orderBy('date_due', 'ASC')->paginate();
         }
 
-        //find passed billing service
-        $service = EstateBill::find($service);
-
         //pass month date
         $_month = $month != null ? Carbon::today() : '';
 
@@ -318,6 +330,7 @@ class BillController extends Controller
             ->with('month', $_month)
             ->with('today', $date)
             ->with('sort', $sort)
+            ->with('query_string', $query_string)
             ->with('bills', $bills);
 
     }
@@ -325,7 +338,7 @@ class BillController extends Controller
     /**
      * BillController pdfReport.
      */
-    public function pdfReport($id, $sort)
+    public function pdfReport(Request $request, $id, $sort)
     {
         //app
         $app = CompanyApp::find($id);
@@ -346,21 +359,95 @@ class BillController extends Controller
         //when
         $when = Carbon::now();
 
+        //query string
+        $query_string = $request->getQueryString();
+
+        //find passed billing service
+        $service = $request->service;
+        $service = EstateBill::find($service);
+
+        $today = $request->today;
+        $date = $request->date;
+        $month = $request->month;
+
+        //check
+        $notification = $app->notifications()->where('id', $request->notify)->first();
+
+        if ($notification != null) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
         //trashed
-        if ($sort == "trashed")
+        if ($sort == "trashed") {
             $bills = $app->bills()->onlyTrashed()->orderBy('tenant_bills.deleted_at', 'DESC')->get();
+        }
 
         //pending
-        if ($sort == "pending")
-            $bills = $app->bills()->where('tenant_bills.status', 0)->orderBy('date_due', 'ASC')->get();
+        if ($sort == "pending") {
+            if ($request->has(['service', 'today', 'date'])) {   //get pending bills today with service
+                if (Carbon::today()->toDateString() === $date && $today == true) {
+                    $bills = $service->tenantBills()
+                        ->whereDate('date_due', $date)
+                        ->where('tenant_bills.status', 0)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->get();
+                    $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
+                } else {
+                    $bills = $service->tenantBills()
+                        ->whereDate('date_due', '<', $date)
+                        ->where('tenant_bills.status', 0)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->get();
+                    $date = "Before or on: " . $date;
+                }
+            }
+            elseif ($request->has('today') && $today == true) {   //get pending bills today
+                $bills = $app->bills()
+                    ->whereDate('date_due', Carbon::today())
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+                $date = 'Today';
+            }
+            elseif ($request->has('month') && $month == true) {     //get pending bills month
+                $bills = $app->bills()
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->whereMonth('date_due', Carbon::today()->month)
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+            }
+            elseif ($request->has('service') && !empty($service)) {   //get pending bills with service
+                $bills = $service->tenantBills()
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+            }
+            else {    //get pending bills past due
+                $bills = $app->bills()
+                    ->where('tenant_bills.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+            }
+        }
 
         //paid
-        if ($sort == "paid")
+        if ($sort == "paid") {
             $bills = $app->bills()->where('tenant_bills.status', 1)->orderBy('date_due', 'ASC')->orderBy('updated_at', 'DESC')->get();
+        }
 
         //all
-        if ($sort == "all")
-            $bills = $app->bills()->orderBy('date_due', 'ASC')->orderBy('tenant_bills.status', 'ASC')->get();
+        if ($sort == "all") {
+            $bills = $app->bills()->orderBy('tenant_bills.status', 'ASC')->orderBy('date_due', 'ASC')->get();
+        }
+
+        //pass month date
+        $_month = $month != null ? Carbon::today() : '';
 
         //generate pdf
         //pdf options
@@ -377,7 +464,7 @@ class BillController extends Controller
         ]);
 
         //paper and layout
-        $pdf->setPaper('a4', 'portrait');
+        $pdf->setPaper('a4', 'landscape');
 
         //pdf name
         $pdfName = $company->title . ' - ' . title_case($sort) . ' Bills Report ' . ' (' . $when . ')';

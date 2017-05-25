@@ -219,6 +219,9 @@ class RentController extends Controller
         //authorize
         $this->authorize('view', $app);
 
+        //query string
+        $query_string = $request->getQueryString();
+
         $today = $request->today;
         $date = $request->date;
         $month = $request->month;
@@ -242,13 +245,12 @@ class RentController extends Controller
 
         //pending
         if ($sort == "pending") {
-            if ($today != null && $date != null) {   //get pending rents today
-                if ($today) {
+            if ($request->has(['today', 'date'])) {   //get pending rents today
+                if (Carbon::today()->toDateString() === $date && $today == true) {
                     $rents = $app->rents()
                         ->where('tenant_rents.status', 0)
                         ->whereDate('date_due', $date)
                         ->whereNull('paid_at')
-                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
                     $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
@@ -257,26 +259,37 @@ class RentController extends Controller
                         ->where('tenant_rents.status', 0)
                         ->whereDate('date_due', '<', $date)
                         ->whereNull('paid_at')
-                        ->orWhere('paid_at', '>', $date)
                         ->orderBy('date_due', 'ASC')
                         ->paginate();
                     $date = "Before or on: " . $date;
                 }
-            } elseif (!empty($date) && empty($today)) {    //get pending rents by date
+            }
+            elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereDate('date_due', $date)
                     ->whereNull('paid_at')
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            } elseif (!empty($month) && $month) { //get pending this month
+            }
+            elseif ($request->has('today') && $today == true) { //get pending and due today
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereDate('date_due', Carbon::today())
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->paginate();
+                $date = "Today";
+            }
+            elseif ($request->has('month') && $month == true) { //get pending this month
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')
                     ->whereMonth('date_due', Carbon::today()->month)
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            } else {    //get pending rents
+            }
+            else {    //get pending rents
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')
@@ -286,6 +299,7 @@ class RentController extends Controller
                     ->paginate();
             }
         }
+
         //all
         if ($sort == "all")
             $rents = $app->rents()->where('tenant_rents.status', 'ASC')->orderBy('date_due', 'ASC')
@@ -299,13 +313,14 @@ class RentController extends Controller
             ->with('month', $_month)
             ->with('today', $date)
             ->with('sort', $sort)
+            ->with('query_string', $query_string)
             ->with('rents', $rents);
     }
 
     /**
      * RentController pdfReport.
      */
-    public function pdfReport($id, $sort)
+    public function pdfReport(Request $request, $id, $sort)
     {
         //app
         $app = CompanyApp::find($id);
@@ -326,21 +341,91 @@ class RentController extends Controller
         //when
         $when = Carbon::now();
 
+        //query string
+        $query_string = $request->getQueryString();
+
+        $today = $request->today;
+        $date = $request->date;
+        $month = $request->month;
+
+        //check
+        $notification = $app->notifications()->where('id', $request->notify)->first();
+
+        if ($notification != null) {
+            $notification->update(['read_at' => Carbon::now()]);
+        }
+
         //trashed
         if ($sort == "trashed")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->get();
+            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')
+                ->orderBy('tenant_rents.status', 'ASC')->onlyTrashed()->get();
 
         //paid
         if ($sort == "paid")
-            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->get();
+            $rents = $app->rents()->where('tenant_rents.status', 1)->orderBy('date_due', 'ASC')
+                ->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->get();
 
         //pending
-        if ($sort == "pending")
-            $rents = $app->rents()->where('tenant_rents.status', 0)->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->get();
+        if ($sort == "pending") {
+            if ($request->has(['today', 'date'])) {   //get pending rents today
+                if (Carbon::today()->toDateString() === $date && $today == true) {
+                    $rents = $app->rents()
+                        ->where('tenant_rents.status', 0)
+                        ->whereDate('date_due', $date)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->get();
+                    $date = $date == Carbon::today() ? "Today: " . $date : 'On: ' . $date;
+                } else {
+                    $rents = $app->rents()
+                        ->where('tenant_rents.status', 0)
+                        ->whereDate('date_due', '<', $date)
+                        ->whereNull('paid_at')
+                        ->orderBy('date_due', 'ASC')
+                        ->get();
+                    $date = "Before or on: " . $date;
+                }
+            }
+            elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereDate('date_due', $date)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+            }
+            elseif ($request->has('today') && $today == true) { //get pending and due today
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereDate('date_due', Carbon::today())
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+                $date = "Today";
+            }
+            elseif ($request->has('month') && $month == true) { //get pending this month
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereNull('paid_at')
+                    ->whereMonth('date_due', Carbon::today()->month)
+                    ->orderBy('date_due', 'ASC')
+                    ->get();
+            }
+            else {    //get pending rents
+                $rents = $app->rents()
+                    ->where('tenant_rents.status', 0)
+                    ->whereNull('paid_at')
+                    ->orderBy('date_due', 'ASC')
+                    ->orderBy('date_from', 'ASC')
+                    ->orderBy('status', 'ASC')
+                    ->get();
+            }
+        }
 
         //all
         if ($sort == "all")
-            $rents = $app->rents()->orderBy('date_due', 'ASC')->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->get();
+            $rents = $app->rents()->where('tenant_rents.status', 'ASC')->orderBy('date_due', 'ASC')
+                ->orderBy('date_from', 'ASC')->orderBy('status', 'ASC')->get();
 
         //generate pdf
         //pdf options
@@ -357,7 +442,7 @@ class RentController extends Controller
         ]);
 
         //paper and layout
-        $pdf->setPaper('a4', 'portrait');
+        $pdf->setPaper('a4', 'landscape');
 
         //pdf name
         $pdfName = $company->title . ' - ' . title_case($sort) . ' Rent Collection Report ' . ' (' . $when . ')';

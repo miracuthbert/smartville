@@ -42,16 +42,21 @@
                                     <ul class="dropdown-menu pull-right">
                                         <li class="dropdown-header">To PDF</li>
                                         <li>
-                                            <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
+                                            <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => $sort, $query_string]) }}">Current</a>
                                         </li>
-                                        <li>
-                                            <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
-                                        </li>
+                                        <li role="separator" class="divider"></li>
                                         <li>
                                             <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
                                         </li>
                                         <li>
                                             <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.bills.report.pdf', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -74,8 +79,14 @@
                                         <li>
                                             <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'paid']) }}">Paid</a>
                                         </li>
+                                        <li role="separator" class="divider"></li>
                                         <li>
                                             <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending']) }}">Pending</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending', 'today' => 1]) }}">
+                                                Pending Today
+                                            </a>
                                         </li>
                                         <li role="separator" class="divider"></li>
                                         <li class="dropdown-header">Bulk Actions</li>
@@ -194,7 +205,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="pull-right">
-                                        {{ $bills->links() }}
+                                        {{ $bills->appends([$query_string])->links() }}
                                     </div>
                                 </div>
                             </div>
@@ -205,5 +216,5 @@
         </div>
     </div>
 
-    @include('includes.modals.bills-delete');
+    @include('includes.modals.bills-delete')
 @endsection
