@@ -125,7 +125,7 @@ function NotificationEstateRoute($notification, $app)
         if ($notification->read_at != null) { //notification read route
             return route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         } else {    //not read route
-            route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
+            return route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         }
     }
 }

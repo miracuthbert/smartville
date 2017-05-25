@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ config('app.name') }} {{ $app->product->title }} - @yield('title')</title>
+    <title>({{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}) @yield('title')
+        | {{ $app->product->title }} - {{ config('app.name') }}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -112,18 +113,20 @@
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    @forelse(collect($app->notifications)->splice(0, 10) as $notification)
+                    @forelse(collect($app->notifications)->splice(0, 6) as $notification)
                         @if(ToggleRead($notification->data['type']))
                             <li class="{{ $notification->read_at == null ? 'active' : '' }}">
                                 <a href="{{ NotificationEstateRoute($notification, $app) }}">
                                     <div>
                                         <i class="fa {{ NotificationIcon($notification->data['type']) }} fa-fw"></i>
-                                        <span class="small">
-                                            {{ str_limit($notification->data['title'], 30) }}
-                                        </span>
-                                        <span class="pull-right {{ $notification->read_at != null ? 'text-muted' : '' }} small">
+                                        <strong class="small">
+                                            {{ str_limit($notification->data['title'], 35) }}
+                                        </strong>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="pull-right {{ $notification->read_at != null ? 'text-muted' : '' }} small">
                                             {{ $notification->created_at->diffForHumans() }}
-                                        </span>
+                                        </div>
                                     </div>
                                 </a>
                             </li>

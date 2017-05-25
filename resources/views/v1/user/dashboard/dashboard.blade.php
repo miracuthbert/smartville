@@ -65,8 +65,7 @@
                             @endif
                         </div>
                     </div>
-                </div>
-                <!-- /.col-lg-4 -->
+                </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -100,8 +99,7 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                </div>
-                <!-- /.col-lg-4 -->
+                </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -118,12 +116,18 @@
                                 @forelse(Auth::user()->apps as $app)
                                     <a href="{{ $app->status === 1 ? route('estate.rental.dashboard', ['id' => $app->id]) : route('estate.rental.status', ['id' => $app->id]) }}"
                                        class="list-group-item" title="{{ $app->status === 1 ? 'Go to app dashboard' : 'App will be enabled first' }}">
-                                        <p class="list-item-text">
-                                            <strong>{{ $app->company->title }}</strong>
+                                        <div class="list-item-text">
+                                            <strong>
+                                                <span class="badge">
+                                                    <i class="fa fa-bell fa-2x"></i>
+                                                    {{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}
+                                                </span>
+                                                {{ $app->company->title }}
+                                            </strong>
                                             <span class="pull-right">
                                                 <i class="fa fa-chevron-right"></i>
                                             </span>
-                                        </p>
+                                        </div>
                                     </a>
                                 @empty
                                     <div class="list-group-item">
@@ -162,11 +166,10 @@
                             </div>
                         </a>
                     </div>
-                </div>
-                <!-- /.col-lg-4 -->
-            </div>
-        </div>
-    </div>
+                </div><!-- /.col-lg-4 -->
+            </div><!-- /.row -->
+        </div><!-- /#myApps -->
+    </div><!-- /.container -->
 
     @include('v1.includes.footers.default')
 
