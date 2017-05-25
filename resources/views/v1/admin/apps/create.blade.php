@@ -37,7 +37,7 @@
 
                                 <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
                                     <label>Summary:</label>
-                                    <textarea name="summary" id="summary" cols="30" rows="2" class="form-control ckeditor"
+                                    <textarea name="summary" id="summary" cols="30" rows="2" class="form-control"
                                               placeholder="brief details of the app">{{ Request::old('summary') }}</textarea>
                                 </div>
 
@@ -179,7 +179,4 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <script>
-        CKEDITOR.replace('ckeditor');
-    </script>
 @endsection

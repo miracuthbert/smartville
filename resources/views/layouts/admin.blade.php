@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ config('app.name') }} Admin - @yield('title')</title>
+    <title>Admin - @yield('title') | {{ config('app.name') }}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -210,7 +210,7 @@
                     @forelse($unread_notifications as $notification)
                         @include('v1.admin.notify.list.contact')
                         @include('v1.admin.notify.list.bug')
-                        @empty
+                    @empty
                     @endforelse
                     <li>
                         <a class="text-center" href="{{ route('admin.notifications') }}">
@@ -310,7 +310,7 @@
 
 <!-- jQuery -->
 <!-- Placed at the end of the document so the pages load faster -->
-{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
 
 <!-- Bootstrap Core JavaScript -->
@@ -327,12 +327,26 @@
         <!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
 
-<!-- Custom Js -->
-<script src="{{ url('js/app.js') }}"></script>
-<script src="{{ url('js/admin.js') }}"></script>
+<!-- Unisharp laravel-filemanager -->
+<script>
+    var route_prefix = "{{ url(config('lfm.prefix')) }}";
+</script>
 
 <!-- Custom Text Editor -->
 <script src="{{ url('js/ckstandard/ckeditor.js') }}"></script>
+<script src="{{ url('js/ckstandard/adapters/jquery.js') }}"></script>
+<script>
+    var options = {
+        filebrowserImageBrowseUrl: route_prefix + '?type=Images',
+        filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{ csrf_token() }}',
+        filebrowserBrowseUrl: route_prefix + '?type=Files',
+        filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{ csrf_token() }}'
+    };
+</script>
+
+<!-- Custom Js -->
+<script src="{{ url('js/app.js') }}"></script>
+<script src="{{ url('js/admin.js') }}"></script>
 
 @yield('scripts')
 </body>

@@ -25,7 +25,7 @@
                 <div class="panel-body">
                     @if($apps->total() > 0)
                         <div class="table-responsive">
-                            <table width="100%" class="table table-striped table-bordered table-hover"
+                            <table width="100%" class="table table-striped table-hover"
                                    id="dataTable-apps">
                                 <thead>
                                 <tr>
@@ -62,8 +62,13 @@
                                             <div class="btn-group btn-group-xs" role="group">
                                                 @if($sort != "trashed")
                                                     <a href="{{ route('admin.app.view', ['id' => $app->id]) }}"
+                                                       class="btn btn-default" data-toggle="tooltip"
+                                                       title="View">
+                                                        <span class="fa fa-eye"></span>
+                                                    </a>
+                                                    <a href="{{ route('admin.app.edit', ['id' => $app->id]) }}"
                                                        class="btn btn-primary" data-toggle="tooltip"
-                                                       title="View/edit">
+                                                       title="Edit">
                                                         <span class="fa fa-edit"></span>
                                                     </a>
                                                     <a href="{{ route('admin.app.delete', ['id' => $app->id]) }}"

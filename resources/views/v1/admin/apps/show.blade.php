@@ -32,144 +32,6 @@
                 </div>
                 <div class="panel-body">
                     <div class="panel-group" id="accordionApp">
-                        <div class="panel panel-primary" id="EditApp">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordionApp" href="#collapseEditApp">
-                                        Edit App
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseEditApp" class="panel-collapse collapse" aria-expanded="false">
-                                <div class="panel-body">
-                                    <form role="form" method="post" action="{{ route('admin.app.update') }}"
-                                          enctype="multipart/form-data"
-                                          autocomplete="on">
-                                        @include('includes.alerts.validation')
-
-                                        <input type="hidden" name="_token" value="{{ Session::token() }}">
-
-                                        <input type="hidden" name="app" value="1"><!--/ Set app to true -->
-
-                                        <input type="hidden" name="id" value="{{ $app->id }}">
-
-                                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                            <label>App name:</label>
-                                            <input type="text" name="name" class="form-control" id="name"
-                                                   placeholder="app name"
-                                                   value="{{ Request::old('name') != null ? Request::old('name') : $app->title }}"
-                                                   required autofocus>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('summary') ? 'has-error' : '' }}">
-                                            <label>Summary:</label>
-                                    <textarea name="summary" id="summary" cols="30" rows="3" class="form-control ckeditor"
-                                              placeholder="brief details of the app">{{ Request::old('summary') != null ? Request::old('summary') : $app->summary }}</textarea>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-                                            <label>App details:</label>
-                                    <textarea name="description" id="description" cols="30" rows="5"
-                                              class="form-control ckeditor"
-                                              placeholder="full details of the app">{{ Request::old('description') != null ? Request::old('description') : $app->desc }}</textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>App logo:</label>
-                                            <input type="file" name="logo" class="form-control" id="logo">
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('mode') ? 'has-error' : '' }}">
-                                            <label>App Mode:</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="mode" id="development"
-                                                       value="0" {{ $app->status == 0 ? 'checked' : '' }}>Development(beta)
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="mode" id="production"
-                                                       value="1" {{ $app->status == 1 ? 'checked' : '' }}>Production
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('coming_soon') ? 'has-error' : '' }}">
-                                            <label>App coming soon:</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="coming_soon" id="development"
-                                                       value="0" {{ $app->coming_soon == 0 ? 'checked' : '' }}>No
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="coming_soon" id="production"
-                                                       value="1" {{ $app->coming_soon == 1 ? 'checked' : '' }}>Yes
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('page') ? 'has-error' : '' }}">
-                                            <label>Page view:</label>
-                                            <input type="text" name="page" class="form-control" id="page"
-                                                   placeholder="app creation page" value="{{ $app->page }}">
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('version_name') ? 'has-error' : '' }}">
-                                            <label>Version name:</label>
-                                            <input type="text" name="version_name" class="form-control"
-                                                   id="version_name"
-                                                   placeholder="version name" value="{{ $app->version_name }}">
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('version_no') ? 'has-error' : '' }}">
-                                            <label>Version no:</label>
-                                            <input type="text" name="version_no" class="form-control"
-                                                   id="version_no"
-                                                   placeholder="version no" value="{{ $app->version_no }}">
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
-                                            <label>Status</label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="disabled"
-                                                       value="0" {{ $app->status == 0 ? 'checked' : '' }}>Disable
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="status" id="active"
-                                                       value="1" {{ $app->status == 1 ? 'checked' : '' }}>Active
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
-                                            <label>App category:</label>
-                                            <select name="category" class="form-control" id="category">
-                                                <option>Select a category</option>
-                                                @foreach($app_categories as $category)
-                                                    <option value="{{ $category->id }}" {{ $app->category_id == $category->id ? 'selected' : '' }}>
-                                                        {{ $category->title }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group {{ $errors->has('payment_model') ? 'has-error' : '' }}">
-                                            <label>Payment model:</label>
-                                            <select name="payment_model" class="form-control" id="payment_model">
-                                                <option>Select a payment model</option>
-                                                @foreach($app_payments as $payment)
-                                                    <option value="{{ $payment->id }}" {{ $app->monetization_id == $payment->id ? 'selected' : '' }}>
-                                                        {{ $payment->title }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button type="submit" name="btnUpdateApp" class="btn btn-primary btn-lg"
-                                                    id="btnUpdateApp">
-                                                Update
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel#EditApp -->
                         <div class="panel panel-success" id="AppPlans">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -311,7 +173,7 @@
             </div>
             <!-- /.panel -->
         </div>
-        <!-- /.col-lg-12 -->
+        <!-- /.col-lg-7 -->
 
         <div class="col-lg-5">
             <div class="panel panel-default">
@@ -529,7 +391,6 @@
     <script>
         $urlFeatureStore = '{{ route('admin.app.feature.store') }}';
         $urlFeatureUpdate = '{{ route('admin.app.feature.update') }}';
-        CKEDITOR.replace('ckeditor');
     </script>
 
 @endsection
