@@ -150,18 +150,30 @@ class ProductController extends Controller
     }
 
     /**
-     * ProductController getApp.
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function getApp($id)
+    public function show($id)
     {
-        $app = Product::find($id);
+        $app = Product::findorFail($id);
 
-        //check if null
-        if ($app == null)
-            return redirect()->back()
-                ->with('error', 'You tried to perform an action on an invalid record.');
+        return view('v1.admin.apps.show')
+            ->with('app', $app);
+    }
 
-        return view('v1.admin.apps.view')
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $app = Product::findorFail($id);
+
+        return view('v1.admin.apps.edit')
             ->with('app', $app);
     }
 
