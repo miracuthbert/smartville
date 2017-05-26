@@ -8,7 +8,7 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
         "intervention/image": "^2.3",
-        "dompdf/dompdf": "^0.7.0",
+        "dompdf/dompdf": "0.7.x@dev",
         "laravel/cashier": "~7.0",
         "paypal/rest-api-sdk-php": "*",
         "barryvdh/laravel-dompdf": "^0.7.0",
