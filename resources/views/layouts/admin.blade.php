@@ -292,6 +292,12 @@
                     </ul>
                 </nav>
 
+                <p class="text-right">
+                    <a href="{{ url()->previous() }}" class="btn btn-link btn-xs pull-right">
+                        <i class="fa fa-angle-double-left"></i> Recently Viewed
+                    </a>
+                </p>
+
                 <h1 class="page-header">@yield('page-header')</h1>
             </div>
             <!-- /.col-lg-12 -->
