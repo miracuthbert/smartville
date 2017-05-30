@@ -230,7 +230,9 @@ Route::group(['prefix' => 'admin'], function () {
     ]);
 
     /**
+     * -----------------------------------------------------------------
      * Category Routes
+     * -----------------------------------------------------------------
      */
     Route::get('category/destroy/{category}', [
         'uses' => 'Admin\Category\CategoryController@destroy',
@@ -242,7 +244,9 @@ Route::group(['prefix' => 'admin'], function () {
     ]]);
 
     /**
+     * -----------------------------------------------------------------
      * Company & Company Apps Routes
+     * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'companies'], function () {
 
@@ -262,7 +266,27 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     /**
+     * -----------------------------------------------------------------
+     * Roles Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'roles'], function () {
+        Route::get('roles/{role}/destroy', [
+            'uses' => 'Admin\Role\RoleController@destroy',
+            'as' => 'roles.destroy',
+        ]);
+    });
+
+    Route::resource('roles', 'Admin\Role\RoleController', [
+        'except' => [
+            'destroy',
+        ],
+    ]);
+
+    /**
+     * -----------------------------------------------------------------
      * Users Routes
+     * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'users'], function () {
         //View Users Route
@@ -291,7 +315,9 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     /**
+     * -----------------------------------------------------------------
      * App Products Routes
+     * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'apps'], function () {
         //Get Admin Add Product
@@ -356,7 +382,9 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     /**
+     * -----------------------------------------------------------------
      * App Features Routes
+     * -----------------------------------------------------------------
      */
     Route::group(['prefix' => 'app/features'], function () {
         //Post Admin Add App Feature
@@ -482,6 +510,7 @@ Route::group(['prefix' => 'admin'], function () {
             'as' => 'bugs.status'
         ]);
     });
+
     //Bugs Resource routes
     Route::resource('bugs', 'Admin\Support\BugController');
 

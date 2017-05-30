@@ -129,6 +129,23 @@
     <!-- /.nav-second-level -->
 </li>
 <li>
+    <a href="#"><i class="fa fa-universal-access fa-fw"></i> Roles
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('roles.create') }}">Add New</a>
+        </li>
+        <li>
+            <a href="{{ route('roles.index', ['role' => "site-admin"]) }}">Site Admins</a>
+        </li>
+        <li>
+            <a href="{{ route('roles.index') }}">Roles</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li>
+<li>
     <a href="#"><i class="fa fa-users fa-fw"></i> Users
         <span class="fa arrow"></span>
     </a>

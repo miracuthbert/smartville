@@ -11,3 +11,13 @@ $(document).ready(function () {
 
 //init ckeditor
 $('textarea.ckeditor').ckeditor(options);
+
+$('input#check-all').on('change', function () {
+
+    $this = $(this);
+
+    $this.toggleClass('active');
+
+    var $target = $this.attr('data-target');
+    $this.hasClass('active') ? $('input.' + $target).prop('checked', true) : $('input.' + $target).prop('checked', false);
+})

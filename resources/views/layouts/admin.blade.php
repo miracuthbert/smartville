@@ -9,10 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin - @yield('title') | {{ config('app.name') }}</title>
+    <title>@yield('title') - Admin | {{ config('app.name') }}</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="{{ url('css/metisMenu.min.css') }}" rel="stylesheet">
@@ -316,11 +316,12 @@
 
 <!-- jQuery -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
+{{--<script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>--}}
 
 <!-- Bootstrap Core JavaScript -->
-<script src="{{ url('js/bootstrap.min.js') }}"></script>
+{{--<script src="{{ url('js/bootstrap.min.js') }}"></script>--}}
+<script src="{{ url('js/demo_app.js') }}"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="{{ url('js/metisMenu.min.js') }}"></script>

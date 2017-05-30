@@ -1,5 +1,9 @@
 <?php
 
+function role_table_check($table, $role_tables) {
+    return array_search($table, !empty($role_tables) ? $role_tables : array()) ? 'checked' : '';
+}
+
 /**
  * @param $solved_at
  * @return string
