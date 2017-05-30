@@ -5,8 +5,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li>Roles</li>
-    <li>Role</li>
+    <li class="active">Roles</li>
 @endsection
 
 @section('page-header')
