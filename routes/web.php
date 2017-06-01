@@ -1796,27 +1796,12 @@ Route::group(['prefix' => 'app'], function () {
 
 /**
  * -----------------------------------------------------------------
- * Overriden Auth Routes
+ * Default Auth Routes
  * -----------------------------------------------------------------
  */
 Auth::routes();
 
-// Login Routes...
-Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@getLogin']);
-Route::post('login', ['as' => 'login.post', 'uses' => 'Auth\LoginController@postLogin']);
-Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
-
-// Registration Routes...
-Route::get('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@getSignUp']);
-Route::post('register', ['as' => 'register.post', 'uses' => 'Auth\RegisterController@postSignUp']);
-
-// Password Reset Routes...
-Route::get('password/reset', ['as' => 'password.reset', 'uses' => 'Auth\ForgotPasswordController@getResetForm']);
-Route::post('password/email', ['as' => 'password.email', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
-Route::get('password/reset/{token}', ['as' => 'password.reset.token', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
-Route::post('password/reset', ['as' => 'password.reset.post', 'uses' => 'Auth\ResetPasswordController@reset']);
-
-//Registration activation routes
+////Registration activation routes
 Route::get('activation/key/{activation_key}', ['as' => 'activation_key', 'uses' => 'Auth\ActivationController@activateKey']);
 Route::get('activation/resend', ['as' => 'activation.key.resend', 'uses' => 'Auth\ActivationController@showKeyResendForm']);
 Route::post('activation/resend', ['as' => 'activation.key.resend.post', 'uses' => 'Auth\ActivationController@resendKey']);

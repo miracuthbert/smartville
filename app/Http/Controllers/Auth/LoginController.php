@@ -42,65 +42,28 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct(Guard $auth)
+    public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
-        $this->auth = $auth;
-    }
-
-
-    /**
-     * Method : getLogin
-     * Handles Login View
-     */
-    public function getLogin()
-    {
-        return view('v1.auth.login');
+        $this->middleware('guest')->except('logout');
     }
 
     /**
-     * Method : postLogIn
-     * Handles Login Process
+     * @param Request $request
+     * @param mixed $user
      */
-    public function postLogin(Request $request)
+    protected function authenticated(Request $request, $user)
     {
-        $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $redirect = Session::has('oldUrl') ? Session::get('oldUrl') : $this->redirectTo;
 
-        if ($this->auth->attempt([
-            'email' => $request->input('email'),
-            'password' => $request->input('password')],
-            $request->input('remember') == 1 ? true : false)
-        ) {
+        //TODO: create a helper file package or db table to generate more custom greetings
+        $greeting = Session::has('oldUrl') ? "Resumed from where you left off last time" : "Nice to see you again!";
 
-            //redirect to previous request url
-            if (Session::has('oldUrl')) {
-                $oldUrl = Session::get('oldUrl');
-                Session::forget('oldUrl');
+        $username = !empty($user->username) ? $user->username : $user->firstname;
 
-                return redirect()->to($oldUrl);
-            }
+        //pass greeting
+        $request->session()->flash('success', "Welcome back, " . $username . ". " . $greeting);
 
-            return redirect()->route('user.dashboard')
-                ->with('success', 'Welcome back ' . Auth::user()->firstname . '. You are now logged in.');
-        }
+        $this->redirectTo = $redirect;
 
-        return redirect()->back()
-            ->with('error', 'Whoops! Incorrect email or password given. Failed login!')
-            ->withInput();
     }
-
-    /**
-     * Method : getLogout
-     * Handles LogOut Process
-     */
-    public function getLogout(Request $request)
-    {
-        Auth::logout();
-        return redirect()->route('home')
-            ->with('success', 'You have successfully logged out. See you soon!');
-    }
-
 }

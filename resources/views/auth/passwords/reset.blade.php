@@ -1,13 +1,10 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('title')
-    SmartVille - Reset Password
+    Reset Password
 @endsection
 
 @section('content')
-
-    @include('includes.headers.default')
-
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

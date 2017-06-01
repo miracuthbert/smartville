@@ -52,10 +52,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|max:20|confirmed',
+            'first_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'username' => 'required|string|max:30|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -70,6 +71,7 @@ class RegisterController extends Controller
         return User::create([
             'firstname' => $data['first_name'],
             'lastname' => $data['last_name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'activated' => !config('settings.send_activation_email'),
@@ -77,54 +79,22 @@ class RegisterController extends Controller
     }
 
     /**
-     * UserController getSignUp.
+     * @param Request $request
+     * @param mixed $user
      */
-    public function getSignUp()
+    protected function registered(Request $request, $user)
     {
-        return view('v1.auth.signup');
-    }
+        $redirect = Session::has('oldUrl') ? Session::get('oldUrl') : $this->redirectTo;
 
-    /**
-     * UserController postSignUp.
-     */
-    public function postSignUp(Request $request)
-    {
-        $validator = $this->validator($request->all());
+        //TODO: create a helper file or package or db table to generate more custom greetings
+        $greeting = Session::has('oldUrl') ? "Picking up from where you were" : "";
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $username = !empty($user->username) ? $user->username : $user->firstname;
 
-        // create the user
-        if ($user = $this->create($request->all())) {
+        //pass greeting
+        $request->session()->flash('success', "Welcome , " . $username . ". " . $greeting);
 
-            // process the activation email for the user
-            if ($this->queueActivationKeyNotification($user)) {
-                Auth::login($user);
-
-                //redirect to previous request url
-                if (Session::has('oldUrl')) {
-                    $oldUrl = Session::get('oldUrl');
-                    Session::forget('oldUrl');
-
-                    return redirect()->to($oldUrl);
-                }
-
-                return redirect()->route('user.dashboard')
-                    ->with('success', 'Welcome ' . $user->firstname . ', your account has been activated.');
-            } else {
-                // we do not want to login the new user
-                return redirect('/login')
-                    ->with('success', 'We sent you an activation code. Please check your email.');
-            }
-        } else {
-            return redirect()->back()
-                ->with('error', 'Whoops! Some error occured. Failed signin you up. Please try again!')
-                ->withErrors()
-                ->withInput();
-        }
+        $this->redirectTo = $redirect;
     }
 
 }
