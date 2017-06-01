@@ -22,49 +22,52 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="sub-header">
-                                <i class="fa fa-pencil"></i>
+                                <i class="fa fa-home"></i>
                                 Tenancies
                                 <span class="badge">{{ count(Auth::user()->tenancies) }}</span>
                             </h3>
                         </div>
                         <div class="panel-body">
-                            @if(count(Auth::user()->tenant) > 0)
-                                <div class="row">
-                                    @forelse(Auth::user()->tenancies as $tenancy)
-                                        <div class="col-lg-12 col-sm-6">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    @if($tenancy->company->company->avatar != null)
-                                                        <img src="{{ url($tenancy->company->company->avatar->data['thumbUrl']) }}"
-                                                             alt="{{ $tenancy->company->company->avatar->data['alt'] }}"
-                                                             class="img-thumbnail">
-                                                    @else
-                                                        <img src="{{ url('images/site/logos/thumbs/default.jpg') }}"
-                                                             alt="default logo" class="img-thumbnail">
-                                                    @endif
+                            <div class="list-group">
+                                @forelse(Auth::user()->tenancies as $tenancy)
+                                    <div class="list-group-item">
+                                        <div class="list-group-item-heading">
+                                            @if($tenancy->company->company->avatar != null)
+                                                <img src="{{ url($tenancy->company->company->avatar->data['thumbUrl']) }}"
+                                                     alt="{{ $tenancy->company->company->avatar->data['alt'] }}"
+                                                     class="img-thumbnail">
+                                            @else
+                                                <img src="{{ url('images/site/logos/thumbs/default.jpg') }}"
+                                                     alt="default logo" class="img-thumbnail">
+                                            @endif
 
-                                                    <strong>{{ $tenancy->company->company->title }}</strong>
-                                                </div>
-
-                                                <a href="{{ route('tenant.dashboard', ['id' => $tenancy->id]) }}">
-                                                    <div class="panel-footer">
-                                                        <div class="clearfix">
-                                                            <span class="pull-left">Go to tenant panel</span>
-                                                            <div class="pull-right">
-                                                                <i class="fa fa-chevron-right"></i>
-                                                            </div>
-                                                        </div>
+                                            <strong>{{ $tenancy->company->company->title }}</strong>
+                                        </div><!-- /.list-group-item-heading -->
+                                        <div class="list-group-item-text">
+                                            <hr>
+                                            <a href="{{ route('tenant.dashboard', ['id' => $tenancy->id]) }}" class="btn-block">
+                                                <div class="clearfix">
+                                                    <span class="pull-left">Go to tenant panel</span>
+                                                    <div class="pull-right">
+                                                        <i class="fa fa-chevron-right"></i>
                                                     </div>
-                                                </a>
-                                            </div>
+                                                </div>
+                                            </a>
+                                        </div><!-- /.list-group-item-text -->
+                                    </div>
+                                @empty
+                                    <div class="list-group-item">
+                                        <div class="list-group-item-heading">
+                                            <h4>No tenancies found</h4>
                                         </div>
-                                    @empty
-                                        No tenancies found.
-                                    @endforelse
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                                        <div class="list-group-item-text">
+                                            <p>Properties you leased will appear here</p>
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div><!-- /.list-group -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel-default -->
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                     <div class="panel panel-default">
@@ -89,7 +92,7 @@
                                     </a>
                                 @empty
                                     <div class="list-group-item">
-                                        <i class="fa fa-bell fa-fw"></i> Your notifications will appear here.
+                                        <i class="fa fa-bell fa-fw"></i> Your notifications will appear here
                                     </div>
                                 @endforelse
                             </div>
@@ -115,7 +118,8 @@
                             <div class="list-group">
                                 @forelse(Auth::user()->apps as $app)
                                     <a href="{{ $app->status === 1 ? route('estate.rental.dashboard', ['id' => $app->id]) : route('estate.rental.status', ['id' => $app->id]) }}"
-                                       class="list-group-item" title="{{ $app->status === 1 ? 'Go to app dashboard' : 'App will be enabled first' }}">
+                                       class="list-group-item"
+                                       title="{{ $app->status === 1 ? 'Go to app dashboard' : 'App will be enabled first' }}">
                                         <div class="list-item-text">
                                             <strong>
                                                 <span class="badge">
