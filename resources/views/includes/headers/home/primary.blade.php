@@ -38,7 +38,8 @@
 
                             <li>
                                 <a href="{{ route('user.notifications') }}" title="notifications">
-                                    <i class="fa fa-bell fa-fw"></i> Notifications <span class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
+                                    <i class="fa fa-bell fa-fw"></i> Notifications <span
+                                            class="badge">{{ count($unread_notifications) > 0 ? count($unread_notifications) : '' }}</span>
                                 </a>
                             </li>
                             <!-- notifications -->
@@ -58,22 +59,23 @@
                                 </a>
                             </li>
                             <!-- profile -->
+
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out fa-fw"></i> Logout
+                                </a>
+                            </li>
                         </ul>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fa fa-sign-out fa-fw"></i> Logout
-                        </a>
                     </li>
 
                 @else
-                    <li class="{{ ActivePage('register') }}">
-                        <a href="{{ route('register') }}">Sign Up <i class="fa fa-user-plus"></i></a>
-                    </li>
                     <li class="{{ ActivePage('login') }}">
                         <a href="{{ route('login') }}">Login <i class="fa fa-sign-in"></i></a>
+                    </li>
+                    <li class="{{ ActivePage('register') }}">
+                        <a href="{{ route('register') }}">Sign Up <i class="fa fa-user-plus"></i></a>
                     </li>
                     {{--<li class="{{ ActivePage('password.reset') }}">--}}
                     {{--<a href="{{ route('password.reset') }}">Forgot password?</a>--}}
@@ -108,7 +110,7 @@
                     </ul>
                 </li>
                 {{--<li>--}}
-                    {{--<a href="{{ route('about') }}" class="hidden">About</a>--}}
+                {{--<a href="{{ route('about') }}" class="hidden">About</a>--}}
                 {{--</li>--}}
                 <li class="{{ ActivePage('contact') }}">
                     <a href="{{ route('contact') }}">Contact</a>

@@ -65,9 +65,9 @@
                     <li class="{{ ActivePage('login') }}">
                         <a href="{{ route('login') }}">Login</a>
                     </li>
-                    <li class="{{ ActivePage('password.reset') }}">
-                        <a href="{{ route('password.reset') }}">Forgot password?</a>
-                    </li>
+                    {{--<li class="{{ ActivePage('password.reset') }}">--}}
+                        {{--<a href="{{ route('password.reset') }}">Forgot password?</a>--}}
+                    {{--</li>--}}
                 @endif
 
             </ul>

@@ -68,11 +68,11 @@
                     <li class="{{ ActivePage('login') }}">
                         <a href="{{ route('login') }}">Login <i class="fa fa-sign-in"></i></a>
                     </li>
-                    <!-- <li class="{{ ActivePage('password.reset') }}">
-                        <a href="{{ route('password.reset') }}">
-                            <small>Forgot password?</small>
-                        </a>
-                    </li> -->
+                    {{--<!-- <li class="{{ ActivePage('password.reset') }}">--}}
+                        {{--<a href="{{ route('password.reset') }}">--}}
+                            {{--<small>Forgot password?</small>--}}
+                        {{--</a>--}}
+                    {{--</li> -->--}}
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">
