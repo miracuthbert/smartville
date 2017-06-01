@@ -11,8 +11,8 @@
     <title>{{ config('app.name', 'Smart Ville') }} - @yield('title')</title>
 
     <!-- Styles -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
 
             <!-- Scripts -->
@@ -95,6 +95,6 @@
 </div>
 
 <!-- Scripts -->
-<script src="/js/demo_app.js"></script>
+<script src="{{ asset('js/demo_app.js') }}"></script>
 </body>
 </html>
