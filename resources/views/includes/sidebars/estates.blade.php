@@ -8,9 +8,7 @@
                             </span>
     </div>
     <!-- /input-group -->
-</li>
-<!-- /.sidebar-search -->
-
+</li><!-- /.sidebar-search -->
 <li class="visible-xs">
     <a href="#">
         <i class="fa fa-user fa-fw"></i> {{ Auth::user()->username != null ? Auth::user()->username : Auth::user()->firstname  }}
@@ -54,14 +52,12 @@
         </li>
     </ul>
     <!-- /.dropdown-user -->
-</li>
-<!-- /.dropdown-user -->
-
+</li><!-- /.dropdown-user -->
 <li>
     <a href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}">
         <i class="fa fa-dashboard fa-fw"></i> Dashboard
     </a>
-</li>
+</li><!-- /dashboard -->
 <li class="visible-xs">
     <a href="#">
         <i class="fa fa-envelope fa-fw"></i>
@@ -76,8 +72,7 @@
         </li>
     </ul>
     <!-- /.dropdown-messages -->
-</li>
-<!-- /.dropdown-messages -->
+</li><!-- /.dropdown-messages -->
 <li class="visible-xs">
     <a href="#">
         <i class="fa fa-tasks fa-fw"></i>
@@ -92,27 +87,26 @@
         </li>
     </ul>
     <!-- /.dropdown-tasks -->
-</li>
-<!-- /.dropdown-tasks -->
+</li><!-- /.dropdown-tasks -->
 <li>
     <a href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
         <i class="fa fa-bell fa-fw"></i>
         Notifications
         <span class="badge pull-right">{{ count($app->unreadNotifications)> 0 ? count($app->unreadNotifications) : '' }}</span>
     </a>
-</li>
+</li><!-- /notifications -->
 <li>
     <a href="{{ route('estate.rental.profile', ['id' => $app->id]) }}" title="App Profile">
         <i class="fa fa-product-hunt fa-fw"></i>
         Profile
     </a>
-</li>
+</li><!-- /app profile -->
 <li>
     <a href="{{ route('estate.rental.settings', ['id' => $app->id]) }}" title="App Settings">
         <i class="fa fa-cog fa-fw"></i>
         Settings
     </a>
-</li>
+</li><!-- /settings -->
 <li>
     <a href="#">
         <i class="fa fa-cogs fa-fw"></i> Quick Settings
@@ -135,7 +129,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /quick-settings -->
 <li>
     <a href="#">
         <i class="fa fa-building fa-fw"></i> Property Groups
@@ -150,7 +144,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /property-groups -->
 <li>
     <a href="#">
         <i class="fa fa-home fa-fw"></i> Properties
@@ -165,7 +159,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /properties -->
 <li>
     <a href="#">
         <i class="fa fa-users fa-fw"></i> Tenants
@@ -185,7 +179,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /tenants -->
 <li>
     <a href="#">
         <i class="fa fa-credit-card fa-fw"></i> Rent
@@ -201,7 +195,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /rent -->
 <li>
     <a href="#">
         <i class="fa fa-credit-card-alt fa-fw"></i> Bills
@@ -217,7 +211,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /bills -->
 {{--<li>--}}
 {{--<a href="#"><i class="fa fa-link fa-fw"></i> Quick Links<span class="fa arrow"></span></a>--}}
 {{--<ul class="nav nav-second-level">--}}

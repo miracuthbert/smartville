@@ -70,19 +70,36 @@
 </li>
 <!-- /.nav-first-level/Emails -->
 <li>
-    <a href="#"><i class="fa fa-book fa-fw"></i> Manuals
+    <a href="#"><i class="fa fa-universal-access fa-fw"></i> Roles
         <span class="fa arrow"></span>
     </a>
     <ul class="nav nav-second-level">
         <li>
-            <a href="{{ route('manual.create') }}">Create New</a>
+            <a href="{{ route('roles.create') }}">Add New</a>
         </li>
         <li>
-            <a href="{{ route('manual.index') }}">All</a>
+            <a href="{{ route('roles.index', ['role' => "site-admin"]) }}">Site Admins</a>
+        </li>
+        <li>
+            <a href="{{ route('roles.index') }}">Roles</a>
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
+</li><!-- /roles -->
+<li>
+    <a href="#"><i class="fa fa-users fa-fw"></i> Users
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="#new">Add New</a>
+        </li>
+        <li>
+            <a href="{{ route('admin.users') }}">All Users</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li><!-- /users -->
 <li>
     <a href="#"><i class="fa fa-sort-alpha-asc fa-fw"></i> Categories
         <span class="fa arrow"></span>
@@ -94,8 +111,26 @@
         <li>
             <a href="{{ route('category.index') }}">All</a>
         </li>
+    </ul><!-- /.nav-second-level -->
+</li><!-- /categories -->
+<li>
+    <a href="#"><i class="fa fa-credit-card fa-fw"></i> Subscriptions
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('admin_company_app.index', ['sort' => 'subscriptions']) }}">
+                Paid Subscriptions
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin_company_app.index', ['sort' => 'trials']) }}">
+                Trial Subscriptions
+            </a>
+        </li>
     </ul>
     <!-- /.nav-second-level -->
+</li><!-- /subscriptions -->
 <li>
     <a href="#"><i class="fa fa-globe fa-fw"></i> Companies
         <span class="fa arrow"></span>
@@ -104,9 +139,8 @@
         <li>
             <a href="{{ route('admin_company.index') }}">All</a>
         </li>
-    </ul>
-    <!-- /.nav-second-level -->
-</li>
+    </ul><!-- /.nav-second-level -->
+</li><!-- /companies -->
 <li>
     <a href="#"><i class="fa fa-laptop fa-fw"></i> Company Apps
         <span class="fa arrow"></span>
@@ -127,38 +161,7 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
-<li>
-    <a href="#"><i class="fa fa-universal-access fa-fw"></i> Roles
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level">
-        <li>
-            <a href="{{ route('roles.create') }}">Add New</a>
-        </li>
-        <li>
-            <a href="{{ route('roles.index', ['role' => "site-admin"]) }}">Site Admins</a>
-        </li>
-        <li>
-            <a href="{{ route('roles.index') }}">Roles</a>
-        </li>
-    </ul>
-    <!-- /.nav-second-level -->
-</li>
-<li>
-    <a href="#"><i class="fa fa-users fa-fw"></i> Users
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level">
-        <li>
-            <a href="#new">Add New</a>
-        </li>
-        <li>
-            <a href="{{ route('admin.users') }}">All Users</a>
-        </li>
-    </ul>
-    <!-- /.nav-second-level -->
-</li>
+</li><!-- /company apps -->
 <li>
     <a href="#"><i class="fa fa-product-hunt fa-fw"></i> Apps<span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
@@ -179,8 +182,21 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
-<!-- /.nav-first-level -->
+</li><!-- /apps -->
+<li>
+    <a href="#"><i class="fa fa-book fa-fw"></i> Manuals
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a href="{{ route('manual.create') }}">Create New</a>
+        </li>
+        <li>
+            <a href="{{ route('manual.index') }}">All</a>
+        </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li><!-- /docs -->
 <li class="hidden">
     <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
                 class="fa arrow"></span></a>
@@ -211,5 +227,4 @@
         </li>
     </ul>
     <!-- /.nav-second-level -->
-</li>
-<!-- /.nav-first-level -->
+</li><!-- /.nav-first-level -->
