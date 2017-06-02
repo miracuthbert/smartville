@@ -53,9 +53,9 @@ class Handler extends ExceptionHandler
             }
         }
 
-        if ($exception instanceof AuthorizationException) {
-            return response()->view('errors.401', [], 401);
-        }
+//        if ($exception instanceof AuthorizationException) {
+//            return response()->view('errors.401', [], 401);
+//        }
 
 
         return parent::render($request, $exception);
@@ -74,7 +74,8 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        Session::put('oldUrl', $request->url());
+        //TODO: try catching input data too in case user was making a form request
+        $request->session()->put('oldUrl', $request->fullUrl());
         return redirect()->route('login');
     }
 
