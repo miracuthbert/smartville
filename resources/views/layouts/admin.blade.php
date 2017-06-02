@@ -62,7 +62,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">{{ config('app.name') }} | Admin</a>
         </div>
         <!-- /.navbar-header -->
 
