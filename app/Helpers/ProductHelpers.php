@@ -1,5 +1,32 @@
 <?php
 
+function SubscriptionStatusLabel($date)
+{
+    if (\Carbon\Carbon::today()->lt($date)) {
+        echo 'label label-success';
+    } else {
+        echo 'label label-danger';
+    }
+}
+
+function SubscriptionStatusText($date)
+{
+    if (\Carbon\Carbon::today()->lt($date)) {
+        echo 'Subscription Active';
+    } else {
+        echo 'Subscription Ended';
+    }
+}
+
+function SubscriptionStatusIcon($date)
+{
+    if (\Carbon\Carbon::today()->lt($date)) {
+        echo 'fa fa-toggle-on';
+    } else {
+        echo 'fa fa-toggle-off';
+    }
+}
+
 function AppStatusClass($status)
 {
     if ($status == 1) {
@@ -69,6 +96,24 @@ function AppStatusText($status)
         echo 'Active';
     } else {
         echo 'Disabled';
+    }
+}
+
+function AppSubscriptionText($status)
+{
+    if ($status == 1) {
+        echo 'Subscribed';
+    } else {
+        echo 'Not Subscribed';
+    }
+}
+
+function AppSubscriptionLabel($status)
+{
+    if ($status == 1) {
+        echo 'label label-success';
+    } else {
+        echo 'label label-danger';
     }
 }
 
