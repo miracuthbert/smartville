@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Company;
 
+use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\Paypal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,13 +22,40 @@ class CompanyAppController extends Controller
         $sort = $request->sort;
         $trial = $request->on_trial;
 
-        if ($sort == null)
+        if ($sort == 'subscriptions') {
+            $apps = Paypal::with([
+                'app' => function ($query) {
+                    $query->withCount('properties');
+                }
+            ])->where('completed', 1)
+                ->orderBy('ends_at', '>', 'TODAY()')
+                ->paginate();
+
+        } elseif ($sort == 'trials') {
+            $apps = AppTrial::with([
+                'app' => function ($query) {
+                    $query->withCount('properties');
+                }
+            ])->orderBy('trial_ends_at', 'ASC')
+                ->paginate();
+        } elseif ($sort == 'subscribed' && $trial == 1) {
+            $apps = AppTrial::with([
+                'app' => function ($query) {
+                    $query->withCount('properties');
+                }
+            ])->where('trial_ends_at', '>', Carbon::now())
+                ->orderBy('trial_ends_at', 'ASC')
+                ->paginate();
+        } elseif ($sort == 'subscribed' && $trial == 0) {
+            $apps = CompanyApp::withCount('properties')
+                ->where('subscribed', 1)
+                ->where('is_trial', 0)
+                ->paginate();
+        } else {
             $apps = CompanyApp::withCount(['groups', 'properties', 'tenants', 'leases', 'bills', 'rents'])
                 ->orderBy('status', 'DESC')
                 ->latest()
                 ->paginate();
-        elseif ($sort == 'subscribed') {
-            $apps = collect([]);
         }
 
         return view('v1.admin.company_app.index')
