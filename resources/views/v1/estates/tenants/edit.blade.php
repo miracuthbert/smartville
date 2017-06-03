@@ -29,7 +29,7 @@
                 <input type="hidden" name="id" id="id" value="{{ $lease->id }}">
 
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-lg-6 col-sm-6">
                         <p class="help-block visible-xs">Tenant details:</p>
 
                         <div class="row">
@@ -39,7 +39,7 @@
                                     <p class="form-control-static">{{ $tenant->user->firstname }}</p>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -48,7 +48,7 @@
                                     <div class="form-control-static">{{ $tenant->user->lastname }}</div>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -57,7 +57,7 @@
                                     <p class="form-static-control">{{ $tenant->user->email }}</p>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -67,7 +67,7 @@
                                            id="id_no" maxlength="45" value="{{ Request::old('id_no') }}"/>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -76,7 +76,7 @@
                                     <p class="form-control-static">{{ $tenant->user->country != null ? $tenant->user->country : '-' }}</p>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -85,11 +85,10 @@
                                     <p class="form-control-static">{{ $tenant->user->phone != null ? $tenant->user->phone : '-' }}</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- /.col-md-6-->
+                        </div><!-- /.row -->
+                    </div><!-- /.col-lg-6-->
 
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-lg-6 col-sm-6">
                         <p class="help-block visible-xs">Tenant property details:</p>
 
                         <div class="row">
@@ -109,7 +108,7 @@
                                     <p class="help-block">Choose blank to get properties with no group.</p>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -126,7 +125,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -140,7 +139,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -154,22 +153,20 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- /.row -->
 
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="tenant_review">Tenant comment:</label>
-                                    <textarea name="tenant_review" class="form-control" rows="3" cols="5"
-                                              id="tenant_review"
-                                              placeholder="tenant review">{{ Request::old('tenant_review') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-12">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--<label for="tenant_review">Tenant comment:</label>--}}
+                                    {{--<textarea name="tenant_review" class="form-control" rows="3" cols="5"--}}
+                                              {{--id="tenant_review"--}}
+                                              {{--placeholder="tenant review">{{ Request::old('tenant_review') }}</textarea>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div><!-- /.row -->--}}
+                    </div><!-- /.col-lg-6-->
+                </div><!-- /.row -->
 
                 <div class="row">
                     <div class="col-md-12">
@@ -191,7 +188,7 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div><!-- /.row -->
 
                 <div class="box" id="moveOut"
                      @if($lease->status == 1 || Request::old('status') == 1)style="display: none;" @endif>
@@ -227,6 +224,5 @@
     <script>
         $urlGroupProperties = '{{ route('estate.rental.tenant.group.properties') }}';
         $app = '{{ $app->id }}';
-        //        CKEDITOR.replace('property_desc');
     </script>
 @endsection
