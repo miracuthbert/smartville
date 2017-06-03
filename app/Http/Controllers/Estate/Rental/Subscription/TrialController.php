@@ -11,6 +11,36 @@ use App\Http\Controllers\Controller;
 class TrialController extends Controller
 {
     /**
+     * @var int $trials
+     *
+     * Holds the number of trials allowed
+     */
+    protected $trials = 1;
+
+    /**
+     * @var int $trialDays
+     *
+     * Holds the number of days for a trial
+     */
+    protected $trialDays = 14;
+
+    /**
+     * TrialController constructor.
+     * @param int $trialDays
+     */
+    public function __construct($trialDays = 14)
+    {
+
+        $this->middleware('company.app.admin');
+
+        $trials = config('settings.site_settings.trials');
+        $trialDays = config('settings.site_settings.trial_days');
+
+        $this->trials = $trials;
+        $this->trialDays = $trialDays;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -38,6 +68,7 @@ class TrialController extends Controller
      */
     public function store(Request $request, $id)
     {
+
         //quantity of properties
         $quantity = $request->quantity;
 
@@ -46,13 +77,9 @@ class TrialController extends Controller
         $trialDays = !empty($trialDays) ? $trialDays : 14;
 
         //app
-        $app = CompanyApp::withCount('trials')->where('id', $id)->first();
+        $app = CompanyApp::withCount('trials')->where('id', $id)->firstOrFail();
 
-        //check app
-        if ($app == null)
-            abort(404);
-
-        if ($app->trials_count == 0) {  //check if app has subscribed trials already
+        if ($app->trials_count < $this->trials) {  //check if app has used up all its subscription trials already
 
             //authorize
             $this->authorize('update', $app);
