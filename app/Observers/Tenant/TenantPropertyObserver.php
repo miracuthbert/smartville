@@ -4,6 +4,7 @@ namespace App\Observers\Tenant;
 
 use App\Models\v1\Tenant\TenantProperty;
 use App\Notifications\Tenant\TenantAddedNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TenantPropertyObserver
@@ -24,18 +25,21 @@ class TenantPropertyObserver
 
             //user
             $user = $tenant->user;
-            
+
             //user dash route
             $route = route('tenant.dashboard', ['id' => $tenant->id]);
 
             //app
             $app = $tenant->company;
-            
+
             //company
             $company = $app->company;
 
+            //Notification Queue Time
+            $when = Carbon::now()->addMinute(1);
+
             //notify
-            $user->notify(new TenantAddedNotification($tenantProperty, $app, $company, $user, $route));
+            $user->notify((new TenantAddedNotification($tenantProperty, $app, $company, $user, $route))->delay($when));
         }
     }
 
