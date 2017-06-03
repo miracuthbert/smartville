@@ -7,18 +7,25 @@ use App\Models\v1\Estate\EstateGroup;
 use App\Models\v1\Estate\EstateProperty;
 use App\Models\v1\Tenant\Tenant;
 use App\Models\v1\Tenant\TenantProperty;
+use App\Role;
+use App\User;
 use App\UserRole;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User;
+use ExtCountries;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TenantController extends Controller
 {
+    /**
+     * @var string $tenant_dashboard_route
+     *
+     * Holds tenant panel dashboard route name
+     */
+    protected $tenant_dashboard_route = 'tenant.dashboard';
 
     /**
      * TenantController constructor.
@@ -53,7 +60,6 @@ class TenantController extends Controller
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required|email|max:255',
-                'password' => 'required|min:6|max:20',
                 'group' => 'nullable|integer|exists:estate_groups,id',
                 'property' => 'required|integer|exists:estate_properties,id',
                 'move_in' => 'required|date',
@@ -70,8 +76,10 @@ class TenantController extends Controller
     {
         //app
         $app = CompanyApp::find($id);
+        $countries = ExtCountries::all()->pluck('name.common');
 
-        return view('v1.estates.tenants.new')
+        return view('v1.estates.tenants.create')
+            ->with('countries', $countries)
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('app', $app);
     }
@@ -167,7 +175,7 @@ class TenantController extends Controller
         //properties
         $properties = EstateProperty::where('company_app_id', $app->id)->where('property_group', $group)->get();
 
-        return view('v1.estates.tenants.tenant')
+        return view('v1.estates.tenants.edit')
             ->with('app', $app)
             ->with('lease', $lease)
             ->with('tenant_group', $group)
@@ -192,18 +200,26 @@ class TenantController extends Controller
 
         //messages
         $success = array();
+        $success_count = 0;
         $error = array();
+        $passwd = str_random(8);
 
         //get input property
         $_property = $request->input('property');
 
         //find occupied
-        $_tenant_property = EstateProperty::find($_property);
+        $property = EstateProperty::findOrFail($_property);
+
+        //app
+        $app = $property->app;
+
+        //company
+        $company = $app->company;
 
         //find property leases
-        $_occupied = TenantProperty::where('property_id', $_property)->get();
+        $_occupied = $property->tenants()->where('status', 1)->count();
 
-        if (count($_occupied) < $_tenant_property->tenants) {
+        if ($_occupied < $property->tenants) {
 
             //check if user exists
             $user = User::where('email', $request->input('email'))->first();
@@ -214,9 +230,10 @@ class TenantController extends Controller
                 $user->firstname = $request->input('first_name');
                 $user->lastname = $request->input('last_name');
                 $user->phone = $request->input('phone');
-                $user->email = $request->input('email');
                 $user->country = $request->input('country');
-                $user->password = bcrypt($request->input('password'));
+                $user->email = $request->input('email');
+                $user->id_no = $request->input('id_no');
+                $user->password = bcrypt($passwd);
 
                 //save
                 if ($user->save()) {
@@ -225,6 +242,7 @@ class TenantController extends Controller
 
                     //success
                     $success = array_add($success, $id, "User created successfully.");
+                    $success_count++;
                 } else {
                     return redirect()->back()
                         ->withInput()
@@ -235,68 +253,70 @@ class TenantController extends Controller
             //id
             $id = $user->id;
 
-            //add tenant
-            $tenant = new Tenant();
-            $tenant->company_app_id = $request->input('_app');
-            $tenant->user_id = $id;
+            //fetch tenant or create record tenant
+            $tenant = Tenant::firstOrCreate([
+                'company_app_id' => $request->input('_app'),
+                'user_id' => $user->id,
+            ]);
 
             if ($tenant->save()) {
+                $success_count++;
                 $tenant_id = $tenant->id;
 
                 //add tenant's property and lease
-                $property = new TenantProperty();
-                $property->tenant_id = $tenant_id;
-                $property->property_id = $_property;
-                $property->move_in = Carbon::parse($request->input('move_in'));
-                $property->lease_duration = $request->input('lease_duration');
+                $tenantProperty = new TenantProperty();
+                $tenantProperty->tenant_id = $tenant_id;
+                $tenantProperty->property_id = $property->id;
+                $tenantProperty->move_in = Carbon::parse($request->input('move_in'));
+                $tenantProperty->lease_duration = $request->input('lease_duration');
 
-                //check if tenant assigned
-                if ($property->save()) {
+                //Check if tenancy is assigned
+                if ($tenantProperty->save()) {
                     //success
-                    $success = array_add($success, $property->id, "Tenancy details added successfully.");
+                    $success = array_add($success, $tenantProperty->id, "Tenancy details added successfully.");
+                    $success_count++;
 
-                    $_tenant_property->status = 1;
+                    //Update Property Status
+                    $property->status = 1;
 
-                    if ($_tenant_property->save()) {
-                        $success = array_add($success, $_tenant_property->id, $_tenant_property->title . " is now occupied.");
+                    if ($property->save()) {
+                        $success = array_add($success, $property->id, $property->title . " is now occupied.");
+                        $success_count++;
                     } else {
-                        $error = array_add($error, $_tenant_property->id, $_tenant_property->title . " status has not been set to occupied, please do it manually.");
+                        $error = array_add($error, $property->id, $property->title . " status has not been set to occupied, please do it manually.");
                     }
 
-                    //assign role to tenant
-                    if ($user->tenant == null) {
-                        $role = new UserRole();
-                        $role->user_id = $id;
-                        $role->role_id = 4;
+                    //Fetch or Assign 'Tenant' role to user
+                    $role = UserRole::firstOrCreate([
+                        'user_id' => $user->id,
+                        'role_id' => Role::where('alias', 'company-tenant')->first()->id,
+                    ]);
 
-                        //check if user role assigned
-                        if ($role->save()) {
-                            //success
-                            $success = array_add($success, $role->id, "Tenant given tenant privileges.");
-                        } else {
-                            //error
-                            $error = array_add($error, "role", "Failed assigning tenant privileges to " . $user->first_name);
-
-                            //all good but not assigned tenant privileges
-                            return redirect()->back()
-                                ->withInput()
-                                ->with('bulk_error', $error)
-                                ->with('bulk_success', $success);
-                        }
-                    } else {
+                    //Check if user role assigned
+                    if ($role->save()) {
                         //success
-                        $success = array_add($success, $id, "Tenant given tenant privileges.");
-                    }
-                    //all good
-                    return redirect()->back()
-                        ->with('bulk_success', $success);
+                        $success = array_add($success, $role->id, "Tenant given tenant privileges.");
+                        $success_count++;
+                    } else {
+                        //error
+                        $error = array_add($error, "role", "Failed assigning 'tenant' privileges to " . $user->first_name);
 
+                        //all good but not assigned tenant privileges
+                        return redirect()->back()
+                            ->withInput()
+                            ->with('bulk_error', $error)
+                            ->with('bulk_success', $success);
+                    }
                 } else {
                     //error
                     $error = array_add($error, "property", "Failed adding tenancy details of " . $user->first_name);
                 }
             } //end of add tenant
+        }
 
+        if ($success_count > 0) {//all good
+            return redirect()->back()
+                ->with('bulk_success', $success);
         }
 
         return redirect()->back()
