@@ -51,9 +51,9 @@ class TenantBilledNotification extends Notification
     protected $message;
 
     /**
-     * Holds user route
+     * Holds user's bill route
      *
-     * @var $userRoute
+     * @var $route
      */
     protected $route;
 
@@ -65,13 +65,22 @@ class TenantBilledNotification extends Notification
     protected $subject;
 
     /**
+     * Holds the notification greeting
+     *
+     * @var string $greeting
+     */
+    protected $greeting;
+
+    /**
      * Create a new notification instance.
      *
      * @param $invoice
      * @param $bill
      * @param $company
+     * @param $user
+     * @param $route
      */
-    public function __construct($invoice, $bill, $company)
+    public function __construct($invoice, $bill, $company, $user, $route)
     {
         $this->invoice = $invoice;
 
@@ -79,7 +88,11 @@ class TenantBilledNotification extends Notification
 
         $this->company = $company;
 
+        $this->route = $route;
+
         $this->subject = 'Invoice for ' . $this->bill->title . ' Bill';
+
+        $this->greeting = 'Hello ' . $user->firstname . ',';
 
         $this->message = $company->title . " has sent you an invoice for rental of property " . $this->property->title . " from " . MonthName($invoice->date_from) . " to " . MonthName($invoice->date_to) . ". Payment is due by " . $invoice->date_due->toDateString() . ".";
     }
@@ -92,7 +105,7 @@ class TenantBilledNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -103,12 +116,13 @@ class TenantBilledNotification extends Notification
      */
     public function toMail($notifiable)
     {
-//        $user = $notifiable->
-
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+            ->subject($this->subject)
+            ->greeting($this->greeting)
+            ->line($this->message)
+            ->line('For more info click link below.')
+            ->action('View Invoice', $this->route)
+            ->line('Thank you for using ' . config('app.name') . '!');
     }
 
     /**
