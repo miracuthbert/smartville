@@ -68,6 +68,13 @@ class RentInvoiceSentNotification extends Notification
     protected $subject;
 
     /**
+     * Holds the notification greeting
+     *
+     * @var string $greeting
+     */
+    protected $greeting;
+
+    /**
      * Create a new notification instance.
      * @param $tenantRent
      * @param $app
@@ -84,6 +91,7 @@ class RentInvoiceSentNotification extends Notification
         $this->user = $user;
         $this->route = $route;
         $this->subject = "Invoice for Property Rental";
+        $this->greeting = 'Hello ' . $user->firstname . ',';
         $this->message = $company->title . " has sent you an invoice for rental of property " . $this->property->title . " from " . MonthName($tenantRent->date_from) . " to " . MonthName($tenantRent->date_to) . ". Payment is due by " . $tenantRent->date_due->toDateString() . ".";
     }
 
@@ -108,6 +116,7 @@ class RentInvoiceSentNotification extends Notification
     {
         return (new MailMessage)
             ->subject($this->subject)
+            ->greeting($this->greeting)
             ->line($this->message)
             ->line('For more info click link below.')
             ->action('View Invoice', $this->route)
