@@ -12,30 +12,87 @@ class BugReportSentNotification extends Notification
     use Queueable;
 
     /**
+     * Holds the bug details
+     *
      * @var $bug
      */
     protected $bug;
 
     /**
+     * Holds feature details
+     *
      * @var $feature
      */
     protected $feature;
 
     /**
+     * Holds details of user who reported the bug
+     *
+     * @var $from
+     */
+    protected $from;
+
+    /**
+     * Holds user details
+     *
      * @var $user
      */
     protected $user;
 
     /**
+     * Holds notification message
+     *
+     * @var $message
+     */
+    protected $message;
+
+    /**
+     * Holds bug details route
+     *
+     * @var $route
+     */
+    protected $route;
+
+    /**
+     * Holds notification subject
+     *
+     * @var string $subject
+     */
+    protected $subject;
+
+    /**
+     * Holds the notification greeting
+     *
+     * @var string $greeting
+     */
+    protected $greeting;
+
+    /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $bug
+     * @param $feature
+     * @param $from
+     * @param $user
+     * @param $route
      */
-    public function __construct($bug, $feature, $user)
+    public function __construct($bug, $feature, $from, $user, $route)
     {
         $this->bug = $bug;
+
         $this->feature = $feature;
+
+        $this->from = $from;
+
         $this->user = $user;
+
+        $this->route = $route;
+
+        $this->subject = str_limit('Bug reported for ' . $this->feature->feature);
+
+        $this->greeting = 'Hello ' . $user->firstname . ',';
+
+        $this->message = "A user has raised an issue on " . $this->bug->title;
     }
 
     /**
@@ -46,7 +103,7 @@ class BugReportSentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database, mail'];
     }
 
     /**
@@ -58,9 +115,12 @@ class BugReportSentNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+            ->subject($this->subject)
+            ->greeting($this->greeting)
+            ->line($this->message)
+            ->line('For more info click link below . ')
+            ->action('View Report', $this->route)
+            ->line('Thank you for using ' . config('app . name') . '!');
     }
 
     /**
