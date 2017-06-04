@@ -8,82 +8,84 @@
     @include('includes.headers.home.primary')
 
     <section id="support-wrapper">
-        <div class="row">
-            <div class="col-lg-9 col-sm-8">
-                <form role="form" method="post" action="{{ route('bug.store') }}" enctype="multipart/form-data"
-                      id="complaint-create-form" autocomplete="off">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-sm-8">
+                    <form role="form" method="post" action="{{ route('bug.store') }}" enctype="multipart/form-data"
+                          id="complaint-create-form" autocomplete="off">
 
-                    <h1 class="page-header">Report a bug/problem</h1>
+                        <h1 class="page-header">Report a bug/problem</h1>
 
-                    @include('includes.alerts.default')
+                        @include('includes.alerts.default')
 
-                    @include('includes.alerts.validation')
+                        @include('includes.alerts.validation')
 
-                    {{ csrf_field() }}
+                        {{ csrf_field() }}
 
-                    <div class="box">
-                        <div class="form-group">
-                            <label>Bug</label>
-                            <input type="text" name="bug" class="form-control" id="bug" maxlength="255"
-                                   placeholder="bug" value="{{ Request::old('bug') }}" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <label>App feature</label>
-                                    <select name="app_feature" class="form-control" id="app_feature">
-                                        <option>Select buggy feature</option>
-                                        @foreach($app_products as $app)
-                                            <optgroup label="{{ $app->title }}">
-                                                @foreach($app->features()->where('status', 1)->get() as $feature)
-                                                    <option value="{{ $feature->id }}"
-                                                            {{ $feature->id == Request::old('app_feature') ? 'selected' : '' }}>
-                                                        {{ $feature->feature }}
-                                                    </option>
-                                                @endforeach
-                                            </optgroup>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="box">
+                            <div class="form-group">
+                                <label>Bug</label>
+                                <input type="text" name="bug" class="form-control" id="bug" maxlength="255"
+                                       placeholder="bug" value="{{ Request::old('bug') }}" required autofocus>
                             </div>
-                            <p class="help-block">* Select an app feature that is buggy</p>
                         </div>
-                    </div>
 
-                    <div class="box">
-                        <div class="form-group">
-                            <label>Details</label>
+                        <div class="box">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>App feature</label>
+                                        <select name="app_feature" class="form-control" id="app_feature">
+                                            <option>Select buggy feature</option>
+                                            @foreach($app_products as $app)
+                                                <optgroup label="{{ $app->title }}">
+                                                    @foreach($app->features()->where('status', 1)->get() as $feature)
+                                                        <option value="{{ $feature->id }}"
+                                                                {{ $feature->id == Request::old('app_feature') ? 'selected' : '' }}>
+                                                            {{ $feature->feature }}
+                                                        </option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="help-block">* Select an app feature that is buggy</p>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="form-group">
+                                <label>Details</label>
                             <textarea name="details" class="form-control ckeditor" id="details"
                                       rows="5">{{ Request::old('details') }}</textarea>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="box hidden">
-                        <div class="form-group">
-                            <label>Attach file</label>
-                            <input type="file" name="file" class="form-control" id="file">
-                            <p class="help-block">You can attach a file for more details</p>
+                        <div class="box hidden">
+                            <div class="form-group">
+                                <label>Attach file</label>
+                                <input type="file" name="file" class="form-control" id="file">
+                                <p class="help-block">You can attach a file for more details</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="box">
-                        <button type="submit" class="btn btn-primary">
-                            Send report
-                            <i class="fa fa-check-square-o"></i>
-                        </button>
-                        <button type="reset" class="btn btn-default">
-                            Clear
-                            <i class="fa fa-remove"></i>
-                        </button>
-                    </div>
-                </form>
+                        <div class="box">
+                            <button type="submit" class="btn btn-primary">
+                                Send report
+                                <i class="fa fa-check-square-o"></i>
+                            </button>
+                            <button type="reset" class="btn btn-default">
+                                Clear
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.col-lg-9 -->
+                <!-- support sidebar -->
+                @include('includes.sidebars.support-v1')
             </div>
-            <!-- /.col-lg-9 -->
-            <!-- support sidebar -->
-            @include('includes.sidebars.support-v1')
         </div>
         <!-- /.row -->
     </section>
