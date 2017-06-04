@@ -61,6 +61,13 @@ class TenantAddedNotification extends Notification
     protected $subject;
 
     /**
+     * Holds the notification greeting
+     *
+     * @var string $greeting
+     */
+    protected $greeting;
+
+    /**
      * Create a new notification instance.
      *
      * @param $lease
