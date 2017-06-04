@@ -84,15 +84,15 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $redirect = Session::has('oldUrl') ? Session::get('oldUrl') : $this->redirectTo;
-
         //TODO: create a helper file or package or db table to generate more custom greetings
-        $greeting = Session::has('oldUrl') ? "Picking up from where you were" : "";
+        $greeting = $request->session()->has('oldUrl') ? "Picking up from where you were" : "";
+
+        $redirect = $request->session()->has('oldUrl') ? $request->session()->pull('oldUrl') : $this->redirectTo;
 
         $username = !empty($user->username) ? $user->username : $user->firstname;
 
         //pass greeting
-        $request->session()->flash('success', "Welcome , " . $username . ". " . $greeting);
+        $request->session()->flash('success', "Welcome, " . $username . ". " . $greeting);
 
         $this->redirectTo = $redirect;
     }

@@ -53,10 +53,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $redirect = Session::has('oldUrl') ? Session::get('oldUrl') : $this->redirectTo;
 
-        //TODO: create a helper file package or db table to generate more custom greetings
-        $greeting = Session::has('oldUrl') ? "Resumed from where you left off last time" : "Nice to see you again!";
+        //TODO: create a helper file or package or db table to generate more custom greetings
+        $greeting = $request->session()->has('oldUrl') ? "Resumed from where you left off last time" : "Nice to see you again!";
+
+        $redirect = $request->session()->has('oldUrl') ? $request->session()->pull('oldUrl') : $this->redirectTo;
 
         $username = !empty($user->username) ? $user->username : $user->firstname;
 
