@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\v1\Tenant\TenantBill;
 use App\Notifications\Tenant\TenantBilledNotification;
+use Carbon\Carbon;
 
 class TenantBillObserver
 {
@@ -18,17 +19,23 @@ class TenantBillObserver
     {
         if ($tenantBill) {
 
-            //bill
+            //Bill Service
             $bill = $tenantBill->bill;
 
-            //company
+            //Company
             $company = $bill->app->company;
             
-            //get user
+            //Get User
             $user = $tenantBill->lease->tenant->user;
 
-            //notify
-            $user->notify(new TenantBilledNotification($tenantBill, $bill, $company));
+            //Bill Route
+            $route = route('tenant.bill', ['id' => $tenantBill->id]);
+
+            //Notification Queue Time
+            $when = Carbon::now()->addMinute();
+
+            //Notify User
+            $user->notify((new TenantBilledNotification($tenantBill, $bill, $company, $user, $route))->delay($when));
         }
     }
 
