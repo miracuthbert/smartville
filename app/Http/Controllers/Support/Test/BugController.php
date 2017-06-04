@@ -13,6 +13,21 @@ use App\Http\Controllers\Controller;
 class BugController extends Controller
 {
     /**
+     * Holds bug admin route
+     *
+     * @var $bug_route
+     */
+    protected $bug_route;
+
+    /**
+     * BugController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -62,6 +77,9 @@ class BugController extends Controller
         if ($_feature->bugs()->save($report)) {
             $msg = 'Bug report sent successfully. You\'ll be notified once the issue is addressed!';
 
+            //route
+            $this->bug_route = route('bugs.show', ['bug' => $report->id]);
+
             //delay time
             $when = Carbon::now()->addMinute();
 
@@ -70,7 +88,8 @@ class BugController extends Controller
 
             foreach ($users as $role) {
                 //notify
-                $role->user->notify((new BugReportSentNotification($report, $_feature, $user))->delay($when));
+                $role->user->notify((new BugReportSentNotification($report, $_feature, $user, $role->user, $this->bug_route))
+                    ->delay($when));
             }
 
             return redirect()->back()
