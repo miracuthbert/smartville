@@ -46,7 +46,7 @@ class ForumCommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -65,7 +65,7 @@ class ForumCommentNotification extends Notification
                 'forum' => $this->forum->id,
                 '#' => 'comment' . $this->comment->id
             ]))
-            ->line(config('app.name'));
+            ->line('Thank you for using ' . config('app.name') . '!');
     }
 
     /**
