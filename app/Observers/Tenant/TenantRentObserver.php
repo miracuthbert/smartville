@@ -5,6 +5,7 @@ namespace App\Observers;
 
 use App\Models\v1\Tenant\TenantRent;
 use App\Notifications\Tenant\RentInvoiceSentNotification;
+use Carbon\Carbon;
 
 class TenantRentObserver
 {
@@ -36,8 +37,11 @@ class TenantRentObserver
             //company
             $company = $app->company;
 
+            //Notification Queue Time
+            $when = Carbon::now()->addMinute();
+
             //notify
-            $user->notify(new RentInvoiceSentNotification($tenantRent, $app, $company, $user, $route));
+            $user->notify((new RentInvoiceSentNotification($tenantRent, $app, $company, $user, $route))->delay($when));
         }
     }
 }
