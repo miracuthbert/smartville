@@ -217,16 +217,26 @@ Route::group(['prefix' => 'admin'], function () {
         'as' => 'admin.settings'
     ]);
 
-    //Get Admin contact message
-    Route::get('contact/message/{id}', [
-        'uses' => 'Admin\ContactController@message',
-        'as' => 'admin.contact.message'
-    ]);
+    /**
+     * -----------------------------------------------------------------
+     * Contact  Routes
+     * -----------------------------------------------------------------
+     */
 
-    //Get Admin contact messages
-    Route::get('contact/messages/{sort}', [
-        'uses' => 'Admin\ContactController@index',
-        'as' => 'admin.contact.messages'
+    Route::group(['prefix' => 'contact/messages'], function () {
+        //add more custom 'contact' routes here
+    });
+
+    //contact messages
+    Route::resource('contact/messages', 'Admin\Contact\ContactController', [
+        'except' => [
+          'destroy',
+        ],
+        'names' => [
+            'index' => 'admin.contact.messages',
+            'store' => 'admin.contact.message.store',
+            'show' => 'admin.contact.message',
+        ]
     ]);
 
     /**
