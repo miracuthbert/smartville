@@ -22,7 +22,8 @@
                         <div class="row">
                             <div class="col-sm-1 col-xs-2 text-center">
                                 <p>
-                                    <input type="checkbox" name="check_all" id="checkAll" class="checkbox">
+                                    <input type="checkbox" name="check_all" id="check-all" class="checkbox"
+                                           data-target="checkbox">
                                 </p>
                             </div>
                             <div class="col-sm-11 col-xs-10">
@@ -101,11 +102,16 @@
                             </div>
                             <div class="col-sm-3 col-xs-10 message-col">
                                 {{ $message->name }}
+                                @if(!$message->read_at)
+                                    <span class="label label-success" data-toggle="tooltip" title="Unread">
+                                        <i class="fa fa-clock-o"></i>
+                                    </span>
+                                @endif
                             </div>
                             <div class="col-sm-3 message-col">
                                 {{ $message->subject }}
                             </div>
-                            <div class="col-sm-2 message-col">
+                            <div class="col-sm-2 message-col text-center">
                                 {{ $message->created_at->diffForHumans() }}
                             </div>
                             <div class="col-sm-2 message-col">
