@@ -101,15 +101,17 @@
                                 </p>
                             </div>
                             <div class="col-sm-3 col-xs-10 message-col">
-                                {{ $message->name }}
-                                @if(!$message->read_at)
-                                    <span class="label label-success" data-toggle="tooltip" title="Unread">
+                                <a href="{{ route('admin.contact.messages', ['from' => $message->name]) }}">
+                                    {{ $message->name }}
+                                    @if(!$message->read_at)
+                                        <span class="label label-success" data-toggle="tooltip" title="Unread">
                                         <i class="fa fa-clock-o"></i>
                                     </span>
-                                @endif
+                                    @endif
+                                </a>
                             </div>
                             <div class="col-sm-3 message-col">
-                                {{ $message->subject }}
+                                {{ str_limit($message->subject) }}
                             </div>
                             <div class="col-sm-2 message-col text-center">
                                 {{ $message->created_at->diffForHumans() }}
@@ -117,15 +119,15 @@
                             <div class="col-sm-2 message-col">
                                 <div class="pull-right">
                                     <div class="btn-group btn-group-xs">
-                                        <a href="{{ route('admin.contact.message', ['id' => $message->id]) }}"
+                                        <a href="{{ route('admin.contact.message', ['message' => $message->id]) }}"
                                            class="btn btn-primary">
                                             <i class="fa fa-envelope-square"></i>
                                         </a>
-                                        <a href="{{ route('admin.contact.message', ['id' => $message->id, 'reply' => 1]) }}"
+                                        <a href="{{ route('admin.contact.message', ['message' => $message->id, 'reply' => 1]) }}"
                                            class="btn btn-default">
                                             <i class="fa fa-mail-reply"></i>
                                         </a>
-                                        <a href="{{ route('admin.contact.message', ['id' => $message->id]) }}"
+                                        <a href="{{ route('admin.contact.message', ['message' => $message->id]) }}"
                                            class="btn btn-warning">
                                             <i class="fa fa-trash-o"></i>
                                         </a>
