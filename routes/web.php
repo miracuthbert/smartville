@@ -224,7 +224,11 @@ Route::group(['prefix' => 'admin'], function () {
      */
 
     Route::group(['prefix' => 'contact/messages'], function () {
-        //add more custom 'contact' routes here
+        //toggle message read_at status
+        Route::get('toggle_read/{message?}', [
+            'uses' => 'Admin\Contact\ToggleReadController',
+            'as' => 'admin.contact.message.toggle_read',
+        ]);
     });
 
     //contact messages
