@@ -119,14 +119,14 @@
                                         @endif
                                     </a>
                                 </div>
-                                <div class="col-sm-3 message-col">
+                                <div class="col-sm-4 message-col">
                                     {{ str_limit($message->subject) }}
                                 </div>
                                 <div class="col-sm-2 message-col text-center"
                                      title="{{ $message->created_at->toDayDateTimeString() }}">
                                     {{ $message->created_at->diffForHumans() }}
                                 </div>
-                                <div class="col-sm-2 message-col text-center">
+                                <div class="col-sm-1 message-col text-center">
                                     <div class="btn-group btn-group-sm">
                                         <button type="button" class="btn btn-default dropdown-toggle"
                                                 data-toggle="dropdown">
@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="pull-right">
-                                        {{ $messages->links() }}
+                                        {{ $messages->appends($query_string)->render() }}
                                     </div>
                                 </div>
                             </div>
