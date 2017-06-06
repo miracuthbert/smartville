@@ -83,6 +83,18 @@
                         {{ $errors->has('type') ? $errors->first('type') : '' }}
                     </strong>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label">Features</label>
+                    <p class="help-block">Features field will be auto generated whenever this category is selected</p>
+
+                    <div id="features-wrapper"></div><!-- /#features-wrapper -->
+
+                    <button type="button" class="btn btn-default" id="btnNewCatFeature" data-target="#features-wrapper">
+                        Add new feature <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+
                 <div class="form-group {{ $errors->has('parent' ? 'has-error' : '') }}">
                     <label class="control-label">Level</label>
                     <label class="radio-inline">
