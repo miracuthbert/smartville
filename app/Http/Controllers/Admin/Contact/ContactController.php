@@ -24,11 +24,12 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
+        $query_string = $request->query->all();
         $sort = $request->sort;
         $from = $request->from;
 
         //from
-        if (!empty($from))
+        if ($from != null && $sort == "name")
             $messages = ContactMessage::where('name', $from)
                 ->orWhere('email', $from)
                 ->orderBy('created_at', 'DESC')
@@ -50,6 +51,7 @@ class ContactController extends Controller
             $messages = ContactMessage::where('read_at', null)->orderBy('created_at', 'DESC')->paginate();
 
         return view('v1.admin.contact.index')
+            ->with('query_string', $query_string)
             ->with('sort', $sort)
             ->with('messages', $messages);
     }
