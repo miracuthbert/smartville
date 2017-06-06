@@ -220,7 +220,7 @@ class RentController extends Controller
         $this->authorize('view', $app);
 
         //query string
-        $query_string = $request->getQueryString();
+        $query_string = array_except($request->query->all(), 'page');
 
         $today = $request->today;
         $date = $request->date;
@@ -263,16 +263,14 @@ class RentController extends Controller
                         ->paginate();
                     $date = "Before or on: " . $date;
                 }
-            }
-            elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
+            } elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereDate('date_due', $date)
                     ->whereNull('paid_at')
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            }
-            elseif ($request->has('today') && $today == true) { //get pending and due today
+            } elseif ($request->has('today') && $today == true) { //get pending and due today
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereDate('date_due', Carbon::today())
@@ -280,16 +278,14 @@ class RentController extends Controller
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
                 $date = "Today";
-            }
-            elseif ($request->has('month') && $month == true) { //get pending this month
+            } elseif ($request->has('month') && $month == true) { //get pending this month
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')
                     ->whereMonth('date_due', Carbon::today()->month)
                     ->orderBy('date_due', 'ASC')
                     ->paginate();
-            }
-            else {    //get pending rents
+            } else {    //get pending rents
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')
@@ -385,16 +381,14 @@ class RentController extends Controller
                         ->get();
                     $date = "Before or on: " . $date;
                 }
-            }
-            elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
+            } elseif ($request->has('date') && !empty($date)) {    //get pending rents by date
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereDate('date_due', $date)
                     ->whereNull('paid_at')
                     ->orderBy('date_due', 'ASC')
                     ->get();
-            }
-            elseif ($request->has('today') && $today == true) { //get pending and due today
+            } elseif ($request->has('today') && $today == true) { //get pending and due today
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereDate('date_due', Carbon::today())
@@ -402,16 +396,14 @@ class RentController extends Controller
                     ->orderBy('date_due', 'ASC')
                     ->get();
                 $date = "Today";
-            }
-            elseif ($request->has('month') && $month == true) { //get pending this month
+            } elseif ($request->has('month') && $month == true) { //get pending this month
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')
                     ->whereMonth('date_due', Carbon::today()->month)
                     ->orderBy('date_due', 'ASC')
                     ->get();
-            }
-            else {    //get pending rents
+            } else {    //get pending rents
                 $rents = $app->rents()
                     ->where('tenant_rents.status', 0)
                     ->whereNull('paid_at')

@@ -41,7 +41,7 @@
                                     <ul class="dropdown-menu pull-right">
                                         <li class="dropdown-header">To PDF</li>
                                         <li>
-                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => $sort, $query_string]) }}">Current</a>
+                                            <a href="{{ route('estate.rental.rents.report.pdf', ['id' => $app->id, 'sort' => $sort, http_build_query($query_string, '', '?')]) }}">Current</a>
                                         </li>
                                         <li role="separator" class="divider"></li>
                                         <li>
@@ -207,7 +207,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="pull-right">
-                                    {{ $rents->appends([$query_string])->links() }}
+                                    {{ $rents->appends($query_string)->render() }}
                                 </div>
                             </div>
                         </div>

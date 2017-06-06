@@ -227,7 +227,7 @@ class BillController extends Controller
         $this->authorize('view', $app);
 
         //query string
-        $query_string = $request->getQueryString();
+        $query_string = array_except($request->query->all(), 'page');
 
         //find passed billing service
         $service = $request->service;
