@@ -14,6 +14,15 @@
     {{ $app->title }}
 @endsection
 
+@section('form-nav')
+    <li>
+        <a href="{{ route('admin.app.edit', ['id' => $app->id]) }}">Edit App</a>
+    </li>
+    <li>
+        <a href="{{ route('admin.app.plan.create', ['id' => $app->id]) }}">Add a plan</a>
+    </li>
+@endsection
+
 @section('content')
     <div class="row">
 

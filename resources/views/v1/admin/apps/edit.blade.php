@@ -14,6 +14,15 @@
     <i class="fa fa-edit"></i> Edit App
 @endsection
 
+@section('form-nav')
+    <li>
+        <a href="{{ route('admin.app.view', ['id' => $app->id]) }}">Features & Plans</a>
+    </li>
+    <li>
+        <a href="{{ route('admin.app.plan.create', ['id' => $app->id]) }}">Add a plan</a>
+    </li>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -33,7 +42,7 @@
                 <input type="hidden" name="id" value="{{ $app->id }}">
 
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                    <label>App name:</label>
+                    <label>App name</label>
                     <input type="text" name="name" class="form-control" id="name"
                            placeholder="app name"
                            value="{{ Request::old('name') != null ? Request::old('name') : $app->title }}"
@@ -41,25 +50,25 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('summary') ? 'has-error' : '' }}">
-                    <label>Summary:</label>
+                    <label>Summary</label>
                                     <textarea name="summary" id="summary" cols="30" rows="3" class="form-control"
                                               placeholder="brief details of the app">{{ Request::old('summary') != null ? Request::old('summary') : $app->summary }}</textarea>
                 </div>
 
                 <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-                    <label>App details:</label>
+                    <label>App details</label>
                                     <textarea name="description" id="description" cols="30" rows="5"
                                               class="form-control ckeditor"
                                               placeholder="full details of the app">{{ Request::old('description') != null ? Request::old('description') : $app->desc }}</textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>App logo:</label>
+                    <label>App logo</label>
                     <input type="file" name="logo" class="form-control" id="logo">
                 </div>
 
                 <div class="form-group {{ $errors->has('mode') ? 'has-error' : '' }}">
-                    <label>App Mode:</label>
+                    <label>App Mode</label>
                     <label class="radio-inline">
                         <input type="radio" name="mode" id="development"
                                value="0" {{ $app->status == 0 ? 'checked' : '' }}>Development(beta)
@@ -71,7 +80,7 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('coming_soon') ? 'has-error' : '' }}">
-                    <label>App coming soon:</label>
+                    <label>App coming soon</label>
                     <label class="radio-inline">
                         <input type="radio" name="coming_soon" id="development"
                                value="0" {{ $app->coming_soon == 0 ? 'checked' : '' }}>No
@@ -83,20 +92,20 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('page') ? 'has-error' : '' }}">
-                    <label>Page view:</label>
+                    <label>Page view</label>
                     <input type="text" name="page" class="form-control" id="page"
                            placeholder="app creation page" value="{{ $app->page }}">
                 </div>
 
                 <div class="form-group {{ $errors->has('version_name') ? 'has-error' : '' }}">
-                    <label>Version name:</label>
+                    <label>Version name</label>
                     <input type="text" name="version_name" class="form-control"
                            id="version_name"
                            placeholder="version name" value="{{ $app->version_name }}">
                 </div>
 
                 <div class="form-group {{ $errors->has('version_no') ? 'has-error' : '' }}">
-                    <label>Version no:</label>
+                    <label>Version no</label>
                     <input type="text" name="version_no" class="form-control"
                            id="version_no"
                            placeholder="version no" value="{{ $app->version_no }}">
@@ -115,10 +124,10 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('category') ? 'has-error' : '' }}">
-                    <label>App category:</label>
+                    <label>App category</label>
                     <select name="category" class="form-control" id="category">
-                        <option>Select a category</option>
-                        @foreach($app_categories as $category)
+                        <option>-------- Select a category --------</option>
+                        @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ $app->category_id == $category->id ? 'selected' : '' }}>
                                 {{ $category->title }}
                             </option>
@@ -127,10 +136,10 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('payment_model') ? 'has-error' : '' }}">
-                    <label>Payment model:</label>
+                    <label>Payment model</label>
                     <select name="payment_model" class="form-control" id="payment_model">
-                        <option>Select a payment model</option>
-                        @foreach($app_payments as $payment)
+                        <option>-------- Select a payment model --------</option>
+                        @foreach($payments as $payment)
                             <option value="{{ $payment->id }}" {{ $app->monetization_id == $payment->id ? 'selected' : '' }}>
                                 {{ $payment->title }}
                             </option>
