@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ViewComposers;
+namespace App\Http\ViewComposers;
 
 use App\Models\Support\BugReport;
 use App\Models\v1\Company\AppTrial;

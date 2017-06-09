@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ViewComposers;
+namespace App\Http\ViewComposers;
 
 use App\Models\Post\PostAudience;
 use App\Models\v1\Documentation\Manual;
