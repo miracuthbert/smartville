@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -27,7 +28,11 @@ class StoreCategoryRequest extends FormRequest
             'title' => 'required|max:255',
             'details' => 'required|max:255',
             'level' => 'required|boolean',
-            'type' => 'required',
+            'feature.*' => 'filled',
+            'feature_value.*' => [
+                'filled',
+                Rule::in(['Text', 'Number', 'File']),
+            ],
             'status' => 'required|boolean',
         ];
     }
