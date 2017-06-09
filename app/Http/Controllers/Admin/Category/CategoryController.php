@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate();
+        $categories = Category::with('categories')->where('parent', 1)->where('status', 1)->paginate();
 
         return view('v1.admin.category.index')->with('categories', $categories);
     }
@@ -28,7 +28,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('v1.admin.category.create');
+        $parents = Category::where('parent', 1)->where('status', 1)->get();
+
+        return view('v1.admin.category.create')->with('parents', $parents);
     }
 
     /**
@@ -42,26 +44,46 @@ class CategoryController extends Controller
 
         $title = $request->input('title');
         $details = $request->input('details');
-        $type = $request->input('type');
-        $parent = $request->input('level');
+        $level = $request->input('level');
+        $parent = $request->input('parent');
         $status = $request->input('status');
+        $features = $request->input('feature');
+        $feature_values = $request->input('feature_value');
+
+        $data = array();
+
+        for ($i = 0; $i < count($features); $i++) {
+            $item = [
+                "name" => $features[$i],
+                "type" => strtolower($feature_values[$i]),
+            ];
+            $data = array_add($data, $i, $item);
+        }
 
         $category = new Category();
         $category->title = $title;
         $category->desc = $details;
-        $category->parent = $parent;
+        $category->parent = $level;
+        $category->features = $data;
         $category->status = $status;
 
-        if ($type > 0) {
-            $_type = Category::find($type);
-            $category->categorable_id = $_type->id;
-            $category->categorable_type = $_type->categorable_type;
-        } else {
-            $category->categorable_type = $type;
-        }
+        if ($parent != "none" && $level == 0 && $parent > 0) {
+            $_type = Category::find($parent);
 
-        if ($category->save()) {
+            $category->categorable()->associate($_type);
+            $category->save();
+
             return redirect()->route('category.index')->with('success', $title . ' category created successfully.');
+        } else {
+            //check if associated
+            if ($category->categorable) {
+                //if true dissociate
+                $category->categorable()->dissociate();
+            }
+
+            //check if successfully updated
+            if ($category->save())
+                return redirect()->route('category.index')->with('success', $title . ' category created successfully.');
         }
 
         return redirect()->back()->with('error', 'Failed creating category. Try again!')->withInput();
@@ -86,12 +108,14 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $parents = Category::where('parent', 1)->where('status', 1)->get();
+
         $category = Category::find($id);
 
         if ($category == null)
             abort(404);
 
-        return view('v1.admin.category.edit')->with('cat', $category);
+        return view('v1.admin.category.edit')->with('parents', $parents)->with('cat', $category);
 
     }
 
@@ -106,9 +130,21 @@ class CategoryController extends Controller
     {
         $title = $request->input('title');
         $details = $request->input('details');
-        $type = $request->input('type');
-        $parent = $request->input('level');
+        $level = $request->input('level');
+        $parent = $request->input('parent');
         $status = $request->input('status');
+        $features = $request->input('feature');
+        $feature_values = $request->input('feature_value');
+
+        $data = array();
+
+        for ($i = 0; $i < count($features); $i++) {
+            $item = [
+                "name" => $features[$i],
+                "type" => strtolower($feature_values[$i]),
+            ];
+            $data = array_add($data, $i, $item);
+        }
 
         $category = Category::find($id);
 
@@ -117,19 +153,27 @@ class CategoryController extends Controller
 
         $category->title = $title;
         $category->desc = $details;
-        $category->parent = $parent;
+        $category->parent = $level;
+        $category->features = $data;
         $category->status = $status;
 
-        if ($type > 0) {
-            $_type = Category::find($type);
-            $category->categorable_id = $_type->id;
-            $category->categorable_type = $_type->categorable_type;
-        } else {
-            $category->categorable_type = $type;
-        }
+        if ($parent != "none" && $level == 0 && $parent > 0) {
+            $_type = Category::find($parent);
 
-        if ($category->save()) {
-            return redirect()->back()->with('success', $title . ' category updated successfully.');
+            $category->categorable()->associate($_type);
+            $category->save();
+
+            return redirect()->route('category.index')->with('success', $title . ' category updated successfully.');
+        } else {
+            //check if associated
+            if ($category->categorable) {
+                //if true dissociate
+                $category->categorable()->dissociate();
+            }
+
+            //check if successfully updated
+            if ($category->save())
+                return redirect()->route('category.index')->with('success', $title . ' category updated successfully.');
         }
 
         return redirect()->back()->with('error', 'Failed updating category. Try again!')->withInput();
