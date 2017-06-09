@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\v1\Product\Product;
+use App\Models\v1\Shared\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -61,7 +62,15 @@ class ProductController extends Controller
      */
     public function getCreate()
     {
-        return view('v1.admin.apps.create');
+        $categories = Category::where('title', 'LIKE', '%apps%')->first();
+        $categories = $categories->categories;
+        $payments = Category::where('title', 'LIKE', '%monetization%')->first();
+        $payments = $payments->categories;
+
+        return view('v1.admin.apps.create')
+            ->with('categories', $categories)
+            ->with('payments', $payments);
+
     }
 
     /**
@@ -172,9 +181,15 @@ class ProductController extends Controller
     public function edit($id)
     {
         $app = Product::findorFail($id);
+        $categories = Category::where('title', 'LIKE', '%apps%')->first();
+        $categories = $categories->categories;
+        $payments = Category::where('title', 'LIKE', '%monetization%')->first();
+        $payments = $payments->categories;
 
         return view('v1.admin.apps.edit')
-            ->with('app', $app);
+            ->with('app', $app)
+            ->with('categories', $categories)
+            ->with('payments', $payments);
     }
 
     /**
