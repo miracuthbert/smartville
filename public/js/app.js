@@ -140,7 +140,8 @@ $(document).ready(function () {
         $this = $(this);
 
         //markup
-        $output = '<div class="row">';
+        $output = '<div class="form-group">';
+        $output += '<div class="row">';
         $output += '<div class="col-md-3">';
         $output += '<div class="form-group">';
         $output += '<label class="sr-only">Feature</label>';
@@ -162,11 +163,11 @@ $(document).ready(function () {
         $output += '<div class="col-md-1">';
         $output += '<button type="button" name="btnFeatureGen" class="btn btn-warning btn-sm btnRemoveFeature pull-right"';
         $output += ' data-toggle="tooltip" title="Remove feature">';
-        $output += '<span class="text-warning visible-xs-inline">Remove</span>';
+        $output += '<span class="text-warning visible-xs-inline">Remove</span> ';
         $output += '<span class="fa fa-remove"></span>';
         $output += '</button>';
         $output += '</div>';
-        $output += '<hr>';
+        $output += '</div>';
         $output += '</div>';
 
 
