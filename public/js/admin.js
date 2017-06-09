@@ -38,7 +38,7 @@ $('#btnNewCatFeature').on('click', function () {
     $holder += '<div class="row">';
     $holder += '<div class="col-sm-6">';
     $holder += '<div class="form-group">';
-    $holder += '<input name="featute[]" class="form-control cat-feature" placeholder="feature name" required/>';
+    $holder += '<input name="feature[]" class="form-control cat-feature" placeholder="feature name" required/>';
     $holder += '</div>';
     $holder += '</div>';
     $holder += '<div class="col-sm-4">';
@@ -76,5 +76,19 @@ $(document).on('click', '.btnRmvCatFeature', function () {
 
     //remove selected feature
     $this.parent().parent().parent().parent().remove();
+
+});
+
+//toggle parent category select
+$(document).on('change', 'input[name="level"]', function () {
+
+    var $level = $(this).val();
+
+    //hide wrapper div
+    if ($level == 1)
+        $('div#cat-parent-wrapper').slideUp();
+    else
+    //show wrapper div
+        $('div#cat-parent-wrapper').slideDown();
 
 });
