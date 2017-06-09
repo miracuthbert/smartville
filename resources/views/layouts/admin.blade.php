@@ -281,38 +281,48 @@
 
     </nav>
     <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <p></p>
-                <nav id="breadcrumb">
-                    <ul class="breadcrumb">
-                        <li>{{ config('app.name') }}</li>
-                        <li>Admin</li>
-                        @yield('breadcrumb')
-                    </ul>
-                </nav>
+        <div id="top-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav id="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li>{{ config('app.name') }}</li>
+                            <li>Admin</li>
+                            @yield('breadcrumb')
+                        </ul><!-- /.breadcrumb -->
+                    </nav><!-- /#breadcrumb -->
 
-                <p class="text-right">
-                    <a href="{{ url()->previous() }}" class="btn btn-link btn-xs pull-right">
-                        <i class="fa fa-angle-double-left"></i> Recently Viewed
-                    </a>
-                </p>
+                    <div class="clearfix top-links">
+                        <div class="pull-right">
+                            @yield('top-links')
+                            <a href="{{ url()->previous() }}" class="btn btn-link btn-xs">
+                                <i class="fa fa-angle-double-left"></i> Recently Viewed
+                            </a>
+                        </div>
+                    </div>
 
-                <h1 class="page-header">@yield('page-header')</h1>
-            </div>
-            <!-- /.col-lg-12 -->
-        </div>
-        <!-- /.row -->
+                    <h1 class="page-header">@yield('page-header')</h1>
+
+                </div><!-- /.col-lg-12 -->
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="nav nav-pills">
+                        @yield('form-nav')
+                    </div>
+                </div><!-- /.col-lg-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.box -->
+
         @yield('stats')
                 <!-- /.stats -->
         @yield('content')
                 <!-- /.content -->
         @include('includes.forms.logout')
-    </div>
-    <!-- /#page-wrapper -->
+    </div><!-- /#page-wrapper -->
 
-</div>
-<!-- /#wrapper -->
+</div><!-- /#wrapper -->
 
 <!-- jQuery -->
 <!-- Placed at the end of the document so the pages load faster -->
