@@ -25,6 +25,10 @@ class Category extends Model
      */
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'features' => 'array',
+    ];
+
     /**
      * Get all of the owning categorable models.
      *
@@ -33,5 +37,15 @@ class Category extends Model
     public function categorable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get all the category's children.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function categories()
+    {
+        return $this->morphMany($this, 'categorable');
     }
 }
