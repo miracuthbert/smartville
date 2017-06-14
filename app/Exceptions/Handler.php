@@ -75,8 +75,12 @@ class Handler extends ExceptionHandler
         }
 
         //TODO: try catching input data too in case user was making a form request
-        $request->session()->put('oldUrl', $request->fullUrl());
-        return redirect()->route('login');
+        if ($request->session()->has('oldUrl')) //check if 'oldUrl' is stored in session then redirect
+            return redirect()->guest(route('login'));
+        else    //if no 'oldUrl' store 'request full url' in session
+            $request->session()->put('oldUrl', $request->fullUrl());
+
+        return redirect()->guest(route('login'));
     }
 
 }
