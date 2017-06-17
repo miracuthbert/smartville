@@ -234,7 +234,7 @@ Route::group(['prefix' => 'admin'], function () {
     //contact messages
     Route::resource('contact/messages', 'Admin\Contact\ContactController', [
         'except' => [
-          'destroy',
+            'destroy',
         ],
         'names' => [
             'index' => 'admin.contact.messages',
