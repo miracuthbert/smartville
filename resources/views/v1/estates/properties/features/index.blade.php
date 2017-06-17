@@ -33,6 +33,7 @@
                 <input type="hidden" name="id" id="id" value="{{ $property->id }}">
 
                 <h4>Add new feature(s):</h4>
+
                 @if($errors->has('feature')or$errors->has('details')or$errors->has('value'))
                     <p class="text-danger">
                         @if($errors->has('feature'))
@@ -51,6 +52,46 @@
                     <div class="col-lg-12">
                         <div class="form-group @if($errors->has('feature')||$errors->has('details')||$errors->has('value')) has-error @endif">
                             @if(count(Request::old('feature')) <= 0)
+                                @forelse($results as $result)
+                                    @if($result == null)
+                                        <div class="form-group auto-feature"
+                                             id="{{ $type->features[$loop->index]['name'] }}">
+                                            <div class="row" id="auto">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">Feature</label>
+                                                        <input type="text" name="feature[]"
+                                                               class="form-control _add_feature"
+                                                               value="{{ $type->features[$loop->index]['name'] }}"
+                                                               readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">Feature Details</label>
+                                                        <input type="text" name="details[]"
+                                                               class="form-control _add_details"
+                                                               placeholder="Feature Details" maxlength="255">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">#</label>
+                                                        <input type="{{ $type->features[$loop->index]['type'] }}"
+                                                               name="value[]"
+                                                               class="form-control _add_value"
+                                                               placeholder="# of {{ $type->features[$loop->index]['name'] }}"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div><!-- /.row#auto -->
+                                            <p class="help-block">* {{ $type->features[$loop->index]['name'] }} is
+                                                required by default</p>
+                                        </div>
+                                    @endif
+                                @empty
+                                @endforelse
+
                                 <div class="row" id="default">
                                     <div class="col-md-3">
                                         <div class="form-group">
