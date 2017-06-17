@@ -15,7 +15,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-11">
+        <div class="col-lg-12">
             <form name="add-property-form" method="post" action="{{ route('estate.rental.property.store') }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
@@ -46,7 +46,7 @@
 
                 <div class="box">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group {{ $errors->has('group') ? 'has-error' : '' }}">
                                 <label for="group">Property Group</label>
                                 <select name="group" class="form-control" id="group">
@@ -69,7 +69,7 @@
                             </div>
                         </div><!-- /.col-lg-6 --><!-- /group -->
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group {{ $errors->has('type') ? 'has-error' : '' }}">
                                 <label for="type">Property Type *</label>
                                 <select name="type" class="form-control" id="type" required>
@@ -88,8 +88,12 @@
                                 @endif
                             </div>
                         </div><!-- /.col-lg-6 --><!-- /type -->
+                    </div><!-- /.row -->
+                </div><!-- /.box --><!-- /size -->
 
-                        <div class="col-lg-4">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-lg-6">
                             <label for="size">Property Size (Sq Ft) *</label>
                             <div class="form-group {{ $errors->has('size') ? 'has-error' : '' }} input-group">
                                 <input type="number" name="size" class="form-control" placeholder="Property Size"
@@ -105,7 +109,7 @@
                             </div>
                         </div><!-- /.col-lg-6 --><!-- /size -->
                     </div><!-- /.row -->
-                </div><!-- /.box --><!-- /group&type&size -->
+                </div><!-- /.box --><!-- /size -->
 
                 <div class="box">
                     <div class="row">
@@ -170,6 +174,115 @@
                         </div><!-- /.col-lg-12 -->
                     </div><!-- /.row -->
                 </div><!-- /.box --><!-- /summary -->
+
+                <div class="box">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="feature">Property Features</label>
+                            <div class="form-group
+                        @if($errors->has('feature.*')||$errors->has('details.*')||$errors->has('value.*')) has-error @endif"
+                                 id="features-wrapper">
+                                @if(count(Request::old('feature')) <= 0)
+                                    <div class="row" id="default">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="sr-only">Feature</label>
+                                                <input type="text" name="feature[]" class="form-control _add_feature"
+                                                       placeholder="Feature">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="sr-only">Feature Details</label>
+                                                <input type="text" name="details[]" class="form-control _add_details"
+                                                       placeholder="Feature Details" maxlength="255">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="sr-only">#</label>
+                                                <input type="text" name="value[]" class="form-control _add_value"
+                                                       placeholder="# of feature" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button type="button" name="btnFeatureGen"
+                                                    class="btn btn-warning btn-sm btnRemoveFeature pull-right"
+                                                    data-toggle="tooltip" title="Remove feature">
+                                                <span class="text-warning visible-xs-inline">Remove</span>
+                                                <span class="fa fa-remove"></span>
+                                            </button>
+                                        </div>
+                                    </div><!-- /.row#default -->
+                                @else
+                                    @for($i = 0; $i < count(Request::old('feature')); $i++)
+                                        @if(!empty(Request::old('feature')[$i]))
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">Feature</label>
+                                                        <input type="text" name="feature[]"
+                                                               class="form-control _add_feature"
+                                                               value="{{ Request::old('feature')[$i] }}"
+                                                               placeholder="Feature">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">Feature Details</label>
+                                                        <input type="text" name="details[]"
+                                                               class="form-control _add_details"
+                                                               placeholder="Feature Details" maxlength="255"
+                                                               value="{{ Request::old('details')[$i] }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label class="sr-only">#</label>
+                                                        <input type="text" name="value[]"
+                                                               class="form-control _add_value"
+                                                               placeholder="# of feature"
+                                                               value="{{ Request::old('value')[$i] }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" name="btnFeatureGen"
+                                                            class="btn btn-warning btn-sm btnRemoveFeature pull-right"
+                                                            data-toggle="tooltip" title="Remove feature">
+                                                        <span class="text-warning visible-xs-inline">Remove</span>
+                                                        <span class="fa fa-remove"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endfor
+                                @endif
+
+                                <div class="form-group">
+                                    <button type="button" name="btnFeatureGen" id="btnFeatureGen"
+                                            class="btn btn-link btn-sm"
+                                            data-toggle="tooltip" title="Add another property feature">
+                                        Add another property feature
+                                    </button>
+                                </div>
+
+                                @if($errors->has('feature.*')or$errors->has('details.*')or$errors->has('value.*'))
+                                    <p class="text-danger">
+                                        @if($errors->has('feature'))
+                                            <strong>{{ $errors->first('feature') }}</strong> <br>
+                                        @endif
+                                        @if($errors->has('details'))
+                                            <strong>{{ $errors->first('details') }}</strong> <br>
+                                        @endif
+                                        @if($errors->has('value'))
+                                            <strong>{{ $errors->first('value') }}</strong>
+                                        @endif
+                                    </p>
+                                @endif
+                            </div>
+                        </div><!-- /.col-lg-12 -->
+                    </div><!-- /.box -->
+                </div><!-- /.box --><!-- /features -->
 
                 <div class="box">
                     <div class="row">
@@ -264,114 +377,6 @@
                 <div class="box">
                     <div class="row">
                         <div class="col-lg-12">
-                            <label for="feature">Property Features</label>
-                            <div class="form-group
-                        @if($errors->has('feature')||$errors->has('details')||$errors->has('value')) has-error @endif">
-                                @if(count(Request::old('feature')) <= 0)
-                                    <div class="row" id="default">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="sr-only">Feature</label>
-                                                <input type="text" name="feature[]" class="form-control _add_feature"
-                                                       placeholder="Feature">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="sr-only">Feature Details</label>
-                                                <input type="text" name="details[]" class="form-control _add_details"
-                                                       placeholder="Feature Details" maxlength="255">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label class="sr-only">#</label>
-                                                <input type="text" name="value[]" class="form-control _add_value"
-                                                       placeholder="# of feature" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="button" name="btnFeatureGen"
-                                                    class="btn btn-warning btn-sm btnRemoveFeature pull-right"
-                                                    data-toggle="tooltip" title="Remove feature">
-                                                <span class="text-warning visible-xs-inline">Remove</span>
-                                                <span class="fa fa-remove"></span>
-                                            </button>
-                                        </div>
-                                    </div><!-- /.row#default -->
-                                @else
-                                    @for($i = 0; $i < count(Request::old('feature')); $i++)
-                                        @if(!empty(Request::old('feature')[$i]))
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="sr-only">Feature</label>
-                                                        <input type="text" name="feature[]"
-                                                               class="form-control _add_feature"
-                                                               value="{{ Request::old('feature')[$i] }}"
-                                                               placeholder="Feature">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="sr-only">Feature Details</label>
-                                                        <input type="text" name="details[]"
-                                                               class="form-control _add_details"
-                                                               placeholder="Feature Details" maxlength="255"
-                                                               value="{{ Request::old('details')[$i] }}">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label class="sr-only">#</label>
-                                                        <input type="text" name="value[]"
-                                                               class="form-control _add_value"
-                                                               placeholder="# of feature"
-                                                               value="{{ Request::old('value')[$i] }}" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <button type="button" name="btnFeatureGen"
-                                                            class="btn btn-warning btn-sm btnRemoveFeature pull-right"
-                                                            data-toggle="tooltip" title="Remove feature">
-                                                        <span class="text-warning visible-xs-inline">Remove</span>
-                                                        <span class="fa fa-remove"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endfor
-                                @endif
-
-                                <p>
-                                    <button type="button" name="btnFeatureGen" id="btnFeatureGen"
-                                            class="btn btn-link btn-sm"
-                                            data-toggle="tooltip" title="Add new feature">
-                                        Add custom feature
-                                    </button>
-                                </p>
-
-                                @if($errors->has('feature')or$errors->has('details')or$errors->has('value'))
-                                    <p class="text-danger">
-                                        @if($errors->has('feature'))
-                                            <strong>{{ $errors->first('feature') }}</strong> <br>
-                                        @endif
-                                        @if($errors->has('details'))
-                                            <strong>{{ $errors->first('details') }}</strong> <br>
-                                        @endif
-                                        @if($errors->has('value'))
-                                            <strong>{{ $errors->first('value') }}</strong>
-                                        @endif
-                                    </p>
-                                @endif
-                            </div>
-                        </div><!-- /.col-lg-12 -->
-                    </div><!-- /.box -->
-                </div><!-- /.box --><!-- /features -->
-
-                <div class="box">
-                    <div class="row">
-                        <div class="col-lg-12">
                             <label>Property Status</label>
                             <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
                                 <label class="radio-inline">
@@ -404,19 +409,87 @@
                 </div><!-- /.box -->
 
             </form><!-- /#add-property-form -->
-        </div><!-- /.col-lg-11 -->
-        <div class="col-lg-1">
-            <div class="walkthrough" data-spy="affix" data-offset-top="0px">
-                <div class="pull-right">
-                    <div class="btn-group btn-group-vertical"></div>
-                    <button class="btn btn-info btn-sm" title="How to create a new property">
-                        <i class="fa fa-info"></i>
-                    </button>
-                </div><!-- /.walkthrough -->
-            </div><!-- /.col-lg-1 -->
-        </div>
+        </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
+
     <script>
+        var $property_types = {};
+        var $i = 0;
+        var $property_types = {
+            @foreach($property_types as $type)
+            '{{ $type->id }}': {
+                'title': '{{ $type->title }}',
+                'total': '{{ count($type->features) }}',
+                'features': {
+                    @if(count($type->features) > 0)
+                            @foreach($type->features as $feature)
+                    '{{ $loop->index }}': {
+                        'name': '{{ $feature['name'] }}',
+                        'type': '{{ $feature['type'] }}',
+                    },
+                    @endforeach
+                    @endif
+                },
+            },
+            @endforeach
+        };
+    </script>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).on('change', 'form select#type', function () {
+            var $this = $(this);
+
+            var $id = $this.val();
+
+            //remove auto generated features
+            $('#features-wrapper').find('div.auto-feature').remove();
+
+            //check if empty
+            if ($property_types[$id]['total'] <= 0)
+                return;
+
+            var features = $property_types[$id]['features'];
+
+            $.each(features, function (i, item) {
+
+                //get feature properties
+                var $name = item.name;
+                var $type = item.type;
+
+                //markup
+                var $output;
+                $output = '<div class="form-group auto-feature" id="' + $name + '">';
+                $output += '<div class="row">';
+                $output += '<div class="col-md-3">';
+                $output += '<div class="form-group">';
+                $output += '<label class="sr-only">' + $name + ' <span class="text-danger">*</span></label>';
+                $output += '<input type="text" name="feature[]" class="form-control _add_feature" value="' + $name + '" readonly required>';
+                $output += '</div>';
+                $output += '</div>';
+                $output += '<div class="col-md-6">';
+                $output += '<div class="form-group">';
+                $output += '<label class="sr-only">Feature Details</label>';
+                $output += '<input type="text" name="details[]" class="form-control _add_details" placeholder="Feature Details" maxlength="255" required>';
+                $output += '</div>';
+                $output += '</div>';
+                $output += '<div class="col-md-2">';
+                $output += '<div class="form-group">';
+                $output += '<label class="sr-only"># of ' + $name + '</label>';
+                $output += '<input type="' + $type + '" name="value[]" class="form-control _add_value" placeholder="# of ' + $name + '" required>';
+                $output += '</div>';
+                $output += '</div>';
+                $output += '</div>';
+                $output += '<p class="help-block">* ' + $name + ' is required by default</p>';
+                $output += '</div>';
+
+                //append auto-features
+                $('#features-wrapper').prepend($output);
+            });
+
+        });
+
         CKEDITOR.replace('ckeditor');
     </script>
 @endsection
