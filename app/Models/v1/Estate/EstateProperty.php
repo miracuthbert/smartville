@@ -7,7 +7,7 @@ use App\Models\v1\Company\CompanyApp;
 use App\Models\v1\Property\PropertyAmenity;
 use App\Models\v1\Property\PropertyFeature;
 use App\Models\v1\Property\PropertyPrice;
-use App\Models\v1\Property\PropertyType;
+use App\Models\v1\Shared\Category;
 use App\Models\v1\Tenant\TenantProperty;
 use App\Models\v1\Tenant\TenantRent;
 use Illuminate\Database\Eloquent\Model;
@@ -78,7 +78,7 @@ class EstateProperty extends Model
      */
     public function type()
     {
-        return $this->belongsTo(PropertyType::class, 'property_type', 'id');
+        return $this->belongsTo(Category::class, 'property_type', 'id');
     }
 
     /**
