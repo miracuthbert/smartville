@@ -221,6 +221,17 @@ class PropertyController extends Controller
         //authorize
         $this->authorize('view', $app);
 
+        //property type
+        $type = $property->type;
+
+        //TODO: find property type features
+        $results = collect();
+
+        foreach ($type->features as $feature) {
+            $result = $property->features()->where('title', 'like', '%' . $feature['name'] . '%')->first();
+            $results->push($result);
+        }
+
         //TODO: use for debug only
         //dd($property->prices()->where('status',1)->first());
 
@@ -230,6 +241,8 @@ class PropertyController extends Controller
             ->with('property_price', $property->prices()->where('status', 1)->first())
             ->with('amenities', $app->amenities()->where('status', 1)->get())
             ->with('groups', $app->groups()->where('status', 1)->get())
+            ->with('results', $results)
+            ->with('type', $type)
             ->with('property', $property);
     }
 
