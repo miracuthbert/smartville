@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="{{ url('images/site/cropped-sv_00-32x32.png') }}">
 
     <title>({{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}) @yield('title')
         | {{ $app->product->title }} - {{ config('app.name') }}</title>
@@ -261,9 +262,6 @@
 
         <!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
-
-<!-- Custom Text Editor -->
-<script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
 
 <!-- Custom Text Editor -->
 <script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
