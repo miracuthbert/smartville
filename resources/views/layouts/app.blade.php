@@ -10,9 +10,17 @@
 
     <title>{{ config('app.name', 'Smart Ville') }} - @yield('title')</title>
 
-    <!-- Styles -->
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- Core & Custom Bootstrap Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- jQuery UI Styles -->
+    <link href="{{ url('css/vendor/jquery-ui.min.css') }}" rel="stylesheet">
     @yield('styles')
 
             <!-- Scripts -->
@@ -96,5 +104,7 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/demo_app.js') }}"></script>
+<!-- jQuery UI JavaScript -->
+<script src="{{ url('js/vendor/jquery-ui.min.js') }}"></script>
 </body>
 </html>

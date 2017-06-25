@@ -11,13 +11,19 @@
 
     <title>@yield('title') - Admin | {{ config('app.name') }}</title>
 
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
+    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap Core CSS -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('css/app.css') }}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="{{ url('css/metisMenu.min.css') }}" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- SB Admin Theme CSS -->
     <link href="{{ url('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Bootstrap Social CSS -->
@@ -26,12 +32,14 @@
     <!-- Morris Charts CSS -->
     <link href="{{ url('css/morris.css') }}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('css/icomoon.css') }}" rel="stylesheet" type="text/css">
+    <!-- jQuery UI JavaScript -->
+    <script src="{{ url('js/vendor/jquery-ui.min.css') }}"></script>
 
     <!-- More Custom CSS -->
     <link href="{{ url('css/admin.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ url('css/colors.css') }}" rel="stylesheet">
+
     @yield('styles')
 
 
@@ -329,9 +337,12 @@
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
 {{--<script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>--}}
 
-<!-- Bootstrap Core JavaScript -->
+        <!-- Bootstrap Core JavaScript -->
 {{--<script src="{{ url('js/bootstrap.min.js') }}"></script>--}}
 <script src="{{ url('js/demo_app.js') }}"></script>
+
+<!-- jQuery UI JavaScript -->
+<script src="{{ url('js/vendor/jquery-ui.min.js') }}"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="{{ url('js/metisMenu.min.js') }}"></script>
@@ -339,9 +350,8 @@
 <!-- Morris Charts JavaScript -->
 <script src="{{ url('js/raphael.min.js') }}"></script>
 <script src="{{ url('js/morris.min.js') }}"></script>
-{{--<script src="{{ url('js/morris-data.js') }}"></script>--}}
 
-        <!-- Custom Theme JavaScript -->
+<!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
 
 <!-- Unisharp laravel-filemanager -->

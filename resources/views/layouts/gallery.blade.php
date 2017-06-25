@@ -13,14 +13,17 @@
 
     <title>{{ config('app.name') }} - @yield('title')</title>
 
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
+    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap core CSS -->
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Bootstrap Social CSS -->
     <link href="{{ url('css/bootstrap-social.css') }}" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
     <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">

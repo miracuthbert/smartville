@@ -13,22 +13,22 @@
 
     <title>{{ config('app.name') }} - @yield('title')</title>
 
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
+    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap core CSS -->
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Bootstrap Social CSS -->
     <link href="{{ url('css/bootstrap-social.css') }}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- jQuery UI Styles -->
+    <script src="{{ url('js/vendor/jquery-ui.min.css') }}"></script>
 
     <!-- Custom CSS -->
-    <link href="{{ url('css/icomoon.css') }}" rel="stylesheet">
-
-    <link href="{{ url('css/theme-light.css') }}" rel="stylesheet">
-
-    <link href="{{ url('css/company-light.css') }}" rel="stylesheet">
-
     <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
 
     <link href="{{ url('css/colors.css') }}" rel="stylesheet">
@@ -64,7 +64,8 @@
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
 <script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
 
-<script src="{{ url('js/jquery-ui.min.js') }}"></script>
+<!-- jQuery UI JavaScript -->
+<script src="{{ url('js/vendor/jquery-ui.min.js') }}"></script>
 <script src="{{ url('js/bootstrap.min.js') }}"></script>
 <script src="{{ url('js/app.js') }}"></script>
 
