@@ -1600,6 +1600,20 @@ Route::group(['prefix' => 'tenant'], function () {
 
 /**
  * -----------------------------------------------------------------
+ * Hostel App Routes Group
+ * -----------------------------------------------------------------
+ */
+Route::group(['prefix' => 'hostel'], function () {
+
+    //Dashboard Route
+    Route::get('/dashboard', [
+        'uses' => 'Hostel\DashboardController',
+        'as' => 'hostel.dashboard',
+    ]);
+});
+
+/**
+ * -----------------------------------------------------------------
  * User Routes Group
  * -----------------------------------------------------------------
  * Handles all user routes
