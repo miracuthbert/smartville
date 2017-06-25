@@ -13,8 +13,14 @@
     <title>({{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}) @yield('title')
         | {{ $app->product->title }} - {{ config('app.name') }}</title>
 
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
+    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap Core CSS -->
-    <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url('css/vendor/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="{{ url('css/metisMenu.min.css') }}" rel="stylesheet">
@@ -34,13 +40,8 @@
     <!-- Morris Charts CSS -->
     <link href="{{ url('css/morris.css') }}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-
     <!-- jQuery UI CSS -->
-    <link href="{{ url('css/jquery-ui.min.css') }}" rel="stylesheet">
-
-    <link href="{{ url('css/jquery-ui.theme.min.css') }}" rel="stylesheet">
+    <link href="{{ url('css/vendor/jquery-ui.min.css') }}" rel="stylesheet">
 
     @yield('styles')
 
@@ -245,7 +246,7 @@
 <!-- jQuery -->
 <!-- Placed at the end of the document so the pages load faster -->
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
-<script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="{{ url('js/jquery-3.3.1.min.js') }}"><\/script>')</script>
 
 <!-- jQuery UI JavaScript -->
 <script src="{{ url('js/jquery-ui.min.js') }}"></script>
@@ -263,9 +264,8 @@
 <script src="{{ url('js/raphael.min.js') }}"></script>
 
 <script src="{{ url('js/morris.min.js') }}"></script>
-{{--<script src="{{ url('js/morris-data.js') }}"></script>--}}
 
-        <!-- Custom Theme JavaScript -->
+<!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
 
 <!-- Custom Text Editor -->
