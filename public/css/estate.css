@@ -51,3 +51,7 @@ footer {
 .form-group {
     margin-bottom: 20px;
 }
+
+.navbar-top-links li a {
+    padding: 15px 10px;
+}

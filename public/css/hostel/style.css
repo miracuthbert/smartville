@@ -1,0 +1,15 @@
+/* CUSTOM HOSTEL STYLES */
+html,
+body, .view {
+    height: 100%;
+}
+
+main {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+/* Dropdown */
+.dropdown-toggle:after {
+    content: normal;
+}
