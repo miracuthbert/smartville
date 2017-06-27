@@ -56,12 +56,21 @@
                         <i class="fa fa-building"></i> Properties <i class="fa fa-angle-down"></i></a>
                     </a>
                     <div class="dropdown-menu dropdown" aria-labelledby="dropdownProperties">
-                        <a class="dropdown-item"><i class="fa fa-plus"></i> Add new property</a>
-                        <a class="dropdown-item"><i class="fa fa-calendar"></i> Reservations</a>
-                        <a class="dropdown-item"><i class="fa fa-unlock-alt"></i> Vacant</a>
-                        <a class="dropdown-item"><i class="fa fa-lock"></i> Occupied</a>
+                        <a href="{{ route('hostel.property.create') }}" class="dropdown-item">
+                            <i class="fa fa-plus"></i> Add new property
+                        </a>
+                        <a href="{{ route('hostel.property.index', ['sort' => 'reservations']) }}"
+                           class="dropdown-item">
+                            <i class="fa fa-calendar"></i> Reservations
+                        </a>
+                        <a href="{{ route('hostel.property.index', ['sort' => 'vacant']) }}" class="dropdown-item">
+                            <i class="fa fa-unlock-alt"></i> Vacant
+                        </a>
+                        <a href="{{ route('hostel.property.index', ['sort' => 'occupied']) }}" class="dropdown-item">
+                            <i class="fa fa-lock"></i> Occupied
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">View All</a>
+                        <a href="{{ route('hostel.property.index') }}" class="dropdown-item">View All</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown btn-group">
@@ -111,9 +120,9 @@
 </nav>
 <!--/.Navbar-->
 
-<main>
+<div id="main-wrapper">
     @yield('content')
-</main>
+</div>
 
 <footer class="page-footer center-on-small-only">
 
@@ -218,6 +227,13 @@
     new WOW().init();
 </script>
 
+<!-- Custom Text Editor -->
+<script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
+
+<!-- Hostel JS -->
+<script src="{{ url('js/hostel/custom.js') }}"></script>
+
+@yield('scripts')
 </body>
 
 </html>
