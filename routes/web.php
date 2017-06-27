@@ -1600,6 +1600,8 @@ Route::group(['prefix' => 'tenant'], function () {
 
 /**
  * -----------------------------------------------------------------
+ * Handles Hostel App Routes
+ *
  * Hostel App Routes Group
  * -----------------------------------------------------------------
  */
@@ -1610,6 +1612,41 @@ Route::group(['prefix' => 'hostel'], function () {
         'uses' => 'Hostel\DashboardController',
         'as' => 'hostel.dashboard',
     ]);
+
+    /**
+     * -----------------------------------------------------------------
+     * Handles custom routes for properties
+     *
+     * Property Group Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'properties'], function () {
+
+        //Index Route
+        Route::get('/', [
+            'uses' => 'Hostel\Property\PropertyController@index',
+            'as' => 'hostel.property.index',
+        ]);
+    });
+
+    /**
+     * -----------------------------------------------------------------
+     * Handles resoure routes for properties
+     *
+     * Property Resource Routes
+     * -----------------------------------------------------------------
+     */
+    Route::resource('property', 'Hostel\Property\PropertyController', [
+        'except' => ['index', 'destroy'],
+        'names' => [
+            'create' => 'hostel.property.create',
+            'store' => 'hostel.property.store',
+            'show' => 'hostel.property.show',
+            'edit' => 'hostel.property.edit',
+            'update' => 'hostel.property.update',
+        ],
+    ]);
+
 });
 
 /**
