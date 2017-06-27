@@ -4,8 +4,8 @@ body, .view {
     height: 100%;
 }
 
-main {
-    padding-top: 3rem;
+#main-wrapper {
+    padding-top: 4.5rem;
     padding-bottom: 2rem;
 }
 
