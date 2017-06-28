@@ -17,6 +17,7 @@ class HelperServiceProvider extends ServiceProvider
         'ForumHelpers',
         'CategoryHelpers',
         'AdminHelpers',
+        'AppHelpers',
     ];
 
 
