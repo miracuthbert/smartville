@@ -32,7 +32,8 @@ class MainComposer
         //Load Model in each view
         $categories = Category::where('status', 1)->where('title', 'LIKE', '%apps%')->first();
         $payments = Category::where('status', 1)->where('title', 'LIKE', '%monetization%')->first()->categories;
-        $property_types = Category::where('status', 1)->where('title', 'LIKE', '%property types%')->first()->categories;
+        $common_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%property types%')->first()->categories;
+        $hostel_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%hostel property categories%')->first()->categories;
         $post_audiences = Category::where('status', 1)->where('title', 'LIKE', 'post audiences')->first()->categories;
         $apps = Product::where('status', 1)->get();
         $apps_coming = Product::where('coming_soon', 1)->get();
@@ -45,7 +46,8 @@ class MainComposer
             ->with('app_products', $apps)
             ->with('apps_coming', $apps_coming)
             ->with('manuals', $manuals)
-            ->with('property_types', $property_types)
+            ->with('property_types', $common_property_categories)
+            ->with('hostel_property_categories', $hostel_property_categories)
             ->with('post_audiences', $post_audiences);
 
         if (Auth::check()) {
