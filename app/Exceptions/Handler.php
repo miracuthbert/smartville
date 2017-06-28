@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
-        if ($this->isHttpException($exception)) {
+        if ($exception->getCode() != 401 && $this->isHttpException($exception)) {
             if(view()->exists('errors.'.$exception->getCode())){
                 return response()->view('errors.'.$exception->getCode(), [], $exception->getCode());
             }
@@ -76,11 +76,11 @@ class Handler extends ExceptionHandler
 
         //TODO: try catching input data too in case user was making a form request
         if ($request->session()->has('oldUrl')) //check if 'oldUrl' is stored in session then redirect
-            return redirect()->guest(route('login'));
+            return redirect()->route('login');
         else    //if no 'oldUrl' store 'request full url' in session
             $request->session()->put('oldUrl', $request->fullUrl());
 
-        return redirect()->guest(route('login'));
+        return redirect()->route('login');
     }
 
 }
