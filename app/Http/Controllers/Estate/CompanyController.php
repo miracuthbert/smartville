@@ -58,7 +58,7 @@ class CompanyController extends Controller
             ]);
         } else {
             return $validate = Validator::make($data, [
-                'company' => 'required|unique:companies,title|min:2|max:255',
+                'company' => 'required|unique:companies,title|min:2|max:60',
                 '_app' => 'required|integer|exists:products,id',
                 '_role' => 'required|integer|exists:roles,id',
                 'country' => 'required',
@@ -67,6 +67,8 @@ class CompanyController extends Controller
                 'terms' => 'required|accepted',
             ], [
                 'country.required' => 'Pick a valid country',
+            ], [
+                'company' => "company or business name"
             ]);
         }
     }
@@ -76,23 +78,16 @@ class CompanyController extends Controller
      */
     public function create($app)
     {
-        $app = title_case(str_replace("-", " ", $app));
-
-        //find
-        $passed = Product::where('title', $app)->first();
+        //find product or fail
+        $product = Product::where('slug', $app)->firstOrFail();
 
         //get the list of countries
         $countries = Countries::getList('en', 'php');
 
-        //check if null
-        if ($passed == null)
-            return redirect()->back()
-                ->with('error', 'Sorry, the page you are looking for does not exist.');
-
         //generate view
         return view('v1.company.create')
-            ->with('app', $app)
-            ->with('app_data', $passed)
+            ->with('app', $product->title)
+            ->with('app_data', $product)
             ->with('countries', $countries);
     }
 
@@ -153,7 +148,7 @@ class CompanyController extends Controller
 
             //save company user
             $user = new CompanyUser();
-            $user->company_id = $type->id;
+            $user->company_app_id = $type->id;
             $user->admin = 1;
 
             if (Auth::user()->companies()->save($user)) {
@@ -172,13 +167,13 @@ class CompanyController extends Controller
             }
 
             if ($error != null) {
-                return redirect()->route('estate.dashboard', ['id' => $type->id])
+                return redirect()->route(AppDashRoute($app->slug), ['id' => $type->id])
                     ->with('bulk_success', $success)
                     ->with('bulk_error', $error);
             }
 
             //redirect without errors
-            return redirect()->route('estate.dashboard', ['id' => $type->id])
+            return redirect()->route(AppDashRoute($app->slug), ['id' => $type->id])
                 ->with('bulk_success', $success);
         }
 
@@ -517,7 +512,4 @@ class CompanyController extends Controller
 
     }
 
-//        $ex_countries = ExtCountries::all()->pluck('area', 'name.common', 'currency.0.ISO4217Code', 'name.common');
-//        $ex_countries = ExtCountries::all()->toArray();
-//        $ex_countries = ExtCountries::all()->pluck('name.common');
 }
