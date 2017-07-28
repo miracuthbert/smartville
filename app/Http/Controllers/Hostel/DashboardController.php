@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers\Hostel;
 
+use App\Models\v1\Company\CompanyApp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
     /**
-     * Handles dashboard view and functionality
+     * DashboardController constructor.
      */
-    function __invoke()
+    public function __construct()
     {
-        return view('hostels.dashboard');
+        $this->middleware('auth');
+    }
+
+    /**
+     * Handles dashboard view and functionality
+     * @param Request $request
+     * @param $app
+     * @return
+     */
+    function __invoke(Request $request, $app)
+    {
+        $app = CompanyApp::findOrFail($app);
+
+        return view('hostels.dashboard')
+            ->with('app', $app);
     }
 
 }
