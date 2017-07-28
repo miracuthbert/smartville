@@ -12,6 +12,16 @@ use App\Http\Controllers\Controller;
 class CompanyAppController extends Controller
 {
     /**
+     * CompanyAppController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('admin');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param Request $request
