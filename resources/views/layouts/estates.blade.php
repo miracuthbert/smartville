@@ -11,7 +11,13 @@
     <link rel="icon" href="{{ url('images/site/cropped-sv_00-32x32.png') }}">
 
     <title>({{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}) @yield('title')
-        | {{ $app->product->title }} - {{ config('app.name') }}</title>
+        - {{ $app->product->title }} | {{ config('app.name') }}</title>
+
+    <!-- Main Fonts -->
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
+
+    <!-- Font Awesome Icon Fonts -->
+    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -19,12 +25,13 @@
     <!-- MetisMenu CSS -->
     <link href="{{ url('css/metisMenu.min.css') }}" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- SB Admin Theme CSS -->
     <link href="{{ url('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-    <link href="{{ url('css/estate.css') }}" rel="stylesheet">
-
+    <!-- Custom CSS -->
     <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
+
+    <link href="{{ url('css/estate.css') }}" rel="stylesheet">
 
     <!-- Bootstrap Social CSS -->
     <link href="{{ url('css/bootstrap-social.css') }}" rel="stylesheet">
@@ -32,13 +39,13 @@
     <!-- Morris Charts CSS -->
     <link href="{{ url('css/morris.css') }}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-
     <!-- jQuery UI CSS -->
-    <link href="{{ url('css/jquery-ui.min.css') }}" rel="stylesheet">
+    <link href="{{ url('css/vendor/jquery-ui.min.css') }}" rel="stylesheet">
 
-    <link href="{{ url('css/jquery-ui.theme.min.css') }}" rel="stylesheet">
+    <!-- Floating Button CSS -->
+    <link href="{{ url('css/vendor/mfb.css') }}" rel="stylesheet">
+
+    <link href="{{ url('css/colors.css') }}" rel="stylesheet">
 
     @yield('styles')
 
@@ -57,8 +64,9 @@
 </head>
 
 <body>
-
 <div id="wrapper">
+    <!-- Floating Button Backdrop -->
+    <div class="backdrop"></div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -232,6 +240,18 @@
         @include('includes.modals.success-modal')
         @include('includes.modals.error-modal')
         @include('includes.forms.logout')
+
+        <div style="padding: 25px 0">
+            <div class="fab child" data-subitem="1" title="contact us">
+                <span><i class="fa fa-envelope-o"></i></span>
+            </div>
+            <div class="fab child" data-subitem="2" title="manuals">
+                <span><i class="fa fa-question"></i></span>
+            </div>
+            @yield('floating-button')
+            <div class="fab" id="masterfab"><span><i class="fa fa-lightbulb-o"></i></span></div>
+        </div>
+
     </div>
     <!-- /#page-wrapper -->
 
@@ -246,7 +266,7 @@
 <script>window.jQuery || document.write('<script src="{{ url('js/jquery-2.2.1.min.js') }}"><\/script>')</script>
 
 <!-- jQuery UI JavaScript -->
-<script src="{{ url('js/jquery-ui.min.js') }}"></script>
+<script src="{{ url('js/vendor/jquery-ui.min.js') }}"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ url('js/bootstrap.min.js') }}"></script>
@@ -258,9 +278,8 @@
 <script src="{{ url('js/raphael.min.js') }}"></script>
 
 <script src="{{ url('js/morris.min.js') }}"></script>
-{{--<script src="{{ url('js/morris-data.js') }}"></script>--}}
 
-        <!-- Custom Theme JavaScript -->
+<!-- Custom Theme JavaScript -->
 <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
 
 <!-- Custom Text Editor -->
@@ -268,6 +287,8 @@
 
 <!-- Custom Js -->
 <script src="{{ url('js/app.js') }}"></script>
+
+<script src="{{ url('js/vendor/mfb.js') }}"></script>
 
 @yield('scripts')
 
