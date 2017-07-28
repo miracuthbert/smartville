@@ -27,31 +27,39 @@
                             <form role="form" method="post" action="{{ route('admin.app.store') }}"
                                   enctype="multipart/form-data"
                                   autocomplete="on">
-                                @include('includes.alerts.validation')
-
                                 @include('includes.alerts.default')
+
+                                @include('includes.alerts.validation')
 
                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
 
                                 <input type="hidden" name="app" value="1"><!--/ Set app to true -->
 
-                                <div class="form-group{{ $errors->has('name') ? 'has-error' : '' }}">
-                                    <label>App name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                           placeholder="app name" value="{{ Request::old('name') }}" required autofocus>
+                                <div class="form-group{{ $errors->has('title') ? 'has-error' : '' }}">
+                                    <label>App title</label>
+                                    <input type="text" name="title" class="form-control" id="title"
+                                           placeholder="app title" value="{{ old('title') }}" required autofocus>
+                                </div>
+
+                                <div class="form-group {{ $errors->has('slug') ? 'has-error' : '' }}">
+                                    <label for="slug">Slug</label>
+                                    <input type="text" name="slug" class="form-control" id="slug"
+                                           placeholder="slug"
+                                           value="{{ old('slug') != null ? old('slug') : $app->title }}"
+                                           required autofocus>
                                 </div>
 
                                 <div class="form-group{{ $errors->has('summary') ? 'has-error' : '' }}">
                                     <label>Summary</label>
                                     <textarea name="summary" id="summary" cols="30" rows="2" class="form-control"
-                                              placeholder="brief details of the app">{{ Request::old('summary') }}</textarea>
+                                              placeholder="brief details of the app">{{ old('summary') }}</textarea>
                                 </div>
 
                                 <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                                     <label>App details</label>
                                     <textarea name="description" id="description" cols="30" rows="5"
                                               class="form-control ckeditor"
-                                              placeholder="full details of the app">{{ Request::old('description') }}</textarea>
+                                              placeholder="full details of the app">{{ old('description') }}</textarea>
                                 </div>
 
                                 <div class="form-group">
