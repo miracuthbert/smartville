@@ -14,7 +14,10 @@
         "barryvdh/laravel-dompdf": "^0.7.0",
         "monarobase/country-list": "^2.0",
         "pragmarx/countries": "^0.1.0",
-        "unisharp/laravel-filemanager": "^1.7"
+        "unisharp/laravel-filemanager": "^1.7",
+        "doctrine/dbal": "^2.5",
+        "cmgmyr/messenger": "^2.14",
+        "cornford/googlmapper": "^2.25"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
