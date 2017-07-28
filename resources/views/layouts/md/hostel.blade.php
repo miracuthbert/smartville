@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -7,225 +7,143 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="Hostel Management App is designed to provide more flexibility to manage hostels">
     <meta name="author" content="SmartVille, <support@smartville.com>">
+    <link rel="icon" href="{{ url('images/site/cropped-sv_00-32x32.png') }}">
 
     <title>@yield('title') - Hostels | {{ config('app.name') }}</title>
 
     <!-- Main Fonts -->
     <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400italic,700italic,700,400'>
 
-    <!-- Font Awesome -->
-    <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet">
-    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">--}}
-            <!-- Bootstrap core CSS -->
+    <!-- Vendor CSS -->
+    <link href="{{ url('themes/modularadmin/css/vendor.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
     <link href="{{ url('css/vendor/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="{{ url('css/vendor/mdb.min.css') }}" rel="stylesheet">
+
+    <!-- Theme initialization -->
+    <script>
+        var cssPath = "{{ url('themes/modularadmin/css') }}";
+        var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+        {};
+        var themeName = themeSettings.themeName || '';
+        if (themeName) {
+            document.write('<link rel="stylesheet" id="theme-style" href="' + cssPath + '/app-' + themeName + '.css">');
+        }
+        else {
+            document.write('<link rel="stylesheet" id="theme-style" href="' + cssPath + '/app.css">');
+        }
+    </script>
     <!-- Your custom styles (optional) -->
     <link href="{{ url('css/hostel/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
 
-<!--Navbar-->
-<nav class="navbar navbar-toggleable-md navbar-light scrolling-navbar fixed-top bg-faded">
-    <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#">
-            <img src="{{ url('images/site/cropped-sv_00-32x32.png') }}" class="d-inline-block align-top z-depth-0"
-                 alt="MDBootstrap">
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNav1">
-            <!--Links-->
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ ActivePage('hostel.dashboard') }}">
-                    <a class="nav-link" href="{{ route('hostel.dashboard') }}">
-                        <i class="fa fa-dashboard"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#best-features">
-                        <i class="fa fa-th-large"></i> Amenities</a>
-                </li>
-                <li class="nav-item dropdown btn-group">
-                    <a class="nav-link dropdown-toggle" id="properties-dropdown" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-building"></i> Properties <i class="fa fa-angle-down"></i></a>
-                    </a>
-                    <div class="dropdown-menu dropdown" aria-labelledby="dropdownProperties">
-                        <a href="{{ route('hostel.property.create') }}" class="dropdown-item">
-                            <i class="fa fa-plus"></i> Add new property
-                        </a>
-                        <a href="{{ route('hostel.property.index', ['sort' => 'reservations']) }}"
-                           class="dropdown-item">
-                            <i class="fa fa-calendar"></i> Reservations
-                        </a>
-                        <a href="{{ route('hostel.property.index', ['sort' => 'vacant']) }}" class="dropdown-item">
-                            <i class="fa fa-unlock-alt"></i> Vacant
-                        </a>
-                        <a href="{{ route('hostel.property.index', ['sort' => 'occupied']) }}" class="dropdown-item">
-                            <i class="fa fa-lock"></i> Occupied
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ route('hostel.property.index') }}" class="dropdown-item">View All</a>
+<div class="main-wrapper">
+    <div class="app" id="app">
+        @include('hostels.includes.headers.default')
+        @include('hostels.includes.sidebars.default')
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <article class="content @yield('content-styles')">
+            @yield('content')
+        </article>
+        @include('hostels.includes.footers.default')
+        <div class="modal fade" id="modal-media">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">Media Library</h4>
                     </div>
-                </li>
-                <li class="nav-item dropdown btn-group">
-                    <a class="nav-link dropdown-toggle" id="tenants-dropdown" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-users"></i> Tenants <i class="fa fa-angle-down"></i></a>
-                    </a>
-                    <div class="dropdown-menu dropdown" aria-labelledby="dropdownTenants">
-                        <a class="dropdown-item"><i class="fa fa-user-plus"></i> Add new tenant</a>
-                        <a class="dropdown-item"><i class="fa fa-user-times"></i> Pending</a>
-                        <a class="dropdown-item"><i class="fa fa-unlock"></i> Vacated</a>
-                        <a class="dropdown-item"><i class="fa fa-files-o"></i> Leases</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">View All</a>
+                    <div class="modal-body modal-tab-container">
+                        <ul class="nav nav-tabs modal-tabs" role="tablist">
+                            <li class="nav-item"><a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content modal-tab-content">
+                            <div class="tab-pane fade" id="gallery" role="tabpanel">
+                                <div class="images-container">
+                                    <div class="row"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade active in" id="upload" role="tabpanel">
+                                <div class="upload-container">
+                                    <div id="dropzone">
+                                        <form action="/" method="POST" enctype="multipart/form-data"
+                                              class="dropzone needsclick dz-clickable" id="demo-upload">
+                                            <div class="dz-message-block">
+                                                <div class="dz-message needsclick"> Drop files here or click to
+                                                    upload.
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown btn-group">
-                    <a class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
-                        <i class="fa fa-envelope"></i> <i class="fa fa-angle-down"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
-                        <a class="dropdown-item">Action</a>
-                        <a class="dropdown-item">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">Something else here</a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Insert Selected</button>
                     </div>
-                </li>
-                <li class="nav-item dropdown btn-group">
-                    <a class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
-                        <i class="fa fa-user"></i> miracuthbert <i class="fa fa-angle-down"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
-                        <a class="dropdown-item"><i class="fa fa-user"></i> My Profile</a>
-                        <a class="dropdown-item"><i class="fa fa-cog"></i> Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item"><i class="fa fa-sign-out"></i> Logout</a>
-                    </div>
-                </li>
-            </ul>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
         </div>
+        <!-- /.modal -->
+        <div class="modal fade" id="confirm-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure want to do this?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </div>
-</nav>
-<!--/.Navbar-->
-
-<div id="main-wrapper">
-    @yield('content')
 </div>
-
-<footer class="page-footer center-on-small-only">
-
-    <!--Footer Links-->
-    <div class="container-fluid">
-        <div class="row">
-
-            <!--First column-->
-            <div class="col-md-3 offset-lg-1 hidden-lg-down">
-                <h5 class="title">ABOUT MATERIAL DESIGN</h5>
-                <p>Material Design (codenamed Quantum Paper) is a design language developed by Google. </p>
-
-                <p>Material Design for Bootstrap (MDB) is a powerful Material Design UI KIT for most popular HTML, CSS,
-                    and JS framework - Bootstrap.</p>
-            </div>
-            <!--/.First column-->
-
-            <hr class="hidden-md-up">
-
-            <!--Second column-->
-            <div class="col-lg-2 col-md-4 offset-lg-1">
-                <h5 class="title">First column</h5>
-                <ul>
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Second column-->
-
-            <hr class="hidden-md-up">
-
-            <!--Third column-->
-            <div class="col-lg-2 col-md-4">
-                <h5 class="title">Second column</h5>
-                <ul>
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Third column-->
-
-            <hr class="hidden-md-up">
-
-            <!--Fourth column-->
-            <div class="col-lg-2 col-md-4">
-                <h5 class="title">Third column</h5>
-                <ul>
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Fourth column-->
-
-        </div>
+<!-- Reference block for JS -->
+<div class="ref" id="ref">
+    <div class="color-primary"></div>
+    <div class="chart">
+        <div class="color-primary"></div>
+        <div class="color-secondary"></div>
     </div>
-    <!--/.Footer Links-->
-
-    <hr>
-
-    <!--Call to action-->
-    <div class="call-to-action">
-        <h4>Material Design for Bootstrap</h4>
-        <ul>
-            <li>
-                <h5>Get our UI KIT for free</h5></li>
-            <li><a target="_blank" href="http://mdbootstrap.com/getting-started/" class="btn btn-info" rel="nofollow">Sign
-                    up!</a></li>
-            <li><a target="_blank" href="http://mdbootstrap.com/material-design-for-bootstrap/" class="btn btn-primary"
-                   rel="nofollow">Learn more</a></li>
-        </ul>
-    </div>
-    <!--/.Call to action-->
-
-    <!--Copyright-->
-    <div class="footer-copyright">
-        <div class="container-fluid">
-            © {{ date('Y') }} Copyright: <a href="http://www.smartville.co"> SmartVille.co </a>
-
-        </div>
-    </div>
-    <!--/.Copyright-->
-
-</footer><!--/footer-->
+</div>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->
 <script type="text/javascript" src="{{ url('js/jquery-3.1.1.min.js') }}"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="{{ url('js/vendor/tether.min.js') }}"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="{{ url('js/vendor/bootstrap.min.js') }}"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="{{ url('js/vendor/mdb.min.js') }}"></script>
 
-<script>
-    new WOW().init();
-</script>
+<!-- Modular Admin JS -->
+<script src="{{ url('themes/modularadmin/js/vendor.js') }}"></script>
+
+<!-- Bootstrap JS -->
+<script src="{{ url('js/vendor/bootstrap.min.js') }}"></script>
+
+<!-- Modular Admin JS -->
+<script src="{{ url('themes/modularadmin/js/app.js') }}"></script>
 
 <!-- Custom Text Editor -->
 <script src="{{ url('js/ckbasic/ckeditor.js') }}"></script>
