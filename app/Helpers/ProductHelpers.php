@@ -208,9 +208,13 @@ function AppModeInfo($mode)
     }
 }
 
-function AppDashRoute($product)
+function AppDashRoute($slug)
 {
-    if ($product == "Rental Management App") {
+    if ($slug == "rental-management-app") {
         return 'estate.rental.dashboard';
     }
+    elseif ($slug == "hostel-management-app") {
+        return 'hostel.dashboard';
+    }
+
 }
