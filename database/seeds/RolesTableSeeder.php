@@ -14,6 +14,7 @@ class RolesTableSeeder extends Seeder
         //Root
         $role = new \App\Role();
         $role->role = "Root";
+        $role->alias = "site-root";
         $role->desc = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at blanditiis cum, dignissimos eius eveniet facilis ipsa libero magnam, natus nisi perferendis quasi quos rerum sapiente sunt suscipit! Nisi, quidem.";
         $role->summary  = "Controls the entire application.";
         $role->create = 1;
@@ -27,6 +28,7 @@ class RolesTableSeeder extends Seeder
 //        //Admin
         $role = new \App\Role();
         $role->role = "Admin";
+        $role->alias = "site-admin";
         $role->desc = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at blanditiis cum, dignissimos eius eveniet facilis ipsa libero magnam, natus nisi perferendis quasi quos rerum sapiente sunt suscipit! Nisi, quidem.";
         $role->summary = "Controls the entire application.";
         $role->create = 1;
@@ -38,7 +40,8 @@ class RolesTableSeeder extends Seeder
 
 //        //Estate Admin
         $role = new \App\Role();
-        $role->role = "Estate Admin";
+        $role->role = "Company Admin";
+        $role->alias = "company-app-admin";
         $role->desc = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at blanditiis cum, dignissimos eius eveniet facilis ipsa libero magnam, natus nisi perferendis quasi quos rerum sapiente sunt suscipit! Nisi, quidem.";
         $role->summary = "Controls their entire real estate application.";
         $role->create = 1;
@@ -51,6 +54,7 @@ class RolesTableSeeder extends Seeder
         //Tenant
         $role = new \App\Role();
         $role->role = "Tenant";
+        $role->alias = "estate-tenant";
         $role->desc = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at blanditiis cum, dignissimos eius eveniet facilis ipsa libero magnam, natus nisi perferendis quasi quos rerum sapiente sunt suscipit! Nisi, quidem.";
         $role->summary = "Gives user tenant roles.";
         $role->create = 1;

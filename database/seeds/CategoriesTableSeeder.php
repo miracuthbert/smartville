@@ -20,19 +20,19 @@ class CategoriesTableSeeder extends Seeder
          * ----------------------------------------------------------------------------
          */
         //Rental
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Rental";
         $category->categorable_type = \App\ProductCategory::class;
         $category->save();
 
         //Hostel
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Hostel";
         $category->categorable_type = \App\ProductCategory::class;
         $category->save();
 
         //Billing
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Billing";
         $category->categorable_type = \App\ProductCategory::class;
         $category->save();
@@ -47,25 +47,25 @@ class CategoriesTableSeeder extends Seeder
          * ----------------------------------------------------------------------------
          */
         //Freemium
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Freemium";
         $category->categorable_type = \App\Monetization::class;
         $category->save();
 
         //Premium
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Premium";
         $category->categorable_type = \App\Monetization::class;
         $category->save();
 
         //IAP
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "In-App Purchasing (IAP)";
         $category->categorable_type = \App\Monetization::class;
         $category->save();
 
         //Subscription
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Subscription";
         $category->categorable_type = \App\Monetization::class;
         $category->save();
@@ -82,37 +82,37 @@ class CategoriesTableSeeder extends Seeder
          * ----------------------------------------------------------------------------
          */
         //Apartment
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Apartment";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
 
         //Office Space
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Office Space";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
 
         //Stall
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Stall";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
 
         //Restaurant
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Restaurant";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
 
         //Single Family Home
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Single Family Home";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
 
         //Extended Family Home
-        $category = new \App\Category();
+        $category = new \App\Models\v1\Shared\Category();
         $category->title = "Extended Family Home";
         $category->categorable_type = \App\PropertyType::class;
         $category->save();
