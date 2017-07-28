@@ -92,3 +92,11 @@ $(document).on('change', 'input[name="level"]', function () {
         $('div#cat-parent-wrapper').slideDown();
 
 });
+
+/**
+ * Generate Slug From Name
+ */
+$('form input[name="name"], form input[name="title"]').on('blur', function () {
+    var $name = $(this).val();
+    $('input[name="slug"]').val($name.toLowerCase().replace(/[^a-z0-9-]+/g, '-'));
+});
