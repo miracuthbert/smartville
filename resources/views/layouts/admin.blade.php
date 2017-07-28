@@ -32,8 +32,8 @@
     <!-- Morris Charts CSS -->
     <link href="{{ url('css/morris.css') }}" rel="stylesheet">
 
-    <!-- jQuery UI JavaScript -->
-    <script src="{{ url('js/vendor/jquery-ui.min.css') }}"></script>
+    <!-- jQuery UI CSS -->
+    <link href="{{ url('css/vendor/jquery-ui.min.css') }}" rel="stylesheet">
 
     <!-- More Custom CSS -->
     <link href="{{ url('css/admin.css') }}" rel="stylesheet" type="text/css">
