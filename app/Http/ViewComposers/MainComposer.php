@@ -31,15 +31,25 @@ class MainComposer
     {
         //Load Model in each view
         $categories = Category::where('status', 1)->where('title', 'LIKE', '%apps%')->first();
-        $payments = Category::where('status', 1)->where('title', 'LIKE', '%monetization%')->first()->categories;
-        $common_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%property types%')->first()->categories;
-        $hostel_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%hostel property categories%')->first()->categories;
-        $post_audiences = Category::where('status', 1)->where('title', 'LIKE', 'post audiences')->first()->categories;
+
+        $payments = Category::where('status', 1)->where('title', 'LIKE', '%monetization%')->first();
+        $payments = $payments != null ? $payments->categories : null;
+
+        $common_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%property types%')->first();
+        $common_property_categories = $common_property_categories != null ? $common_property_categories->categories : null;
+
+        $hostel_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%hostel property categories%')->first();
+        $hostel_property_categories = $hostel_property_categories != null ? $hostel_property_categories->categories : null;
+
+        $post_audiences = Category::where('status', 1)->where('title', 'LIKE', 'post audiences')->first();
+        $post_audiences = $post_audiences != null ? $post_audiences->categories : null;
+
         $apps = Product::where('status', 1)->get();
         $apps_coming = Product::where('coming_soon', 1)->get();
+
         $manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();
 
-        //load view
+        //attach content with loaded view
         $view
             ->with('app_categories', $categories)
             ->with('app_payments', $payments)
