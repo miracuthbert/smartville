@@ -25,7 +25,7 @@ class AlterAppPaypalsAddColumnQuantity extends Migration
      */
     public function down()
     {
-        Schema::table('app_paypals', function (Blueprint $table) {
+        Schema::table('app_subscriptions_paypal', function (Blueprint $table) {
             $table->dropColumn('quantity');
         });
     }
