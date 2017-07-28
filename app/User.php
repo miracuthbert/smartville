@@ -141,7 +141,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function apps()
     {
-        return $this->hasManyThrough(CompanyApp::class, CompanyUser::class, 'user_id', 'company_id', 'id');
+        return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
+            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+        });
     }
 
     /**
@@ -149,7 +151,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function activeApps()
     {
-        return $this->hasManyThrough(CompanyApp::class, CompanyUser::class, 'user_id', 'company_id', 'id')->where('company_apps.status', 1);
+        return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
+            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+        })->where('company_apps.status', 1);
     }
 
     /**
@@ -157,7 +161,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function disabledApps()
     {
-        return $this->hasManyThrough(CompanyApp::class, CompanyUser::class, 'user_id', 'company_id', 'id')->where('company_apps.status', 0);
+        return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
+            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+        })->where('company_apps.status', 0);
     }
 
     /**
@@ -165,7 +171,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function trashedApps()
     {
-        return $this->hasManyThrough(CompanyApp::class, CompanyUser::class, 'user_id', 'company_id', 'id')->onlyTrashed('company_apps');
+        return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
+            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+        })->onlyTrashed('company_apps');
     }
 
     /**

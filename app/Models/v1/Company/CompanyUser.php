@@ -19,11 +19,11 @@ class CompanyUser extends Model
     }
 
     /**
-     * Get user company apps
+     * Get user company app
      */
-    public function apps()
+    public function app()
     {
-        return $this->belongsTo(CompanyApp::class, 'company_id')->where('status', 1);
+        return $this->belongsTo(CompanyApp::class, 'company_app_id')->where('status', 1);
     }
 
     /**
