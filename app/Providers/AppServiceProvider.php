@@ -70,11 +70,6 @@ class AppServiceProvider extends ServiceProvider
             'user_roles' => UserRole::class,
         ]);
 
-        //update
-//        Category::where('categorable_type', ProductCategory::class)->update(['categorable_type' => 'product_categories']);
-//        Category::where('categorable_type', Monetization::class)->update(['categorable_type' => 'monetizations']);
-//        Category::where('categorable_type', PropertyType::class)->update(['categorable_type' => 'property_types']);
-//        Manual::where('manualable_type', Product::class)->update(['manualable_type' => 'products']);
     }
 
     /**
