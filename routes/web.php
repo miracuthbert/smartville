@@ -248,9 +248,16 @@ Route::group(['prefix' => 'admin'], function () {
      * Category Routes
      * -----------------------------------------------------------------
      */
+    //destroy category route
     Route::get('category/destroy/{category}', [
         'uses' => 'Admin\Category\CategoryController@destroy',
         'as' => 'category.destroy',
+    ]);
+
+    //generate category slug route
+    Route::get('category/slugs/generate', [
+        'uses' => 'Admin\Category\CategoryController@auto_slug',
+        'as' => 'category.slugs',
     ]);
 
     Route::resource('category', 'Admin\Category\CategoryController', ['except' => [
