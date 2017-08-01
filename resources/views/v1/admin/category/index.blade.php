@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-lg-12">
             @include('includes.alerts.default')
-            
+
             <div class="panel-group" id="accordion">
                 @forelse($categories as $category)
                     <div class="panel panel-default">
