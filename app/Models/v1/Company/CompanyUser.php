@@ -23,7 +23,7 @@ class CompanyUser extends Model
      */
     public function app()
     {
-        return $this->belongsTo(CompanyApp::class, 'company_app_id')->where('status', 1);
+        return $this->belongsTo(CompanyApp::class, 'company_app_id');
     }
 
     /**
@@ -31,6 +31,6 @@ class CompanyUser extends Model
      */
     public function appsDisabled()
     {
-        return $this->belongsTo(CompanyApp::class, 'company_id')->where('status', 0);
+        return $this->belongsTo(CompanyApp::class, 'company_app_id')->where('company_apps.status', 0);
     }
 }

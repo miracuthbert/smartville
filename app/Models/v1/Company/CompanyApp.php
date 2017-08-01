@@ -12,16 +12,14 @@ use App\Models\v1\Tenant\Tenant;
 use App\Models\v1\Tenant\TenantBill;
 use App\Models\v1\Tenant\TenantProperty;
 use App\Models\v1\Tenant\TenantRent;
-use App\Traits\AppSubscribed;
 use App\Traits\AppSubscription;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class CompanyApp extends Model
 {
-    use SoftDeletes, Notifiable, /*AppSubscribed,*/ AppSubscription;
+    use Notifiable, AppSubscription;
 
     protected $guarded = [];
 

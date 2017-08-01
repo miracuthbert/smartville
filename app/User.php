@@ -142,7 +142,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function apps()
     {
         return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
-            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+            $join->on('company_users.company_app_id', '=', 'company_apps.id')->whereNull('company_apps.deleted_at');
         });
     }
 
@@ -152,7 +152,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function activeApps()
     {
         return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
-            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+            $join->on('company_users.company_app_id', '=', 'company_apps.id')->whereNull('company_apps.deleted_at');
         })->where('company_apps.status', 1);
     }
 
@@ -162,7 +162,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function disabledApps()
     {
         return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
-            $join->on('company_users.company_app_id', '=', 'company_apps.id');
+            $join->on('company_users.company_app_id', '=', 'company_apps.id')->whereNull('company_apps.deleted_at');
         })->where('company_apps.status', 0);
     }
 
@@ -173,7 +173,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasMany(CompanyUser::class, 'user_id', 'id')->join('company_apps', function ($join) {
             $join->on('company_users.company_app_id', '=', 'company_apps.id');
-        })->onlyTrashed('company_apps');
+        })->whereNotNull('company_apps.deleted_at');
     }
 
     /**
