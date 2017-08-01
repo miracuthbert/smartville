@@ -1,40 +1,39 @@
 <div class="row">
     <div class="col-md-12">
-        <strong class="lead">
+        <h2>
             @yield('dashboard-title')
-        </strong>
 
-        <div class="pull-right">
-            <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <strong>
-                        Switch to
-                        <span class="caret"></span>
-                    </strong>
-                </button>
-                <ul class="dropdown-menu pull-right">
-                    <li class="{{ $section == null ? 'disabled' : '' }}">
-                        <a href="{{ route('user.dashboard') }}">
-                            My Dashboard
-                        </a>
-                    </li>
-                    <li class="{{ $section == "apps" ? 'disabled' : '' }}">
-                        <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
-                            My Apps
-                        </a>
-                    </li>
-                    <li class="{{ $section == "apps-new" ? 'disabled' : '' }}">
-                        <a href="{{ route('user.dashboard', ['section' => 'apps-new']) }}">
-                            Create New App
-                        </a>
-                    </li>
-                </ul>
+            <div class="pull-right">
+                <a href="{{ route('user.dashboard', ['section' => 'apps-new']) }}" class="btn btn-primary btn-sm {{ $section == "apps-new" ? 'disabled' : '' }}">
+                    <i class="fa fa-laptop"></i> Create New App
+                </a>
+
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <strong>
+                            Go to...
+                            <span class="caret"></span>
+                        </strong>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <li class="{{ $section == null ? 'disabled' : '' }}">
+                            <a href="{{ route('user.dashboard') }}">
+                                My Dashboard
+                            </a>
+                        </li>
+                        <li class="{{ $section == "apps" ? 'disabled' : '' }}">
+                            <a href="{{ route('user.dashboard', ['section' => 'apps']) }}">
+                                My Apps
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        <hr>
+        </h2>
     </div>
 </div>
+
+<hr>
 
 <div class="row">
     <div class="col-md-12">

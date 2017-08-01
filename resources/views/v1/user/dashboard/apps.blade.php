@@ -23,7 +23,7 @@
             <div class="row text-center">
                 {{-- Populate this with database --}}
                 @foreach($app_products as $app)
-                    <div class="{{ count($app_products) <= 2 ? 'col-md-6' : 'col-md-4' }}">
+                    <div class="col-md-6">
                         <div class="clearfix">
                         <span class="fa-stack fa-4x">
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
