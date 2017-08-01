@@ -17,7 +17,8 @@
         "unisharp/laravel-filemanager": "^1.7",
         "doctrine/dbal": "^2.5",
         "cmgmyr/messenger": "^2.14",
-        "cornford/googlmapper": "^2.25"
+        "cornford/googlmapper": "^2.25",
+        "kalnoy/nestedset": "^4.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
