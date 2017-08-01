@@ -78,7 +78,7 @@ class CompanyAppController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        if($app->subscribed){
+        if ($app->subscribed) {
 
         }
 
@@ -111,11 +111,7 @@ class CompanyAppController extends Controller
     public function delete($id)
     {
         //find
-        $app = CompanyApp::find($id);
-
-        //check app
-        if ($app == null)
-            abort(404);
+        $app = CompanyApp::findOrFail($id);
 
         //authorize
         $this->authorize('delete', $app);
@@ -124,12 +120,9 @@ class CompanyAppController extends Controller
         $title = $app->title;
 
         //update status
-        if ($app->update(['status' => 0])) {
-            //delete
-            if ($app->delete()) {
-                return redirect()->back()
-                    ->with('success', $title . ' ' . $app->product->title . ' moved to trash successfully.');
-            }
+        if ($app->update(['status' => 0, 'deleted_at' => Carbon::now()])) {
+            return redirect()->back()
+                ->with('success', $title . ' ' . $app->product->title . ' moved to trash successfully.');
         }
 
         return redirect()->back()
@@ -145,21 +138,14 @@ class CompanyAppController extends Controller
     public function restore($id)
     {
         //find
-        $app = CompanyApp::onlyTrashed()->where('id', $id)->first();
-
-        //check app
-        if ($app == null)
-            abort(404);
+        $app = CompanyApp::findOrFail($id);
 
         //authorize
         $this->authorize('update', $app);
 
-        if ($app->update(['status' => 1])) {
-            //restore
-            if ($app->restore()) {
-                return redirect()->back()
-                    ->with('success', $app->title . ' ' . $app->product->title . ' restored successfully.');
-            }
+        if ($app->update(['status' => 1, 'deleted_at' => null])) {
+            return redirect()->back()
+                ->with('success', $app->title . ' ' . $app->product->title . ' restored successfully.');
         }
 
         return redirect()->back()
@@ -175,11 +161,7 @@ class CompanyAppController extends Controller
      */
     public function toggleStatus($id)
     {
-        $app = CompanyApp::find($id);
-
-        //check app
-        if ($app == null)
-            abort(404);
+        $app = CompanyApp::findOrFail($id);
 
         //authorize
         $this->authorize('update', $app);
@@ -216,11 +198,7 @@ class CompanyAppController extends Controller
     public function destroy($id)
     {
         //find
-        $app = CompanyApp::onlyTrashed()->where('id', $id)->first();
-
-        //check app
-        if ($app == null)
-            abort(404);
+        $app = CompanyApp::findOrFail($id);
 
         //authorize
         $this->authorize('delete', $app);
@@ -229,7 +207,7 @@ class CompanyAppController extends Controller
         $title = $app->title;
 
         //delete
-        if ($app->forceDelete()) {
+        if ($app->delete()) {
             return redirect()->back()
                 ->with('success', 'App deletion successful. ' . $title . ' ' . $app->product->title . ' is removed completely!');
         }
