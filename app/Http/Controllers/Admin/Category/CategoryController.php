@@ -189,6 +189,30 @@ class CategoryController extends Controller
     }
 
     /**
+     * Generates slugs for categories without one
+     */
+    public function auto_slug()
+    {
+        //counter
+        $i = 0;
+
+        //Find Categories without Slug Loop and auto generate slug
+        foreach (Category::where('slug', '')->cursor() as $category_slug) {
+            $prefix = $category_slug->parent == 1 ? '' : $category_slug->categorable->title . ' ';
+            $category_slug->slug = str_slug($prefix . $category_slug->title);
+            $category_slug->save();
+            $i++;
+        }
+
+        if($i > 0)
+        return redirect()->back()
+            ->with('success', 'Generated slugs for ' . $i . 'categories');
+
+        return redirect()->back()
+            ->with('error', 'No slugs generated.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
