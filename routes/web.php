@@ -335,62 +335,62 @@ Route::group(['prefix' => 'admin'], function () {
      */
     Route::group(['prefix' => 'apps'], function () {
         //Get Admin Add Product
-        Route::get('add-new-app', [
-            'uses' => 'Admin\ProductController@getCreate',
+        Route::get('app/create', [
+            'uses' => 'Admin\App\AppController@create',
             'as' => 'admin.app.create'
         ]);
 
         //Post Admin Add Product
-        Route::post('add-app', [
-            'uses' => 'Admin\ProductController@store',
+        Route::post('/', [
+            'uses' => 'Admin\App\AppController@store',
             'as' => 'admin.app.store'
         ]);
 
         //Get Admin Product
         Route::get('app/{id}', [
-            'uses' => 'Admin\ProductController@show',
+            'uses' => 'Admin\App\AppController@show',
             'as' => 'admin.app.view'
         ]);
 
         //Get Admin Product
         Route::get('app/{id}/edit', [
-            'uses' => 'Admin\ProductController@edit',
+            'uses' => 'Admin\App\AppController@edit',
             'as' => 'admin.app.edit'
         ]);
 
         //Get Admin Update Product Status
         Route::get('status/{id}', [
-            'uses' => 'Admin\ProductController@toggleStatus',
+            'uses' => 'Admin\App\AppController@status',
             'as' => 'admin.app.status'
         ]);
 
         //Post Admin Update Product
-        Route::post('update-app', [
-            'uses' => 'Admin\ProductController@update',
+        Route::put('app/{id}', [
+            'uses' => 'Admin\App\AppController@update',
             'as' => 'admin.app.update'
         ]);
 
         //Post Admin Delete Product
         Route::get('delete/{id}', [
-            'uses' => 'Admin\ProductController@delete',
+            'uses' => 'Admin\App\AppController@delete',
             'as' => 'admin.app.delete'
         ]);
 
         //Post Admin Delete Product
         Route::get('destroy/{id}', [
-            'uses' => 'Admin\ProductController@destroy',
+            'uses' => 'Admin\App\AppController@destroy',
             'as' => 'admin.app.destroy'
         ]);
 
         //Post Admin Restore Product
         Route::get('restore/{id}', [
-            'uses' => 'Admin\ProductController@restore',
+            'uses' => 'Admin\App\AppController@restore',
             'as' => 'admin.app.restore'
         ]);
 
         //Get Admin Products
-        Route::get('index/{sort}', [
-            'uses' => 'Admin\ProductController@getApps',
+        Route::get('/{sort}', [
+            'uses' => 'Admin\App\AppController@index',
             'as' => 'admin.apps'
         ]);
     });
@@ -1608,10 +1608,44 @@ Route::group(['prefix' => 'tenant'], function () {
 Route::group(['prefix' => 'hostel'], function () {
 
     //Dashboard Route
-    Route::get('/dashboard', [
+    Route::get('/dashboard/{id}', [
         'uses' => 'Hostel\DashboardController',
         'as' => 'hostel.dashboard',
     ]);
+
+    /**
+     * -----------------------------------------------------------------
+     * Handles custom routes for amenities
+     *
+     * Property Group Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => 'amenities/{app}'], function () {
+
+        //Index Route
+        Route::get('/', [
+            'uses' => 'Hostel\Amenity\AmenityController@index',
+            'as' => 'hostel.amenity.index',
+        ]);
+
+        /**
+         * -----------------------------------------------------------------
+         * Handles resource routes for amenities
+         *
+         * Property Resource Routes
+         * -----------------------------------------------------------------
+         */
+        Route::resource('amenity', 'Hostel\Amenity\AmenityController', [
+            'except' => ['index', 'destroy'],
+            'names' => [
+                'create' => 'hostel.amenity.create',
+                'store' => 'hostel.amenity.store',
+                'show' => 'hostel.amenity.show',
+                'edit' => 'hostel.amenity.edit',
+                'update' => 'hostel.amenity.update',
+            ],
+        ]);
+    });
 
     /**
      * -----------------------------------------------------------------
@@ -1620,32 +1654,66 @@ Route::group(['prefix' => 'hostel'], function () {
      * Property Group Routes
      * -----------------------------------------------------------------
      */
-    Route::group(['prefix' => 'properties'], function () {
+    Route::group(['prefix' => 'properties/{app}'], function () {
 
         //Index Route
         Route::get('/', [
             'uses' => 'Hostel\Property\PropertyController@index',
             'as' => 'hostel.property.index',
         ]);
+
+        /**
+         * -----------------------------------------------------------------
+         * Handles resource routes for properties
+         *
+         * Property Resource Routes
+         * -----------------------------------------------------------------
+         */
+        Route::resource('property', 'Hostel\Property\PropertyController', [
+            'except' => ['index', 'destroy'],
+            'names' => [
+                'create' => 'hostel.property.create',
+                'store' => 'hostel.property.store',
+                'show' => 'hostel.property.show',
+                'edit' => 'hostel.property.edit',
+                'update' => 'hostel.property.update',
+            ],
+        ]);
     });
 
     /**
      * -----------------------------------------------------------------
-     * Handles resoure routes for properties
+     * Handles custom routes for tenants
      *
-     * Property Resource Routes
+     * Tenants Group Routes
      * -----------------------------------------------------------------
      */
-    Route::resource('property', 'Hostel\Property\PropertyController', [
-        'except' => ['index', 'destroy'],
-        'names' => [
-            'create' => 'hostel.property.create',
-            'store' => 'hostel.property.store',
-            'show' => 'hostel.property.show',
-            'edit' => 'hostel.property.edit',
-            'update' => 'hostel.property.update',
-        ],
-    ]);
+    Route::group(['prefix' => 'tenants/{app}'], function () {
+
+        //Index Route
+        Route::get('/', [
+            'uses' => 'Hostel\Tenant\TenantController@index',
+            'as' => 'hostel.tenant.index',
+        ]);
+
+        /**
+         * -----------------------------------------------------------------
+         * Handles resource routes for properties
+         *
+         * Property Resource Routes
+         * -----------------------------------------------------------------
+         */
+        Route::resource('tenant', 'Hostel\Tenant\TenantController', [
+            'except' => ['index', 'destroy'],
+            'names' => [
+                'create' => 'hostel.tenant.create',
+                'store' => 'hostel.tenant.store',
+                'show' => 'hostel.tenant.show',
+                'edit' => 'hostel.tenant.edit',
+                'update' => 'hostel.tenant.update',
+            ],
+        ]);
+    });
 
 });
 
