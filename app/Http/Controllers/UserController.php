@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
@@ -48,28 +49,29 @@ class UserController extends Controller
 
         View::share('section', $section);
 
+        $apps = $request->user()->apps;
+
         if ($section == "apps-new")
             return view('v1.user.dashboard.apps');
 
-        if ($section == "apps") {
+        elseif ($section == "apps") {
 
             //active apps
-            $active_apps = Auth::user()->activeApps;
+            $active_apps = $request->user()->activeApps()->with('app')->get();
 
             //disabled apps
-            $disabled_apps = Auth::user()->disabledApps;
+            $disabled_apps = $request->user()->disabledApps;
 
             //trashed apps
-            $trashed_apps = Auth::user()->trashedApps;
+            $trashed_apps = $request->user()->trashedApps;
 
             return view('v1.user.dashboard.myapps')
                 ->with('active_apps', $active_apps)
                 ->with('disabled_apps', $disabled_apps)
                 ->with('trashed_apps', $trashed_apps);
-        }
-
-        if ($section == null)
-            return view('v1.user.dashboard.dashboard');
+        } elseif ($section == null)
+            return view('v1.user.dashboard.dashboard')
+                ->with('user_apps', $apps);
     }
 
     /*
