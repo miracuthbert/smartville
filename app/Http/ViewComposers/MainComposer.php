@@ -30,18 +30,18 @@ class MainComposer
     public function compose(View $view)
     {
         //Load Model in each view
-        $categories = Category::where('status', 1)->where('title', 'LIKE', '%apps%')->first();
+        $categories = Category::where('status', 1)->where('slug', 'apps')->first();
 
-        $payments = Category::where('status', 1)->where('title', 'LIKE', '%monetization%')->first();
+        $payments = Category::where('status', 1)->where('slug','monetization')->first();
         $payments = $payments != null ? $payments->categories : null;
 
-        $common_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%property types%')->first();
+        $common_property_categories = Category::where('status', 1)->where('slug', 'property-types')->first();
         $common_property_categories = $common_property_categories != null ? $common_property_categories->categories : null;
 
-        $hostel_property_categories = Category::where('status', 1)->where('title', 'LIKE', '%hostel property categories%')->first();
+        $hostel_property_categories = Category::where('status', 1)->where('slug', 'hostel-property-categories')->first();
         $hostel_property_categories = $hostel_property_categories != null ? $hostel_property_categories->categories : null;
 
-        $post_audiences = Category::where('status', 1)->where('title', 'LIKE', 'post audiences')->first();
+        $post_audiences = Category::where('status', 1)->where('slug', 'post-audiences')->first();
         $post_audiences = $post_audiences != null ? $post_audiences->categories : null;
 
         $apps = Product::where('status', 1)->get();
