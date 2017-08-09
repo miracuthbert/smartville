@@ -95,7 +95,7 @@
                         </header>
                         <!-- /header -->
                         <hr>
-                        
+
                         <section class="clearfix summary">
                             {!! $app->summary !!}
                         </section>
