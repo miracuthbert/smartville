@@ -18,6 +18,7 @@ use App\Models\v1\Shared\Monetization;
 use App\Models\v1\Tenant\TenantBill;
 use App\Models\v1\Tenant\TenantProperty;
 use App\Models\v1\Tenant\TenantRent;
+use App\Observers\CategoryObserver;
 use App\Observers\Tenant\TenantPropertyObserver;
 use App\Observers\TenantBillObserver;
 use App\Observers\TenantRentObserver;
@@ -39,13 +40,16 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Register Observers Below
          */
-        //Tenant Rent Observer
+        //Category Observer
+        Category::observe(CategoryObserver::class);
+
+        //TenantRent Observer
         TenantRent::observe(TenantRentObserver::class);
 
-        //Tenant Property Observer
+        //TenantProperty Observer
         TenantProperty::observe(TenantPropertyObserver::class);
 
-        //Tenant Bill Observer
+        //TenantBill Observer
         TenantBill::observe(TenantBillObserver::class);
 
         /**
