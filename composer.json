@@ -18,7 +18,8 @@
         "doctrine/dbal": "^2.5",
         "cmgmyr/messenger": "^2.14",
         "cornford/googlmapper": "^2.25",
-        "kalnoy/nestedset": "^4.2"
+        "kalnoy/nestedset": "^4.2",
+        "barryvdh/laravel-debugbar": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
