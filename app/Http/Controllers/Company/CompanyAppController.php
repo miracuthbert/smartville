@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Estate\Company;
+namespace App\Http\Controllers\Company;
 
 use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Company\CompanyApp;
