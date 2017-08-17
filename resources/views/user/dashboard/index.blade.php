@@ -108,15 +108,15 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="list-group">
-                            @forelse($user_apps as $user_app)
-                                <a href="{{ $user_app->app->status === 1 ? route('estate.rental.dashboard', ['id' => $user_app->app->id]) : route('estate.rental.status', ['id' => $user_app->app->id]) }}"
+                            @forelse($user_apps as $app)
+                                <a href="{{ $app->app->status === 1 ? route(AppDashRoute($app->app->product->slug), [$app->app]) : route('company.app.status', ['id' => $app->app]) }}"
                                    class="list-group-item"
-                                   title="{{ $user_app->app->status === 1 ? 'Go to app dashboard' : 'App will be enabled first' }}">
+                                   title="{{ $app->app->status === 1 ? 'Go to app dashboard' : 'App will be enabled first' }}">
                                     <div class="list-item-text">
                                         <i class="fa fa-bell fa-2x"></i>
-                                        <sup class="badge">{{ count($user_app->app->unreadNotifications) > 0 ? count($user_app->app->unreadNotifications) : '' }}</sup>
+                                        <sup class="badge">{{ count($app->app->unreadNotifications) > 0 ? count($app->app->unreadNotifications) : '' }}</sup>
                                         <strong>
-                                            {{ $user_app->app->company->title }}
+                                            {{ $app->app->company->title }}
                                         </strong>
                                             <span class="pull-right">
                                                 <i class="fa fa-chevron-right"></i>
