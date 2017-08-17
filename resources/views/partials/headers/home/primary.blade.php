@@ -66,6 +66,7 @@
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fa fa-sign-out fa-fw"></i> Logout
                                 </a>
+                                @include('partials.forms.logout')
                             </li>
                         </ul>
                     </li>
@@ -77,9 +78,6 @@
                     <li class="{{ ActivePage('register') }}">
                         <a href="{{ route('register') }}">Sign Up <i class="fa fa-user-plus"></i></a>
                     </li>
-                    {{--<li class="{{ ActivePage('password.reset') }}">--}}
-                    {{--<a href="{{ route('password.reset') }}">Forgot password?</a>--}}
-                    {{--</li>--}}
                 @endif
 
             </ul>
@@ -109,9 +107,6 @@
 
                     </ul>
                 </li>
-                {{--<li>--}}
-                {{--<a href="{{ route('about') }}" class="hidden">About</a>--}}
-                {{--</li>--}}
                 <li class="{{ ActivePage('contact') }}">
                     <a href="{{ route('contact') }}">Contact</a>
                 </li>
