@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <section class="section-top section-btm section-pad" id="secHeader">
+    <section class="section-top section-btm" id="secHeader">
         @section('dashboard-title')
             <i class="fa fa-laptop"></i>
             Create a new app
