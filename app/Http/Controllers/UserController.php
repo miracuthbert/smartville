@@ -52,7 +52,7 @@ class UserController extends Controller
         $apps = $request->user()->apps;
 
         if ($section == "apps-new")
-            return view('v1.user.dashboard.apps');
+            return view('user.dashboard.apps');
 
         elseif ($section == "apps") {
 
@@ -65,12 +65,12 @@ class UserController extends Controller
             //trashed apps
             $trashed_apps = $request->user()->trashedApps;
 
-            return view('v1.user.dashboard.myapps')
+            return view('user.dashboard.myapps')
                 ->with('active_apps', $active_apps)
                 ->with('disabled_apps', $disabled_apps)
                 ->with('trashed_apps', $trashed_apps);
         } elseif ($section == null)
-            return view('v1.user.dashboard.dashboard')
+            return view('user.dashboard.dashboard')
                 ->with('user_apps', $apps);
     }
 
@@ -80,7 +80,7 @@ class UserController extends Controller
      * */
     public function settings()
     {
-        return view('v1.user.settings');
+        return view('user.settings');
     }
 
     /*
@@ -92,7 +92,7 @@ class UserController extends Controller
         //user
         $user = Auth::user();
 
-        return view('v1.user.profile');
+        return view('user.profile');
     }
 
     /*
