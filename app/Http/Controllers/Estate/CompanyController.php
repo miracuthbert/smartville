@@ -85,7 +85,7 @@ class CompanyController extends Controller
         $countries = Countries::getList('en', 'php');
 
         //generate view
-        return view('v1.company.create')
+        return view('company.create')
             ->with('app', $product->title)
             ->with('app_data', $product)
             ->with('countries', $countries);
@@ -355,10 +355,10 @@ class CompanyController extends Controller
 
         //view
         if ($section == null)
-            return view('v1.company.profile', $data);
+            return view('company.profile', $data);
 
         else if ($section == "logo")
-            return view('v1.company.logo', $data);
+            return view('company.logo', $data);
 
     }
 
