@@ -17,14 +17,14 @@ Route::get('/', [
     'as' => 'home'
 ]);
 
-//Services Route
-Route::get('/apps-services', [
+//Apps Route
+Route::get('/apps', [
     'uses' => 'HomeController@services',
     'as' => 'services'
 ]);
 
-//Service Route
-Route::get('/apps-services/{id}', [
+//App Show Route
+Route::get('/apps/{id}/show', [
     'uses' => 'HomeController@product',
     'as' => 'service'
 ]);
@@ -41,8 +41,8 @@ Route::get('/contact', [
     'as' => 'contact'
 ]);
 
-//Contact Send Route
-Route::post('/send/message', [
+//Contact Post Route
+Route::post('/contact', [
     'uses' => 'HomeController@message',
     'as' => 'contact.send'
 ]);
@@ -1884,7 +1884,7 @@ Route::group(['prefix' => 'app'], function () {
     ]);
 
     //Post Add App
-    Route::post('add-app', [
+    Route::post('/', [
         'uses' => 'Estate\CompanyController@store',
         'as' => 'app.store'
     ]);
