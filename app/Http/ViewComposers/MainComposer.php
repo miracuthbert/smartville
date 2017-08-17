@@ -14,12 +14,14 @@ use Illuminate\View\View;
 
 class MainComposer
 {
-    /**
-     * MainComposer constructor.
-     */
-    public function __construct()
-    {
-    }
+
+    private $categories;
+    private $apps;
+    private $apps_coming_soon;
+    private $manuals;
+    private $avatar;
+    private $notifications;
+    private $unread_notifications;
 
     /**
      * Bind data to the view.
@@ -29,33 +31,49 @@ class MainComposer
      */
     public function compose(View $view)
     {
-        //Load Model in each view
-        $categories = Category::where('status', 1)->where('slug', 'apps')->first();
+        $app_categories = collect();
+        $payments = collect();
+        $common_property_categories = collect();
+        $hostel_property_categories = collect();
+        $post_audiences = collect();
 
-        $payments = Category::where('status', 1)->where('slug','monetization')->first();
-        $payments = $payments != null ? $payments->categories : null;
+        //categories
+        if (!$this->categories) {
+            $this->categories = Category::with('categories')->where('parent', 1)->where('status', 1)->get();
 
-        $common_property_categories = Category::where('status', 1)->where('slug', 'property-types')->first();
-        $common_property_categories = $common_property_categories != null ? $common_property_categories->categories : null;
+            $app_categories = $this->categories->where('slug', 'apps')->first()->categories;
 
-        $hostel_property_categories = Category::where('status', 1)->where('slug', 'hostel-property-categories')->first();
-        $hostel_property_categories = $hostel_property_categories != null ? $hostel_property_categories->categories : null;
+            $payments = $this->categories->where('slug', 'monetization')->first()->categories;
 
-        $post_audiences = Category::where('status', 1)->where('slug', 'post-audiences')->first();
-        $post_audiences = $post_audiences != null ? $post_audiences->categories : null;
+            $common_property_categories = $this->categories->where('slug', 'property-types')->first()->categories;
 
-        $apps = Product::where('status', 1)->get();
-        $apps_coming = Product::where('coming_soon', 1)->get();
+            $hostel_property_categories = $this->categories->where('slug', 'hostel-property-categories')->first()->categories;
 
-        $manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();
+            $post_audiences = $this->categories->where('slug', 'post-audiences')->first()->categories;
+        }
+
+        //apps
+        if (!$this->apps) {
+            $this->apps = Product::where('status', 1)->get();
+        }
+
+        //apps coming soon
+        if (!$this->apps_coming_soon) {
+            $this->apps_coming_soon = Product::where('coming_soon', 1)->get();
+        }
+
+        //manuals
+        if (!$this->manuals) {
+            $this->manuals = Manual::where('status', 1)->orderBy('index', 'ASC')->get();
+        }
 
         //attach content with loaded view
         $view
-            ->with('app_categories', $categories)
+            ->with('app_categories', $app_categories)
             ->with('app_payments', $payments)
-            ->with('app_products', $apps)
-            ->with('apps_coming', $apps_coming)
-            ->with('manuals', $manuals)
+            ->with('app_products', $this->apps)
+            ->with('apps_coming', $this->apps_coming_soon)
+            ->with('manuals', $this->manuals)
             ->with('property_types', $common_property_categories)
             ->with('hostel_property_categories', $hostel_property_categories)
             ->with('post_audiences', $post_audiences);
@@ -65,74 +83,30 @@ class MainComposer
             $user = Auth::user();
 
             //avatar
-            $avatar = $user->avatar;
+            if (!$this->avatar) {
+                $this->avatar = $user->avatar;
+            }
 
             //notifications
-            $notifications = Auth::user()
-                ->notifications()
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
-            //notifications: admin
-            $admin_notifications = Auth::user()
-                ->notifications()
-                ->where('data', 'like', '%bug%')
-                ->orWhere('data', 'like', '%contact%')
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
-            //notifications: admin unread
-            $admin_un_notifications = Auth::user()
-                ->notifications()
-                ->where('data', 'like', '%bug%')
-                ->orWhere('data', 'like', '%contact%')
-                ->whereNull('read_at')
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
-            //notifications: admin unread mini
-            $admin_mini_notifications = Auth::user()
-                ->notifications()
-                ->where('data', 'like', '%bug%')
-                ->orWhere('data', 'like', '%contact%')
-                ->whereNull('read_at')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(4);
-            //notifications: user
-            $user_notifications = Auth::user()
-                ->notifications()
-                ->where('data', 'like', '%forum%')
-                ->orWhere('data', 'like', '%tenant bill%')
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
-
-            //notifications: mini unread
-            $mini_notifications = Auth::user()
-                ->notifications()
-                ->where('data', 'like', '%forum%')
-                ->whereNull('read_at')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(4);
+            if (!$this->notifications) {
+                $this->notifications = $user->notifications()
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate();
+            }
 
             //notifications: user unread
-            $unread_notifications = Auth::user()
-                ->unreadNotifications()
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
+            if (!$this->unread_notifications) {
+                $this->unread_notifications = $user
+                    ->unreadNotifications()
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate();
+            }
 
             //view
             $view
-                ->with('avatar', $avatar)
-                ->with('notifications', $notifications)
-                ->with('unread_notifications', $unread_notifications);
-
-            //view
-//            $view
-//                ->with('avatar', $avatar)
-////                ->with('notifications', $notifications)
-//                ->with('admin_notifications', $admin_notifications)
-//                ->with('admin_un_notifications', $admin_un_notifications)
-//                ->with('admin_mini_notifications', $admin_mini_notifications)
-//                ->with('user_notifications', $user_notifications)
-//                ->with('mini_notifications', $mini_notifications)
-//                ->with('unread_notifications', $unread_notifications);
+                ->with('avatar', $this->avatar)
+                ->with('notifications', $this->notifications)
+                ->with('unread_notifications', $this->unread_notifications);
         }
 
 
