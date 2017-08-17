@@ -179,6 +179,6 @@
         </div><!-- /#myApps -->
     </div><!-- /.container -->
 
-    @include('partials')
+    @include('partials.footers.default')
 
 @endsection
