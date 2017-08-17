@@ -28,11 +28,14 @@
 <!-- Custom CSS -->
 <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
 
-<link href="{{ url('css/colors.css') }}" rel="stylesheet">
+<link href="{{ url('css/v1/home.css') }}" rel="stylesheet">
+<link href="{{ url('css/v1/home.ext.css') }}" rel="stylesheet">
 
 @yield('styles')
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link href="{{ url('css/colors.css') }}" rel="stylesheet">
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <link href="{{ url('css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
