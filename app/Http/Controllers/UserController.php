@@ -70,7 +70,7 @@ class UserController extends Controller
                 ->with('disabled_apps', $disabled_apps)
                 ->with('trashed_apps', $trashed_apps);
         } elseif ($section == null)
-            return view('user.dashboard.dashboard')
+            return view('user.dashboard.index')
                 ->with('user_apps', $apps);
     }
 
