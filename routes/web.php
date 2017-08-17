@@ -703,49 +703,6 @@ Route::group(['prefix' => 'estate/rental'], function () {
 
     /**
      * -----------------------------------------------------------------
-     * App Admin Routes
-     * -----------------------------------------------------------------
-     */
-    Route::group(['prefix' => 'admin', 'middleware' => 'company.app.admin'], function () {
-
-        /**
-         * -----------------------------------------------------------------
-         * App Admin Routes
-         * -----------------------------------------------------------------
-         */
-        //Post Update App
-        Route::post('update/app', [
-            'uses' => 'Estate\Company\CompanyAppController@update',
-            'as' => 'estate.rental.update'
-        ]);
-
-        //Post Update App Status
-        Route::get('status/{id}', [
-            'uses' => 'Estate\Company\CompanyAppController@toggleStatus',
-            'as' => 'estate.rental.status'
-        ]);
-
-        //Get Delete App Feature
-        Route::get('delete/{id}', [
-            'uses' => 'Estate\Company\CompanyAppController@delete',
-            'as' => 'estate.rental.delete'
-        ]);
-
-        //Get Restore App Feature
-        Route::get('restore/{id}', [
-            'uses' => 'Estate\Company\CompanyAppController@restore',
-            'as' => 'estate.rental.restore'
-        ]);
-
-        //Get Destroy App Feature
-        Route::get('destroy/{id}', [
-            'uses' => 'Estate\Company\CompanyAppController@destroy',
-            'as' => 'estate.rental.destroy'
-        ]);
-    });
-
-    /**
-     * -----------------------------------------------------------------
      * Notification Routes
      * -----------------------------------------------------------------
      */
@@ -1813,6 +1770,11 @@ Route::group(['prefix' => 'company'], function () {
         'as' => 'company.settings'
     ]);
 
+    /**
+     * -----------------------------------------------------------------
+     * Company Admin Group Routes
+     * -----------------------------------------------------------------
+     */
     Route::group(['prefix' => 'admin', 'middleware' => 'company.admin'], function () {
         /**
          * -----------------------------------------------------------------
@@ -1820,25 +1782,25 @@ Route::group(['prefix' => 'company'], function () {
          * -----------------------------------------------------------------
          */
         //Post Update Company
-        Route::post('update-company', [
+        Route::post('/update', [
             'uses' => 'Estate\CompanyController@update',
             'as' => 'company.update'
         ]);
 
         //Store Company Logo
-        Route::post('logo-store', [
+        Route::post('logo/store', [
             'uses' => 'Estate\CompanyController@storeLogo',
             'as' => 'company.logo.store'
         ]);
 
         //Change Company Logo
-        Route::get('logo-change/{id}', [
+        Route::get('logo/{id}', [
             'uses' => 'Estate\CompanyController@changeLogo',
             'as' => 'company.logo.change'
         ]);
 
         //Delete Company Logo
-        Route::get('logo-delete/{id}', [
+        Route::get('logo/delete/{id}', [
             'uses' => 'Estate\CompanyController@deleteLogo',
             'as' => 'company.logo.delete'
         ]);
@@ -1867,6 +1829,45 @@ Route::group(['prefix' => 'company'], function () {
             'as' => 'company.destroy'
         ]);
     });
+
+    /**
+     * -----------------------------------------------------------------
+     * Company App Admin Group Routes
+     * -----------------------------------------------------------------
+     */
+    Route::group(['prefix' => '/app/admin', 'namespace' => 'Company'], function () {
+
+        //Post Update App
+        Route::post('update/app', [
+            'uses' => 'CompanyAppController@update',
+            'as' => 'company.app.update'
+        ]);
+
+        //Post Update App Status
+        Route::get('status/{id}', [
+            'uses' => 'CompanyAppController@toggleStatus',
+            'as' => 'company.app.status'
+        ]);
+
+        //Get Delete App Feature
+        Route::get('delete/{id}', [
+            'uses' => 'CompanyAppController@delete',
+            'as' => 'company.app.delete'
+        ]);
+
+        //Get Restore App Feature
+        Route::get('restore/{id}', [
+            'uses' => 'CompanyAppController@restore',
+            'as' => 'company.app.restore'
+        ]);
+
+        //Get Destroy App Feature
+        Route::get('destroy/{id}', [
+            'uses' => 'CompanyAppController@destroy',
+            'as' => 'company.app.destroy'
+        ]);
+    });
+
 });
 
 /**
