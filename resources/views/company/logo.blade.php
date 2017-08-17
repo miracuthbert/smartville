@@ -1,4 +1,4 @@
-@extends('layouts.company')
+@extends('layouts.company.master')
 
 @section('title')
     {{$company->title }} | Change Logo
