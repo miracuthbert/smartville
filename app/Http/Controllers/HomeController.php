@@ -14,7 +14,6 @@ class HomeController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -38,7 +37,7 @@ class HomeController extends Controller
      */
     public function services()
     {
-        return view('v1.home.services');
+        return view('home.services');
     }
 
     /**
@@ -56,7 +55,7 @@ class HomeController extends Controller
         //features
         $features = $product->features()->where('status', 1)->get();
 
-        return view('v1.home.service')
+        return view('home.service')
             ->with('product', $product)
             ->with('product_features', $features);
     }
@@ -68,7 +67,7 @@ class HomeController extends Controller
      */
     public function about()
     {
-        return view('v1.home.about');
+        return view('home.about');
     }
 
     /**
@@ -78,7 +77,7 @@ class HomeController extends Controller
      */
     public function contact()
     {
-        return view('v1.home.contact');
+        return view('home.contact');
     }
 
     /**
