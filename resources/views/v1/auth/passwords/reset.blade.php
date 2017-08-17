@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @include('includes.headers.default')
+    @include('partials.headers.default')
 
     <div class="container">
         <div class="row">

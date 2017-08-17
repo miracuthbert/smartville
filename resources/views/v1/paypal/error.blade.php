@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    @include('includes.headers.plain')
+    @include('partials.headers.plain')
 
     <div class="section-blank">
         <div class="container">
@@ -34,5 +34,5 @@
         </div>
     </div>
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 @endsection

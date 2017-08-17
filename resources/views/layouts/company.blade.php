@@ -54,10 +54,10 @@
 
 @yield('content')
 
-@include('includes.modals.success-modal')
-@include('includes.modals.error-modal')
+@include('partials.modals.success-modal')
+@include('partials.modals.error-modal')
 
-@include('includes.forms.logout')
+@include('partials.forms.logout')
         <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

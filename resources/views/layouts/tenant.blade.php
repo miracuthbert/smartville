@@ -190,14 +190,14 @@
         @yield('content')
                 <!-- /.content -->
 
-        @include('includes.forms.logout')
+        @include('partials.forms.logout')
     </div>
     <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
 
-@include('includes.footers.estates')
+@include('partials.footers.estates')
         <!-- /footer -->
 
 <!-- jQuery -->

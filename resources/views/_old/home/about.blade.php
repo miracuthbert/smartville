@@ -10,7 +10,7 @@
 
 @section('content')
 
-    @include('includes.headers.default')
+    @include('partials.headers.default')
 
     <section id="about"><!-- About Section -->
         <div class="container">
@@ -108,6 +108,6 @@
         </div>
     </section>
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 
 @endsection

@@ -20,8 +20,8 @@
                             <!-- Header -->
                             <div class="card-title">
                                 <h1 class="h1-responsive">Edit Amenity</h1>
-                                @include('includes.alerts.default')
-                                @include('includes.alerts.validation')
+                                @include('partials.alerts.default')
+                                @include('partials.alerts.validation')
                             </div>
                         </div>
                     </div><!-- /.card -->

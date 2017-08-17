@@ -43,7 +43,7 @@
 <body>
 
 @yield('content')
-@include('includes.forms.logout')
+@include('partials.forms.logout')
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

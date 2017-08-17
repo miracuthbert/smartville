@@ -10,7 +10,7 @@
 
 @section('content')
 
-    @include('v1.includes.headers.home.default-static')
+    @include('partials')
 
     <div class="container">
         <!-- Login Section   -->
@@ -26,8 +26,8 @@
                 </div>
                 <div class="panel-body">
 
-                    @include('includes.alerts.default')
-                    @include('includes.alerts.validation')
+                    @include('partials.alerts.default')
+                    @include('partials.alerts.validation')
 
                     {{ csrf_field() }}
 
@@ -83,6 +83,6 @@
         <!--/.End Login Section   -->
     </div> <!-- /container -->
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 
 @endsection

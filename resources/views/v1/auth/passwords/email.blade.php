@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @include('includes.headers.default')
+    @include('partials.headers.default')
     <div class="section-blank section-top">
         <div class="container">
             <div class="row">
@@ -58,5 +58,5 @@
         </div>
     </div>
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 @endsection

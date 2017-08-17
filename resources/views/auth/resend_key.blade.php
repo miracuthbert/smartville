@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @include('includes.headers.default')
+    @include('partials.headers.default')
 
     <div class="container">
 
@@ -71,6 +71,6 @@
     </div> <!-- /container -->
     <!--/.End Login Section   -->
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 
 @endsection

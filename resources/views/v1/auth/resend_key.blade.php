@@ -26,8 +26,8 @@
                     </div>
                     <div class="panel-body">
 
-                        @include('includes.alerts.default')
-                        @include('includes.alerts.validation')
+                        @include('partials.alerts.default')
+                        @include('partials.alerts.validation')
 
                         {{ csrf_field() }}
 
@@ -56,6 +56,6 @@
     </div> <!-- /container -->
     <!--/.End Login Section   -->
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 
 @endsection

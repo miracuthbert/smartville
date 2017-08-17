@@ -11,7 +11,7 @@
 
 @section('content')
 
-    @include('includes.headers.default')
+    @include('partials.headers.default')
 
     <section id="contact"><!-- Contact Section -->
         <div class="container">
@@ -30,7 +30,7 @@
                           enctype="application/x-www-form-urlencoded">
                         {{ csrf_field() }}
 
-                        @include('includes.alerts.default')
+                        @include('partials.alerts.default')
 
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    @include('includes.footers.default')
+    @include('partials.footers.default')
 @endsection
 
 @section('scripts')

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @include('v1.includes.headers.home.default-static')
+    @include('partials')
 
     <section class="section"><!--SignUp Section-->
         <div class="container"><!-- container -->
@@ -24,9 +24,9 @@
                                   enctype="application/x-www-form-urlencoded"
                                   autocomplete="off">
 
-                                @include('includes.alerts.validation')
+                                @include('partials.alerts.validation')
 
-                                @include('includes.alerts.error')
+                                @include('partials.alerts.error')
 
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

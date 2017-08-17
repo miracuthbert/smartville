@@ -197,7 +197,7 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    @include('includes.sidebars.estates')
+                    @include('partials.sidebars.estates')
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -218,7 +218,7 @@
                         </ul>
                     </nav>
 
-                    @include('includes.alerts.subscription')
+                    @include('partials.alerts.subscription')
 
                     <h1 class="page-header">@yield('page-header')</h1>
                 </div>
@@ -232,13 +232,13 @@
         @yield('content')
                 <!-- /.content -->
 
-        @include('includes.modals.success-modal')
-        @include('includes.modals.error-modal')
-        @include('includes.forms.logout')
+        @include('partials.modals.success-modal')
+        @include('partials.modals.error-modal')
+        @include('partials.forms.logout')
     </div>
     <!-- /#page-wrapper -->
 
-    @include('includes.footers.estates')
+    @include('partials.footers.estates')
             <!-- /footer -->
 </div>
 <!-- /#wrapper -->

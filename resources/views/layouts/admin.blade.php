@@ -216,8 +216,8 @@
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     @forelse($unread_notifications as $notification)
-                        @include('v1.admin.notify.list.contact')
-                        @include('v1.admin.notify.list.bug')
+                        @include('admin.notify.list.contact')
+                        @include('admin.notify.list.bug')
                     @empty
                     @endforelse
                     <li>
@@ -280,7 +280,7 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    @include('includes.sidebars.admin')
+                    @include('partials.sidebars.admin')
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -327,7 +327,7 @@
                 <!-- /.stats -->
         @yield('content')
                 <!-- /.content -->
-        @include('includes.forms.logout')
+        @include('partials.forms.logout')
     </div><!-- /#page-wrapper -->
 
 </div><!-- /#wrapper -->
