@@ -34,7 +34,7 @@ class AvatarController extends Controller
         //avatars
         $avatars = $user->avatars()->latest()->get();
 
-        return view('v1.user.avatar.upload')
+        return view('user.avatar.upload')
             ->with('avatars', $avatars);
     }
 
@@ -101,8 +101,6 @@ class AvatarController extends Controller
             'gallery' => 'profile pictures',
         ];
 
-        //debug
-//        dd([$newName, $type, $data]);
 
         //resize
         Image::make($orgPath)->resize(468, 249)->save($path);
@@ -114,9 +112,6 @@ class AvatarController extends Controller
         $avatar->type = $type;
         $avatar->data = $data;
         $avatar->status = 1;
-
-        //debug
-//        dd($avatar);
 
         if ($user->avatars()->save($avatar)) {
             //catch id
