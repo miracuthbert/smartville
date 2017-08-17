@@ -29,7 +29,10 @@
 <link href="{{ url('css/v1/main.css') }}" rel="stylesheet">
 
 <link href="{{ url('css/v1/home.css') }}" rel="stylesheet">
-<link href="{{ url('css/v1/home.ext.css') }}" rel="stylesheet">
+
+@if(checkPage('contact') or checkPage('service') or checkPage('services'))
+    <link href="{{ url('css/v1/home.ext.css') }}" rel="stylesheet">
+@endif
 
 @yield('styles')
 
