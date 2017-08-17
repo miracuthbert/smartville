@@ -23,7 +23,7 @@
         <!-- / .col-md-12 -->
     </div><!-- / .row -->
 
-    <section class="section-top">
+    <section id="app-create-wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Create New {{ title_case($app) }}</h1>
