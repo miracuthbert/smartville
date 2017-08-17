@@ -27,6 +27,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(MainComposer::class);
     }
 }
