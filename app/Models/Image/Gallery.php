@@ -35,8 +35,9 @@ class Gallery extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function public_photos()
+    public function publicPhotos()
     {
-        return $this->morphMany(Photo::class, 'photoable')->where('status', 1)->where('audience_id', 17);
+        return $this->morphMany(Photo::class, 'photoable')->where('status', 1)
+            ->where('pivot.slug', 'post-audiences-public');
     }
 }
