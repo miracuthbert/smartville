@@ -23,7 +23,7 @@
 
             @if($app->app->company->status)
                 <div class="clearfix">
-                    <a href="{{ route('estate.rental.restore', ['id' => $app->app->id]) }}" class="btn btn-success"
+                    <a href="{{ route('company.app.restore', [$app->app]) }}" class="btn btn-success"
                        data-toggle="tooltip"
                        title="Restore App">
                         <i class="fa fa-refresh"></i>
@@ -39,7 +39,7 @@
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li>
-                                    <a href="{{ route('estate.rental.destroy', ['id' => $app->app->id]) }}"
+                                    <a href="{{ route('company.app.destroy', [$app->app]) }}"
                                        data-toggle="tooltip"
                                        title="Delete completely" class="te">
                                         <i class="fa fa-trash"></i>

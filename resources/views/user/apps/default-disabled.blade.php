@@ -28,7 +28,7 @@
             </p>
 
             <div class="clearfix">
-                <a href="{{ route('estate.rental.status', ['id' => $app->app->id]) }}"
+                <a href="{{ route('company.app.status', [$app->app]) }}"
                    class="btn btn-success" data-toggle="tooltip"
                    title="{{ AppStatusToggleText($app->app->status) }} App">
                     <i class="{{ AppStatusIcon($app->app->status) }}"></i>
@@ -45,7 +45,7 @@
                         </button>
                         <ul class="dropdown-menu pull-right">
                             <li>
-                                <a href="{{ route('estate.rental.delete', ['id' => $app->app->id]) }}"
+                                <a href="{{ route('company.app.delete', ['id' => $app->app]) }}"
                                    data-toggle="tooltip"
                                    title="Remove App">
                                     <i class="fa fa-remove"></i>
