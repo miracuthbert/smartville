@@ -7,8 +7,8 @@
     </div>
     <div class="panel-body">
         <div class="list-group">
-            @forelse($p_rents->splice(0, 5) as $rent)
-                <a href="{{ route('estate.rental.rent.edit', ['id' => $bill->id]) }}"
+            @forelse($p_rents as $rent)
+                <a href="{{ route('estate.rental.rent.edit', [$rent]) }}"
                    class="list-group-item">
                     <p class="list-item-text">
                         {{ $rent->property->title }}

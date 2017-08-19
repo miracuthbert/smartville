@@ -7,8 +7,8 @@
     </div>
     <div class="panel-body">
         <div class="list-group">
-            @forelse($p_bills->splice(0, 5) as $bill)
-                <a href="{{ route('estate.rental.bills.invoice.edit', ['id' => $bill->id]) }}"
+            @forelse($p_bills as $bill)
+                <a href="{{ route('estate.rental.bills.invoice.edit', [$bill]) }}"
                    class="list-group-item">
                     <p class="list-item-text">
                         {{ $bill->property->title }} - {{ strtoupper($bill->bill->title) }}

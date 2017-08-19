@@ -15,7 +15,7 @@
                     <div>
                         <i class="fa {{ NotificationIcon($notification->data['type']) }} fa-fw"></i>
                                         <span class="small">
-                                            {{ str_limit($notification->data['title'], 20) }}
+                                            {{ str_limit($notification->data['title']) }}
                                         </span>
                                         <span class="pull-right {{ $notification->read_at != null ? 'text-muted' : '' }} small">
                                             {{ $notification->created_at->diffForHumans() }}

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-6 col-sm-3"><!-- panel primary -->
+    <div class="col-md-6"><!-- panel primary -->
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -20,7 +20,7 @@
             </a>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3"><!-- panel green -->
+    <div class="col-md-6"><!-- panel green -->
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -42,7 +42,7 @@
             </a>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3"><!-- panel red -->
+    <div class="col-md-6"><!-- panel red -->
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -64,7 +64,7 @@
             </a>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3"><!-- panel yellow -->
+    <div class="col-md-6"><!-- panel yellow -->
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
