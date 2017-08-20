@@ -27,7 +27,7 @@ class NotificationController extends Controller
         $app = CompanyApp::find($id);
 
         //check app
-        if($app == null)
+        if ($app == null)
             abort(403);
 
         //authorize
@@ -36,7 +36,7 @@ class NotificationController extends Controller
         //notifications
         $notifications = $app->notifications()->paginate();
 
-        return view('v1.estates.notifications.index')
+        return view('rental.notifications.index')
             ->with('app', $app)
             ->with('_notifications', $notifications);
 
@@ -49,7 +49,7 @@ class NotificationController extends Controller
 
     /**
      * Update the notification 'read_at' column in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -60,7 +60,7 @@ class NotificationController extends Controller
         $app = CompanyApp::find($request->app);
 
         //check app
-        if($app == null)
+        if ($app == null)
             abort(403);
 
         //authorize
@@ -85,7 +85,7 @@ class NotificationController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * 
+     *
      * @param Request $request
      * @param $id
      * @return mixed
@@ -96,7 +96,7 @@ class NotificationController extends Controller
         $app = CompanyApp::find($request->app);
 
         //check app
-        if($app == null)
+        if ($app == null)
             abort(403);
 
         //authorize
@@ -111,6 +111,32 @@ class NotificationController extends Controller
 
         return back()
             ->with('error', 'Failed removing ' . str_limit($notification->data['title'], 15) . ' notification!');
+
+    }
+
+    /**
+     * Remove the specified resources from storage.
+     *
+     * @param Request $request
+     * @param CompanyApp $app
+     * @return mixed
+     */
+    public function destroy(Request $request, CompanyApp $app)
+    {
+        //check app
+        if ($app == null)
+            abort(403);
+
+        //authorize
+        $this->authorize('delete', $app);
+
+        if ($app->notifications()->delete()) {
+            return back()
+                ->with('success', 'All notifications deleted.');
+        }
+
+        return back()
+            ->with('error', 'Failed deleting notifications. Try again!');
 
     }
 
