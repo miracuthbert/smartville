@@ -211,7 +211,7 @@ function AppModeInfo($mode)
 function AppDashRoute($slug)
 {
     if ($slug == "rental-management-app") {
-        return 'estate.rental.dashboard';
+        return 'rental.dashboard';
     }
     elseif ($slug == "hostel-management-app") {
         return 'hostel.dashboard';
