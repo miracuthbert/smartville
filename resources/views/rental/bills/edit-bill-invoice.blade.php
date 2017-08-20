@@ -1,4 +1,4 @@
-@extends('layouts.estates')
+@extends('layouts.rental.master')
 
 @section('title')
     Invoices for {{ title_case($bill->title) }}

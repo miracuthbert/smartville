@@ -1,4 +1,4 @@
-@extends('layouts.estates')
+@extends('layouts.rental.master')
 
 @section('title')
     Add Tenant Rent Invoice

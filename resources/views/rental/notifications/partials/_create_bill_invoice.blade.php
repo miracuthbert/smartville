@@ -1,0 +1,1 @@
+@extends('rental.notifications.partials._base_notification', compact('notification'))

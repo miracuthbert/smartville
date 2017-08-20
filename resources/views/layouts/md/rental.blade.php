@@ -197,7 +197,7 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    @include('partials.sidebars.estates')
+                    @include('layouts.rental.partials._sidebar')
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
