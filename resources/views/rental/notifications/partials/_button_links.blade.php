@@ -20,14 +20,14 @@
 @elseif($notification->data['type'] === "pending_bills_invoices")   {{-- pending bill invoice --}}
     @if($notification->read_at != null)
         <li>
-            <a href="{{ route('rental.bills.tenants', [$app, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]) }}"
+            <a href="{{ route('rental.bills.index', [$app, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]) }}"
                class="btn btn-default btn-sm" data-toggle="tooltip" title="View invoices">
                 View invoices
             </a>
         </li>
     @else
         <li>
-            <a href="{{ route('rental.bills.tenants', [$app, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]) }}"
+            <a href="{{ route('rental.bills.index', [$app, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]) }}"
                class="btn btn-default btn-sm" data-toggle="tooltip" title="View invoices">
                 View invoices
             </a>

@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all']) }}" class="">
+            <a href="{{ route('rental.properties.index', ['id' => $app->id, 'sort' => 'all']) }}" class="">
                 <div class="panel-footer">
                     View all
                     <span class="glyphicon glyphicon-circle-arrow-right pull-right"></span>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('estate.rental.tenants', ['id' => $app->id, 'sort' => 'all', 'leases' => 1]) }}"
+            <a href="{{ route('rental.tenants.index', [$app, 'sort' => 'all', 'leases' => 1]) }}"
                class="">
                 <div class="panel-footer">
                     View all
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending', 'month' => 1]) }}"
+            <a href="{{ route('rental.bills.index', [$app, 'sort' => 'pending', 'month' => 1]) }}"
                class="">
                 <div class="panel-footer">
                     View all
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'month' => 1]) }}"
+            <a href="{{ route('rental.rents.index', [$app, 'sort' => 'pending', 'month' => 1]) }}"
                class="">
                 <div class="panel-footer">
                     View all

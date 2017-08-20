@@ -111,21 +111,21 @@ function NotificationEstateRoute($notification, $app)
         return '#';
     } elseif ($type == 'create_bill_invoices') {    //create bill invoice route
         if ($notification->read_at != null) { //read route
-            return route('estate.rental.bills.generate', ['id' => $app->id, 'service' => $notification->data['billing_id']]);
+            return route('rental.bills.generate', ['id' => $app->id, 'service' => $notification->data['billing_id']]);
         } else {    //not read route
-            return route('estate.rental.bills.generate', ['id' => $app->id, 'service' => $notification->data['billing_id'], 'notify' => $notification->id]);
+            return route('rental.bills.generate', ['id' => $app->id, 'service' => $notification->data['billing_id'], 'notify' => $notification->id]);
         }
     } elseif ($type == 'pending_bills_invoices') {  //pending bills route
         if ($notification->read_at != null) {   //read route
-            return route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
+            return route('rental.bills.index', ['id' => $app->id, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         } else {    //not read route
-            return route('estate.rental.bills.tenants', ['id' => $app->id, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
+            return route('rental.bills.index', ['id' => $app->id, 'sort' => 'pending', 'service' => $notification->data['billing_id'], 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         }
     } elseif ($type == 'pending_rent_invoices') { //pending rent routes
         if ($notification->read_at != null) { //notification read route
-            return route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
+            return route('rental.rents.index', ['id' => $app->id, 'sort' => 'pending', 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         } else {    //not read route
-            return route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending', 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
+            return route('rental.rents.index', ['id' => $app->id, 'sort' => 'pending', 'notify' => $notification->id, 'today' => $notification->data['is_today'], 'date' => $notification->created_at->toDateString()]);
         }
     }
 }

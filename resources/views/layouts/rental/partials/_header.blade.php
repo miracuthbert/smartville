@@ -5,7 +5,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="{{ route('estate.rental.dashboard', ['id' => $app->id]) }}">
+    <a class="navbar-brand" href="{{ route('rental.dashboard', [$app]) }}">
         <small>
             <span class="hidden-xs">{{ $app->product->title }} | </span>{{ $app->company->title }}
         </small>
@@ -76,7 +76,7 @@
                 <li class="divider"></li>
             @endforelse
             <li>
-                <a class="text-center" href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}">
+                <a class="text-center" href="{{ route('rental.notifications.index', [$app]) }}">
                     <strong>See All Notifications</strong>
                     <i class="fa fa-angle-right"></i>
                 </a>

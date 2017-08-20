@@ -8,7 +8,7 @@
     <div class="panel-body">
         <div class="list-group">
             @forelse($p_rents as $rent)
-                <a href="{{ route('estate.rental.rent.edit', [$rent]) }}"
+                <a href="{{ route('rental.rents.edit', [$app, $rent]) }}"
                    class="list-group-item">
                     <p class="list-item-text">
                         {{ $rent->property->title }}
@@ -26,7 +26,7 @@
                 </div>
             @endforelse
         </div>
-        <a href="{{ route('estate.rental.rents', ['id' => $app->id, 'sort' => 'pending']) }}"
+        <a href="{{ route('rental.rents.index', ['id' => $app->id, 'sort' => 'pending']) }}"
            class="btn btn-default btn-block">
             View All Pending Rents
         </a>

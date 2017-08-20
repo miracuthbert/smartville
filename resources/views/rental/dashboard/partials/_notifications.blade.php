@@ -30,7 +30,7 @@
             @endforelse
         </div>
         <!-- /.list-group -->
-        <a href="{{ route('estate.rental.notifications', ['id' => $app->id]) }}"
+        <a href="{{ route('rental.notifications.index', ['id' => $app->id]) }}"
            class="btn btn-default btn-block">
             View All Alerts
         </a>
