@@ -14,7 +14,7 @@
             </li>
 
             <li>
-                <a href="{{ route('rental.notification.read', [$app, $notification]) }}"
+                <a href="{{ route('rental.notifications.read', [$app, $notification]) }}"
                    class="btn {{ ToggleButtonRead($notification->read_at) }} btn-sm">
                     {{ ToggleRead($notification->read_at) }}
                 </a>
@@ -24,7 +24,7 @@
             @include('rental.notifications.partials._button_links')
 
             <li>
-                <a href="{{ route('rental.notification.delete', [$app, $notification]) }}"
+                <a href="{{ route('rental.notifications.delete', [$app, $notification]) }}"
                    class="btn btn-default btn-sm" data-toggle="tooltip" title="remove">
                     <i class="fa fa-times-circle-o"></i>
                 </a>
