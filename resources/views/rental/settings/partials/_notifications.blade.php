@@ -2,7 +2,7 @@
     <div class="box-min">
         <div class="row">
             <div class="col-md-12">
-                <span class="lead"><i class="fa fa-globe"></i> Web Notifications</span>
+                <strong><i class="fa fa-globe"></i> Web Notifications</strong>
                 <div class="pull-right">
                     <label class="radio-inline">
                         <input type="radio" name="web_notify" id="web_notify_off" value="0"
@@ -20,7 +20,7 @@
     <div class="box-min">
         <div class="row">
             <div class="col-md-12">
-                <span class="lead"><i class="fa fa-envelope-square"></i> Email Notifications</span>
+                <strong><i class="fa fa-envelope-square"></i> Email Notifications</strong>
                 <div class="pull-right">
                     <label class="radio-inline">
                         <input type="radio" name="email_notify" id="email_notify_off"
@@ -38,7 +38,7 @@
     <div class="box-min">
         <div class="row">
             <div class="col-md-12">
-                <span class="lead"><i class="fa fa-envelope-o"></i> SMS Notifications</span>
+                <strong><i class="fa fa-envelope-o"></i> SMS Notifications</strong>
                 <div class="pull-right">
                     <label class="radio-inline">
                         <input type="radio" name="sms_notify" id="sms_notify_off" value="0"

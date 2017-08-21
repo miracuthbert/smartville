@@ -3,7 +3,7 @@
         <div class="form-group clearfix">
             <div class="row">
                 <div class="col-md-4">
-                    <span class="lead"><i class="fa fa-building-o"></i> Properties Group View Layout</span>
+                    <strong><i class="fa fa-building-o"></i> Property Groups</strong>
                 </div>
                 <div class="col-md-8">
                     <div class="pull-right">

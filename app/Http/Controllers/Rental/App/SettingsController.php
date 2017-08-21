@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Estate\Rental\App;
+namespace App\Http\Controllers\Rental\App;
 
 use App\Models\v1\Company\CompanyApp;
 use Illuminate\Http\Request;
@@ -31,9 +31,6 @@ class SettingsController extends Controller
         //default settings
         $default_settings = config('settings.rental_app');
 
-        //debug
-//        dd($default_settings);
-
         //check app
         if ($app == null)
             abort(404);
@@ -41,7 +38,7 @@ class SettingsController extends Controller
         //authorize
         $this->authorize('view', $app);
 
-        return view('v1.estates.settings')
+        return view('rental.settings.index')
             ->with('default_settings', $default_settings)
             ->with('settings', $settings)
             ->with('app', $app);

@@ -3,7 +3,7 @@
         <div class="form-group clearfix">
             <div class="row">
                 <div class="col-md-4">
-                    <span class="lead"><i class="fa fa-users"></i> Tenants View Layout</span>
+                    <strong><i class="fa fa-users"></i> Tenants</strong>
                 </div>
                 <div class="col-md-8">
                     <div class="pull-right">
