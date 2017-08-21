@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Models\v1\Company\AppTrial;
 use App\Models\v1\Company\CompanyApp;
-use App\Models\v1\Estate\Paypal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -69,37 +67,7 @@ class CompanyAppController extends Controller
      */
     public function edit($id)
     {
-        $app = CompanyApp::find($id);
-
-        //check app
-        if ($app == null)
-            abort(404);
-
-        //authorize
-        $this->authorize('view', $app);
-
-        if ($app->subscribed) {
-
-        }
-
-        $subscribed = $app->paypal()->where('completed', 1)->where('ends_at', '>', Carbon::now())->first();
-
-        if ($subscribed == null)
-            $subscribed = $app->trials()->where('is_ended', 0)->where('trial_ends_at', '>', Carbon::now())->first();
-
-        //get subscription class
-        $subscribedClass = get_class($subscribed);
-
-        //subscriptions classes
-        $trial = AppTrial::class;
-        $paypal = Paypal::class;
-
-        return view('v1.estates.profile')
-            ->with('trial', $trial)
-            ->with('paypal', $paypal)
-            ->with('subsClass', $subscribedClass)
-            ->with('subscription', $subscribed)
-            ->with('app', $app);
+        //respective app profiles moved to their namespace ProfileController
     }
 
     /**
