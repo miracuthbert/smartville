@@ -21,7 +21,7 @@
                 <a href="{{ route('rental.notifications.index', [$app]) }}">
                     <i class="fa fa-bell fa-fw"></i>
                     Notifications
-                    <sup class="badge">{{ count($app->notifications)> 0 ? count($app->unreadNotifications) : '' }}</sup>
+                    <sup class="badge">{{ count($app->unreadNotifications)> 0 ? count($app->unreadNotifications) : '' }}</sup>
                 </a>
             </li><!-- /notifications -->
             <li>
@@ -32,13 +32,13 @@
             </li><!-- /app profile -->
             <li>
                 <a href="{{ route('rental.settings', [$app]) }}" title="App Settings">
-                    <i class="fa fa-cog fa-fw"></i>
+                    <i class="fa fa-cogs fa-fw"></i>
                     Settings
                 </a>
             </li><!-- /settings -->
             <li>
                 <a href="#">
-                    <i class="fa fa-cogs fa-fw"></i> Quick Settings
+                    <i class="fa fa-th-large fa-fw"></i> Amenities
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
@@ -46,22 +46,29 @@
                         <a href="{{ route('rental.amenity.create', [$app]) }}">Add amenity</a>
                     </li>
                     <li>
-                        <a href="{{ route('rental.billings.create', [$app]) }}">Add billing
-                            service</a>
-                    </li>
-                    <li>
                         <a href="{{ route('rental.amenities.index', [$app]) }}">Amenities</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('rental.billings', [$app, 'sort' => 'all']) }}">Billing
-                            services</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li><!-- /quick-settings -->
             <li>
                 <a href="#">
-                    <i class="fa fa-building fa-fw"></i> Property Groups
+                    <i class="fa fa-cubes fa-fw"></i> Billing Services
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ route('rental.billings.create', [$app]) }}">Add billing
+                            service</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('rental.billings', [$app, 'sort' => 'all']) }}">Billing Services</a>
+                    </li>
+                </ul><!-- /.nav-second-level -->
+            </li><!-- /billing -->
+            <li>
+                <a href="#">
+                    <i class="fa fa-home fa-fw"></i> Properties Manager
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
@@ -71,15 +78,6 @@
                     <li>
                         <a href="{{ route('rental.groups.index', [$app, 'sort' => 'all']) }}">Groups</a>
                     </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li><!-- /property-groups -->
-            <li>
-                <a href="#">
-                    <i class="fa fa-home fa-fw"></i> Properties
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
                     <li>
                         <a href="{{ route('rental.property.create', [$app]) }}">Add property</a>
                     </li>
@@ -91,7 +89,7 @@
             </li><!-- /properties -->
             <li>
                 <a href="#">
-                    <i class="fa fa-users fa-fw"></i> Tenants
+                    <i class="fa fa-users fa-fw"></i> Tenants Manager
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
@@ -110,7 +108,7 @@
             </li><!-- /tenants -->
             <li>
                 <a href="#">
-                    <i class="fa fa-credit-card fa-fw"></i> Rent
+                    <i class="fa fa-credit-card-alt fa-fw"></i> Rent Manager
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
@@ -125,7 +123,7 @@
             </li><!-- /rent -->
             <li>
                 <a href="#">
-                    <i class="fa fa-credit-card-alt fa-fw"></i> Bills
+                    <i class="fa fa-credit-card-alt fa-fw"></i> Bills Manager
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level">
