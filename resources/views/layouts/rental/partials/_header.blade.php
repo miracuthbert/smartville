@@ -46,7 +46,7 @@
     <!-- /.dropdown/tasks -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="badge">{{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}</span>
+            <sup class="badge">{{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}</sup>
             <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-alerts">

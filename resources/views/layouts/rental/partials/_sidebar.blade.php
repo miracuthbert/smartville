@@ -21,12 +21,12 @@
                 <a href="{{ route('rental.notifications.index', [$app]) }}">
                     <i class="fa fa-bell fa-fw"></i>
                     Notifications
-                    <span class="badge pull-right">{{ count($app->unreadNotifications)> 0 ? count($app->unreadNotifications) : '' }}</span>
+                    <sup class="badge">{{ count($app->notifications)> 0 ? count($app->unreadNotifications) : '' }}</sup>
                 </a>
             </li><!-- /notifications -->
             <li>
                 <a href="{{ route('rental.profile', [$app]) }}" title="App Profile">
-                    <i class="fa fa-product-hunt fa-fw"></i>
+                    <i class="fa fa-laptop fa-fw"></i>
                     Profile
                 </a>
             </li><!-- /app profile -->

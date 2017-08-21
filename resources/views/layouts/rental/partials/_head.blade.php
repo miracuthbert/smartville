@@ -5,7 +5,7 @@
 <meta name="author" content="">
 <link rel="icon" href="{{ url('images/site/cropped-sv_00-32x32.png') }}">
 
-<title>({{ count($app->unreadNotifications) > 0 ? count($app->unreadNotifications) : '' }}) @yield('title')
+<title>{{ ($app->unreadNotifications->count()) > 0 ? '(' . $app->unreadNotifications->count() . ')' : '' }} @yield('title')
     - {{ $app->product->title }} | {{ config('app.name') }}</title>
 
 <!-- Main Fonts -->
