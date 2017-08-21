@@ -14,16 +14,31 @@
 
         <div class="pull-right">
             <div class="btn-group btn-group-sm">
-                <a href="#" class="btn btn-danger"
-                   onclick="event.preventDefault(); document.getElementById('rental-notifications-destroy-form').submit();">Delete
-                    All</a>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></button>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#" class="text-primary"
+                           onclick="event.preventDefault(); document.getElementById('rental-notifications-update-form').submit();">Mark
+                            all as read</a>
 
-                <form id="rental-notifications-destroy-form"
-                      action="{{ route('rental.notifications.destroy', [$app]) }}" method="POST"
-                      style="display: none;">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                </form>
+                        <form id="rental-notifications-update-form"
+                              action="{{ route('rental.notifications.update', [$app]) }}" method="POST"
+                              style="display: none;">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
+                        </form>
+                    </li>
+                    <li><a href="#" class="text-danger"
+                           onclick="event.preventDefault(); document.getElementById('rental-notifications-destroy-form').submit();">Delete
+                            all</a>
+
+                        <form id="rental-notifications-destroy-form"
+                              action="{{ route('rental.notifications.destroy', [$app]) }}" method="POST"
+                              style="display: none;">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

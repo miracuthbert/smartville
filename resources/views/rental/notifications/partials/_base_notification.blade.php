@@ -24,10 +24,17 @@
             @include('rental.notifications.partials._button_links')
 
             <li>
-                <a href="{{ route('rental.notifications.delete', [$app, $notification]) }}"
-                   class="btn btn-default btn-sm" data-toggle="tooltip" title="remove">
+                <a href="#" class="btn btn-default btn-sm" data-toggle="tooltip" title="remove"
+                   onclick="event.preventDefault(); document.getElementById('rental-notifications-delete-form').submit();">
                     <i class="fa fa-times-circle-o"></i>
                 </a>
+
+                <form id="rental-notifications-delete-form"
+                      action="{{ route('rental.notifications.delete', [$app, $notification]) }}" method="POST"
+                      style="display: none;">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                </form>
             </li>
         </ul>
 
