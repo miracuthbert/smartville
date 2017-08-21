@@ -43,7 +43,7 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('rental.amenity.create', [$app]) }}">Add amenity</a>
+                        <a href="{{ route('rental.amenities.create', [$app]) }}">Add amenity</a>
                     </li>
                     <li>
                         <a href="{{ route('rental.amenities.index', [$app]) }}">Amenities</a>
