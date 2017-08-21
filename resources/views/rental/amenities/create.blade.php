@@ -1,12 +1,9 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Amenities - Add Amenity
-@endsection
+@section('title', 'Add Amenity')
 
 @section('breadcrumb')
     <li>Amenities</li>
-    <li>Amenity</li>
     <li class="active">Add</li>
 @endsection
 
@@ -17,28 +14,24 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-amenity-form" method="post" action="{{ route('estate.rental.amenity.store') }}"
+            <form name="add-amenity-form" method="post" action="{{ route('rental.amenities.store', [$app]) }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
-
-                @include('partials.alerts.default')
+                {{ csrf_field() }}
 
                 @include('partials.alerts.validation')
 
-                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-
-                <input type="hidden" name="_app" id="_app" value="{{ $app->id }}">
 
                 <div class="form-group{{ $errors->has('title') ? 'has-error' : '' }}">
                     <label for="title">Amenity title:</label>
                     <input type="text" name="title" class="form-control" placeholder="amenity title"
-                           id="title" maxlength="50" value="{{ Request::old('title') }}" required autofocus/>
+                           id="title" maxlength="50" value="{{ old('title') }}" required autofocus/>
                 </div>
 
                 <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                     <label for="description">Amenity description:</label>
                     <textarea name="description" class="form-control" rows="3" cols="5" id="desc"
-                              placeholder="description">{{ Request::old('description') }}</textarea>
+                              placeholder="description">{{ old('description') }}</textarea>
                 </div>
 
                 <div class="form-group">

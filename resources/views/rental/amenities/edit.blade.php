@@ -1,14 +1,11 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Amenitiy
-@endsection
+@section('title', 'Edit Amenitiy')
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('estate.rental.amenities', ['id' => $app->id]) }}">Amenities</a>
+        <a href="{{ route('rental.amenities.index', ['id' => $app->id]) }}">Amenities</a>
     </li>
-    <li>Amenity</li>
     <li class="active">Edit</li>
 @endsection
 
@@ -20,15 +17,14 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <form name="add-amenity-form" method="post" action="{{ route('estate.rental.amenity.update') }}"
+            <form name="add-amenity-form" method="post" action="{{ route('rental.amenities.update', [$app, $amenity]) }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
 
-                @include('partials.alerts.default')
-
                 @include('partials.alerts.validation')
 
-                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
 
                 <input type="hidden" name="id" id="id" value="{{ $amenity->id }}">
 
@@ -62,8 +58,4 @@
 
         </div>
     </div>
-
-    <script>
-        CKEDITOR.replace('property_desc');
-    </script>
 @endsection
