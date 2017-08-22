@@ -1,200 +1,153 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Services
-@endsection
+@section('title', 'Bill Services')
 
 @section('breadcrumb')
-    <li>Bills</li>
-    <li class="active">
-        Services
-    </li>
+    <li>Bill</li>
+    <li class="active">Services</li>
 @endsection
 
 @section('page-header')
-    Billing Services
+    <i class="fa fa-cubes"></i> Bill Services ({{ isset($sort) ? title_case($sort) : 'All' }})
+    <div class="pull-right">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <strong class="text-right">Actions
+                    <span class="caret"></span>
+                </strong>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a href="{{ route('rental.bills.services.index', [$app]) }}">All</a>
+                </li>
+                <li>
+                    <a href="{{ route('rental.bills.services.index', [$app, 'sort' => 'trashed']) }}">Trashed</a>
+                </li>
+                <li>
+                    <a href="{{ route('rental.bills.services.index', [$app, 'sort' => 'active']) }}">Active</a>
+                </li>
+                <li>
+                    <a href="{{ route('rental.bills.services.index', [$app, 'sort' => 'disabled']) }}">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 @endsection
 
 @section('content')
 
-    @include('partials.alerts.default')
-
-    <p class="text-muted">You can edit, disable or remove any of the billing services below</p>
+    <p class="text-muted">You can edit, disable or remove any of the billing services below.</p>
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <strong>{{ title_case($sort) }} Billing Services</strong>
-                    <div class="pull-right">
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <strong class="text-right">Actions
-                                    <span class="caret"></span>
-                                </strong>
-                            </button>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a href="{{ route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'all']) }}">All</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'trashed']) }}">Trashed</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'active']) }}">Active</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('estate.rental.bills.services', ['id' => $app->id, 'sort' => 'disabled']) }}">Disabled</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    @if(count($bills) > 0)
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
+            <div id="bills-wrapper">
+                @if($billing_services->total() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Bill</th>
+                                <th>Dependent</th>
+                                <th>Billing interval</th>
+                                <th>Amount</th>
+                                {{--<th>Auto-billing</th>--}}
+                                <th>Properties</th>
+                                <th>{{ isset($sort) && $sort == "trashed" ? 'Delete Time' : "Status"  }}</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($billing_services as $service)
                                 <tr>
-                                    <th>#</th>
-                                    <th>Bill</th>
-                                    <th>Dependent</th>
-                                    <th>Billing interval</th>
-                                    <th>Amount</th>
-                                    {{--<th>Auto-billing</th>--}}
-                                    <th>Properties</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($bills as $bill)
-                                    <tr>
-                                        <td>
-                                            {{ $loop->first ? $bills->firstItem() : ($bills->firstItem() + $loop->index) }}
-                                        </td>
-                                        <td>{{ $bill->title }}</td>
-                                        <td>{{ BillPlan($bill->bill_plan) }}</td>
-                                        <td>{{ $bill->billing_interval }} {{ $bill->interval_type }}</td>
-                                        <td>{{ $bill->billing_amount }}</td>
-                                        {{--<td>{{ AutoBilling($bill->auto_billing) }}</td>--}}
-                                        <td>{{ BillingProperties($bill->properties) }}</td>
-                                        <td>
-                                            <a href="{{ route('estate.rental.bills.service.status', ['id' => $bill->id]) }}"
-                                               role="button"
-                                               class="btn btn-default btn-xs" data-toggle="tooltip"
-                                               title="{{ AppStatusToggleText($bill->status) }}">
-                                                <i class="{{ AppStatusIcon($bill->status) }}"></i>
+                                    <td>
+                                        {{ $loop->first ? $billing_services->firstItem() : ($billing_services->firstItem() + $loop->index) }}
+                                    </td>
+                                    <td>{{ $service->title }}</td>
+                                    <td>{{ BillPlan($service->bill_plan) }}</td>
+                                    <td>{{ $service->billing_interval }} {{ $service->interval_type }}</td>
+                                    <td>{{ $service->billing_amount }}</td>
+                                    {{--<td>{{ AutoBilling($service->auto_billing) }}</td>--}}
+                                    <td>{{ BillingProperties($service->properties) }}</td>
+                                    <td>
+                                        @if($sort != "trashed")
+                                            <a href="#" role="button" class="btn btn-default btn-xs"
+                                               data-toggle="tooltip"
+                                               title="{{ AppStatusToggleText($service->status) }}"
+                                               onclick="event.preventDefault();document.getElementById('service-status-{{ $service->id }}-form').submit()">
+                                                <i class="{{ AppStatusIcon($service->status) }}"></i>
                                             </a>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-xs">
-                                                @if($sort != "trashed")
-                                                    <a href="{{ route('estate.rental.bills.service.edit', ['id' => $bill->id]) }}"
-                                                       role="button" class="btn btn-primary" data-toggle="tooltip"
-                                                       title="edit">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
+                                            <form id="service-status-{{ $service->id }}-form"
+                                                  action="{{ route('rental.bills.services.status', [$app, $service]) }}"
+                                                  method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                                {{ method_field('PUT') }}
+                                            </form>
+                                        @else
+                                            {{ $service->deleted_at->diffForHumans() }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-xs">
+                                            @if($sort != "trashed")
+                                                <a href="{{ route('rental.bills.services.edit', [$app, $service]) }}"
+                                                   role="button" class="btn btn-primary" data-toggle="tooltip"
+                                                   title="edit">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
 
-                                                    <a href="{{ route('estate.rental.bills.service.delete', ['id' => $bill->id]) }}"
-                                                       role="button" class="btn btn-warning" data-toggle="tooltip"
-                                                       title="trash">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('estate.rental.bills.service.restore', ['id' => $bill->id]) }}"
-                                                       role="button" class="btn btn-success" data-toggle="tooltip"
-                                                       title="restore">
-                                                        <i class="fa fa-refresh"></i>
-                                                    </a>
+                                                <a href="#" role="button" class="btn btn-warning" data-toggle="tooltip"
+                                                   title="trash"
+                                                   onclick="event.preventDefault();document.getElementById('service-delete-{{ $service->id }}-form').submit()">
+                                                    <i class="fa fa-remove"></i>
+                                                </a>
+                                                <form id="service-delete-{{ $service->id }}-form"
+                                                      action="{{ route('rental.bills.services.delete', [$app, $service]) }}"
+                                                      method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            @else
+                                                <a href="#" role="button" class="btn btn-success" data-toggle="tooltip"
+                                                   title="restore"
+                                                   onclick="event.preventDefault();document.getElementById('service-restore-{{ $service->id }}-form').submit()">
+                                                    <i class="fa fa-refresh"></i>
+                                                </a>
+                                                <form id="service-restore-{{ $service->id }}-form"
+                                                      action="{{ route('rental.bills.services.restore', [$app, $service]) }}"
+                                                      method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('PUT') }}
+                                                </form>
 
-                                                    <a href="{{ route('estate.rental.bills.service.destroy', ['id' => $bill->id]) }}"
-                                                       role="button" class="btn btn-danger" data-toggle="tooltip"
-                                                       title="delete">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <p class="text-info">No {{ $sort != "all" ? $sort : '' }} billing services found.</p>
-                    @endif
-                </div>
+                                                <a href="#" role="button" class="btn btn-danger" data-toggle="tooltip"
+                                                   title="delete"
+                                                   onclick="event.preventDefault();document.getElementById('service-destroy-{{ $service->id }}-form').submit()">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                <form id="service-destroy-{{ $service->id }}-form"
+                                                      action="{{ route('rental.bills.services.destroy', [$app, $service]) }}"
+                                                      method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+                    <p><strong>Total</strong> ({{ isset($sort) ? title_case($sort) : 'All' }}
+                        ): {{ $billing_services->total() }}</p>
+                    {{ $billing_services->appends(['sort' => $sort])->links() }}
+                @else
+                    <p class="text-info">No {{ isset($sort) ? title_case($sort) : '' }} billing services found.</p>
+                @endif
             </div>
-
         </div>
     </div>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Edit bill invoice</h4>
-                </div>
-                <div class="modal-body">
-                    <form name="create-bill-form" method="post" action="" enctype="application/x-www-form-urlencoded"
-                          autocomplete="off">
-
-                        <input type="hidden" name="site-url" value="url" id="site-url"/>
-
-                        <input type="hidden" name="estate-id" value="-1" id="estate-id"/>
-
-
-                        <div class="form-group">
-                            <label for="bill-type">Bill name:</label>
-                            <input type="text" name="bill-type" class="form-control"
-                                   placeholder="gym, water, cleaning, mainteinance" id="bill-type" maxlength="30"/>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="bill-desc">Bill details:</label>
-                            <textarea type="text" name="bill-desc" class="form-control" placeholder="bill info"
-                                      class="desc-box" id="bill-desc" maxlength="140"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <p><label>Does bill depend on a previous value:</label></p>
-
-                            <label for="billIndependent" class="radio-inline">
-                                <input type="radio" name="billPlan" id="billIndependent" value="0" checked="checked"/>
-                                No
-                            </label>
-
-                            <label for="billDependent" class="radio-inline">
-                                <input type="radio" name="billPlan" id="billDependent" value="1"/> Yes
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="bill-interval">Bill interval (duration in months):</label>
-                            <input type="number" name="bill-interval" class="form-control" value="1" id="bill-interval"
-                                   min="1" range="3" max="18"/>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="bill-amount">Bill amount:</label>
-                            <input type="number" name="bill-amount" class="form-control" value="0" id="bill-amount"
-                                   min="0" range="10" max="1000000"/>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <script>
-        CKEDITOR.replace('property_desc');
-    </script>
 @endsection
