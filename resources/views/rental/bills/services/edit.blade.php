@@ -208,7 +208,7 @@
 
                 <div class="form-group">
                     <button type="submit" name="btnUpdateBillService"
-                            class="btn btn-primary" {{ !$app->subscribed != 1 ? 'disabled' : '' }}>
+                            class="btn btn-primary" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
                         Update
                     </button>
                 </div>
