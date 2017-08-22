@@ -1,3 +1,16 @@
+@if(Session::has('success'))
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ Session::get('success') }}
+
+        @if(Session::has('success_link'))
+            <a href="{{ Session::get('success_link') }}" class="alert-link">{{ Session::get('success_link_name') }}</a>
+        @endif
+    </div>
+@endif
+
 @if(Session::has('error'))
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -6,18 +19,20 @@
         {{ Session::get('error') }}
 
         @if(Session::has('error_link'))
-            <a href="{{ Session::get('error_link') }}" class="alert-link">{{ Session::get('link_name') }}</a>
+            <a href="{{ Session::get('error_link') }}" class="alert-link">{{ Session::get('error_link_name') }}</a>
         @endif
     </div>
-@elseif(Session::has('success'))
-    <div class="alert alert-success">
+@endif
+
+@if(Session::has('info'))
+    <div class="alert alert-info">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        {{ Session::get('success') }}
+        {{ Session::get('info') }}
 
-        @if(Session::has('success_link'))
-            <a href="{{ Session::get('success_link') }}" class="alert-link">{{ Session::get('link_name') }}</a>
+        @if(Session::has('info_link'))
+            <a href="{{ Session::get('info_link') }}" class="alert-link">{{ Session::get('info_link_name') }}</a>
         @endif
     </div>
 @endif
