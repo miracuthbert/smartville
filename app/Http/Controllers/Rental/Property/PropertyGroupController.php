@@ -173,10 +173,10 @@ class PropertyGroupController extends Controller
 
         if ($group->save())
             return redirect()->back()
-                ->with('success', '`' . $group->title . '` status updated successfully!');
+                ->withSuccess('`' . $group->title . '` status updated successfully!');
         else
             return redirect()->back()
-                ->with('error', '`' . $group->title . '` status update failed. Try again!');
+                ->withError('`' . $group->title . '` status update failed. Try again!');
 
     }
 
@@ -205,10 +205,10 @@ class PropertyGroupController extends Controller
         //delete
         if ($group->delete()) {
             return redirect()->back()
-                ->with('success', '`' . $title . '` moved to trash successfully.');
+                ->withSuccess('`' . $title . '` moved to trash successfully.');
         }
         return redirect()->back()
-            ->with('error', 'Failed moving `' . $title . '` to trash. Try again!');
+            ->withError('Failed moving `' . $title . '` to trash. Try again!');
     }
 
     /**
@@ -230,10 +230,10 @@ class PropertyGroupController extends Controller
         //restore
         if ($group->restore()) {
             return redirect()->back()
-                ->with('success', '`' . $group->title . '` property group restored successfully.');
+                ->withSuccess('`' . $group->title . '` property group restored successfully.');
         }
         return redirect()->back()
-            ->with('error', 'Failed restoring `' . $group->title . '` property group. Try again!');
+            ->withError('Failed restoring `' . $group->title . '` property group. Try again!');
     }
 
     /**
@@ -261,13 +261,13 @@ class PropertyGroupController extends Controller
                 ->withWarning('`' . $title . '` cannot be deleted since it has related records.')
                 ->withInfo('You can only disable it or delete related records first to remove it.');
         }
-        
+
         //delete
         if ($group->forceDelete()) {
             return redirect()->back()
-                ->with('success', 'Property group `' . $title . '` removed completely.');
+                ->withSuccess('Property group `' . $title . '` removed completely.');
         }
         return redirect()->back()
-            ->with('error', 'Failed deleting `' . $title . '` property group. Try again!');
+            ->withError('Failed deleting `' . $title . '` property group. Try again!');
     }
 }
