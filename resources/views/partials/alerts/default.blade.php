@@ -11,6 +11,19 @@
     </div>
 @endif
 
+@if(Session::has('warning'))
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ Session::get('warning') }}
+
+        @if(Session::has('warning_link'))
+            <a href="{{ Session::get('warning_link') }}" class="alert-link">{{ Session::get('warning_link_name') }}</a>
+        @endif
+    </div>
+@endif
+
 @if(Session::has('error'))
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
