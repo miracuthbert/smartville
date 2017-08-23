@@ -3,12 +3,17 @@
 namespace App\Models\v1\Estate;
 
 use App\Models\v1\Company\CompanyApp;
+use App\Traits\Eloquent\OrderableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EstateGroup extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, OrderableTrait;
+
+    protected $guarded = [];
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
      * Get Group App
