@@ -1,23 +1,21 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Property Group
-@endsection
+@section('title', 'Edit Property Group')
 
 @section('breadcrumb')
-    <li class="active">Property Group</li>
+    <li><a href="{{ route('rental.properties.groups.index', [$app]) }}">Property Groups</a></li>
+    <li class="active">Edit Property Group</li>
 @endsection
 
 @section('page-header')
-    Property Group
+    Edit Property Group
 @endsection
 
 @section('content')
 
-    {{--<div class="container">--}}
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-group-form" method="post" action="{{ route('estate.rental.group.update') }}"
+            <form name="add-group-form" method="post" action="{{ route('rental.properties.groups.update', [$app, $group]) }}"
                   enctype="application/x-www-form-urlencoded" autocomplete="off">
 
                 <div class="form-group">
@@ -25,13 +23,10 @@
                         units</p>
                 </div>
 
-                @include('partials.alerts.default')
-
                 @include('partials.alerts.validation')
 
-                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-
-                <input type="hidden" name="id" id="id" value="{{ $group->id }}">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -39,7 +34,7 @@
                             <label for="title">Amenity title:</label>
                             <input type="text" name="title" class="form-control" placeholder="group title"
                                    id="title" maxlength="50"
-                                   value="{{ Request::old('title') != null ? Request::old('title') : $group->title }}"
+                                   value="{{ old('title') != null ? old('title') : $group->title }}"
                                    required autofocus/>
                         </div>
                     </div>
@@ -54,7 +49,7 @@
                                 </button>
                             </span>
                             <input type="text" name="location" class="form-control" placeholder="group location"
-                                   value="{{ Request::old('location') != null ? Request::old('location') : $group->location }}">
+                                   value="{{ old('location') != null ? old('location') : $group->location }}">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default btnReset" data-toggle="tooltip"
                                         title="reset location">
@@ -70,7 +65,7 @@
                         <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">Group info:</label>
                             <textarea name="description" class="form-control" rows="3" cols="5" id="desc"
-                                      placeholder="description">{{ Request::old('description') != null ? Request::old('description') : $group->description }}</textarea>
+                                      placeholder="description">{{ old('description') != null ? old('description') : $group->description }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -98,13 +93,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
-    {{--</div>--}}
-
-
-    <script>
-        CKEDITOR.replace('property_desc');
-    </script>
 @endsection

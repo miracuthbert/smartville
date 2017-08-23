@@ -1,10 +1,9 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Add Property Group
-@endsection
+@section('title', 'Add Property Group')
 
 @section('breadcrumb')
+    <li>Property Groups</li>
     <li class="active">Add Property Group</li>
 @endsection
 
@@ -16,7 +15,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-group-form" method="post" action="{{ route('estate.rental.group.store') }}"
+            <form name="add-group-form" method="post" action="{{ route('rental.properties.groups.store', [$app]) }}"
                   enctype="application/x-www-form-urlencoded" autocomplete="off">
 
                 <div class="form-group">
@@ -24,20 +23,16 @@
                         units</p>
                 </div>
 
-                @include('partials.alerts.default')
-
                 @include('partials.alerts.validation')
 
-                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-
-                <input type="hidden" name="_app" id="_app" value="{{ $app->id }}">
+                {{ csrf_field() }}
 
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group{{ $errors->has('title') ? 'has-error' : '' }}">
                             <label for="title">Amenity title:</label>
                             <input type="text" name="title" class="form-control" placeholder="group title"
-                                   id="title" maxlength="50" value="{{ Request::old('title') }}" required autofocus/>
+                                   id="title" maxlength="50" value="{{ old('title') }}" required autofocus/>
                         </div>
                     </div>
 
@@ -66,7 +61,7 @@
                         <div class="form-group{{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">Group info:</label>
                             <textarea name="description" class="form-control" rows="3" cols="5" id="desc"
-                                      placeholder="description">{{ Request::old('description') }}</textarea>
+                                      placeholder="description">{{ old('description') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -92,11 +87,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
-
-    <script>
-        CKEDITOR.replace('property_desc');
-    </script>
 @endsection
