@@ -7,6 +7,7 @@
             <th>Group</th>
             <th>Type</th>
             <th>Size</th>
+            <th>Price</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -28,9 +29,8 @@
                     @endif
                 </td>
                 <td>{{ $property->property_type == null ? 'none' : $property->type->title }}</td>
-                <td>{{ $property->size }}
-                    <small>sq.feet</small>
-                </td>
+                <td>{{ $property->size }} <small>sq.feet</small></td>
+                <td>{{ $property->price->price }}</td>
                 <td>
                     <span data-toggle="tooltip"
                           title="{{ PropertyStatusText($property->status) }}">
@@ -40,14 +40,14 @@
                 <td>
                     <div class="btn-group btn-group-xs">
                         @if($sort != "trashed")
-                            <a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}"
+                            <a href="{{ route('rental.properties.edit', [$app, $property]) }}"
                                role="button"
                                class="btn btn-primary" data-toggle="tooltip"
                                title="edit property">
                                 <i class="fa fa-edit"></i>
                             </a>
                             @if(!$property->status)
-                                <a href="{{ route('estate.rental.property.delete', ['id' => $property->id]) }}"
+                                <a href="{{ route('rental.properties.delete', [$app, $property]) }}"
                                    role="button"
                                    class="btn btn-warning" data-toggle="tooltip"
                                    title="move to trash">
@@ -55,13 +55,13 @@
                                 </a>
                             @endif
                         @else
-                            <a href="{{ route('estate.rental.property.restore', ['id' => $property->id]) }}"
+                            <a href="{{ route('rental.properties.restore', [$app, $property]) }}"
                                role="button"
                                class="btn btn-success" data-toggle="tooltip"
                                title="restore property">
                                 <i class="fa fa-refresh"></i>
                             </a>
-                            <a href="{{ route('estate.rental.property.destroy', ['id' => $property->id]) }}"
+                            <a href="{{ route('rental.properties.destroy', [$app, $property]) }}"
                                role="button"
                                class="btn btn-danger" data-toggle="tooltip"
                                title="delete completely">

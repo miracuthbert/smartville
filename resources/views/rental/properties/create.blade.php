@@ -1,10 +1,9 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    Add Property
-@endsection
+@section('title', 'Add Property')
 
 @section('breadcrumb')
+    <li><a href="{{ route('rental.properties.index', [$app]) }}">Properties</a></li>
     <li class="active">Add Property</li>
 @endsection
 
@@ -16,17 +15,13 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form name="add-property-form" method="post" action="{{ route('estate.rental.property.store') }}"
+            <form name="add-property-form" method="post" action="{{ route('rental.properties.store', [$app]) }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
-
-                @include('partials.alerts.default')
 
                 @include('partials.alerts.validation')
 
                 {{ csrf_field() }}
-
-                <input type="hidden" name="_app" id="_app" value="{{ $app->id }}">
 
                 <input type="hidden" name="_rentable" id="_rentable" value="1">
 
@@ -37,7 +32,7 @@
                                 <label for="title">Property Title *</label>
                                 <input type="text" name="title" class="form-control" placeholder="Title"
                                        id="title"
-                                       maxlength="100" value="{{ Request::old('title') }}" required autofocus/>
+                                       maxlength="100" value="{{ old('title') }}" required autofocus/>
                             </div>
                             <strong>{{ $errors->first('title') }}</strong>
                         </div><!-- /.col-lg-12 -->
@@ -53,7 +48,7 @@
                                     <option></option>
                                     @foreach($groups as $group)
                                         <option value="{{ $group->id }}"
-                                                {{ Request::old('group') == $group->id ? 'selected' : ''}}>
+                                                {{ old('group') == $group->id ? 'selected' : ''}}>
                                             {{ $group->title }}
                                         </option>
                                     @endforeach
@@ -76,7 +71,7 @@
                                     <option>Set property type</option>
                                     @foreach($property_types as $type)
                                         <option value="{{ $type->id }}"
-                                                {{ Request::old('type') == $type->id ? 'selected' : ''}}>
+                                                {{ old('type') == $type->id ? 'selected' : ''}}>
                                             {{ $type->title }}
                                         </option>
                                     @endforeach
@@ -97,7 +92,7 @@
                             <label for="size">Property Size (Sq Ft) *</label>
                             <div class="form-group {{ $errors->has('size') ? 'has-error' : '' }} input-group">
                                 <input type="number" name="size" class="form-control" placeholder="Property Size"
-                                       id="size" min="1" maxlength="8" value="{{ Request::old('size') }}" required/>
+                                       id="size" min="1" maxlength="8" value="{{ old('size') }}" required/>
                             <span class="input-group-addon">
                                 Sq Ft
                             </span>
@@ -121,7 +116,7 @@
                                 </span>
                                 <input type="number" name="price" class="form-control" placeholder="Rental Price"
                                        min="0"
-                                       step="50" maxlength="10" id="price" value="{{ Request::old('price') }}"
+                                       step="50" maxlength="10" id="price" value="{{ old('price') }}"
                                        required/>
                                 <span class="input-group-addon">
                                     .00
@@ -138,7 +133,7 @@
                             <label for="interval">Rent Interval (months) *</label>
                             <div class="form-group {{ $errors->has('interval') ? 'has-error' : '' }} input-group">
                                 <input type="number" name="interval" class="form-control" id="interval" min="1"
-                                       value="{{ Request::old('interval') }}" required/>
+                                       value="{{ old('interval') }}" required/>
                             <span class="input-group-addon">
                                 month(s)
                             </span>
@@ -159,7 +154,7 @@
                                 <label for="summary">Property Summary *</label>
                             <textarea name="summary" class="form-control" cols="30" rows="3" id="summary"
                                       placeholder="Property Summary here..."
-                                      maxlength="255">{{ Request::old('summary') }}</textarea>
+                                      maxlength="255">{{ old('summary') }}</textarea>
                             </div>
 
                             <p class="help-block">
@@ -182,7 +177,7 @@
                             <div class="form-group
                         @if($errors->has('feature.*')||$errors->has('details.*')||$errors->has('value.*')) has-error @endif"
                                  id="features-wrapper">
-                                @if(count(Request::old('feature')) <= 0)
+                                @if(count(old('feature')) <= 0)
                                     <div class="row" id="default">
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -215,15 +210,15 @@
                                         </div>
                                     </div><!-- /.row#default -->
                                 @else
-                                    @for($i = 0; $i < count(Request::old('feature')); $i++)
-                                        @if(!empty(Request::old('feature')[$i]))
+                                    @for($i = 0; $i < count(old('feature')); $i++)
+                                        @if(!empty(old('feature')[$i]))
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="sr-only">Feature</label>
                                                         <input type="text" name="feature[]"
                                                                class="form-control _add_feature"
-                                                               value="{{ Request::old('feature')[$i] }}"
+                                                               value="{{ old('feature')[$i] }}"
                                                                placeholder="Feature">
                                                     </div>
                                                 </div>
@@ -233,7 +228,7 @@
                                                         <input type="text" name="details[]"
                                                                class="form-control _add_details"
                                                                placeholder="Feature Details" maxlength="255"
-                                                               value="{{ Request::old('details')[$i] }}">
+                                                               value="{{ old('details')[$i] }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
@@ -242,7 +237,7 @@
                                                         <input type="text" name="value[]"
                                                                class="form-control _add_value"
                                                                placeholder="# of feature"
-                                                               value="{{ Request::old('value')[$i] }}" required>
+                                                               value="{{ old('value')[$i] }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
@@ -291,7 +286,7 @@
                             <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <textarea name="description" class="form-control ckeditor" cols="30" rows="3"
                                       id="description"
-                                      placeholder="Property Description">{{ Request::old('description') }}</textarea>
+                                      placeholder="Property Description">{{ old('description') }}</textarea>
                             </div>
                             @if($errors->has('description'))
                                 <p class="text-danger">
@@ -327,7 +322,7 @@
                             <div class="form-group {{ $errors->has('tenants') ? 'has-error' : '' }} input-group">
                                 <input type="number" name="tenants" id="tenants" class="form-control" min="2"
                                        placeholder="# of Tenants" disabled
-                                       value="{{ Request::old('tenants') != null ? Request::old('tenants') : 2 }}"
+                                       value="{{ old('tenants') != null ? old('tenants') : 2 }}"
                                        required>
                                 <span class="input-group-addon">tenants</span>
                             </div>
@@ -355,8 +350,8 @@
                                                     <input type="checkbox" name="amenity[]"
                                                            id="amenity_{{ $amenity->id }}"
                                                            class="amenity" value="{{ $amenity->id }}"
-                                                    @for($i = 0; $i < count(Request::old('amenity')); $i++)
-                                                        {{ Request::old('amenity')[$i] == $amenity->id ? 'checked' : '' }}
+                                                    @for($i = 0; $i < count(old('amenity')); $i++)
+                                                        {{ old('amenity')[$i] == $amenity->id ? 'checked' : '' }}
                                                             @endfor>
                                                     {{ $amenity->title }}
                                                 </label>
@@ -401,7 +396,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <button type="submit" name="btnAddProperty" role="button"
-                                    class="btn btn-success btn-lg" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
+                                    class="btn btn-success btn-lg" {{ !$app->subscribed != 1 ? 'disabled' : '' }}>
                                 Add Property
                             </button>
                         </div><!-- /.col-lg-12 -->
