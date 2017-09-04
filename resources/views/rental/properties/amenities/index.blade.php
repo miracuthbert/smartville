@@ -1,12 +1,10 @@
 @extends('layouts.rental.master')
 
-@section('title')
-    {{ $property->title }} Amenities
-@endsection
+@section('title', "{$property->title} Amenities")
 
 @section('breadcrumb')
-    <li><a href="{{ route('estate.rental.properties', ['id' => $app->id, 'sort' => 'all']) }}">Properties</a></li>
-    <li><a href="{{ route('estate.rental.property.edit', ['id' => $property->id]) }}">{{ $property->title }}</a></li>
+    <li><a href="{{ route('rental.properties.index', [$app]) }}">Properties</a></li>
+    <li><a href="{{ route('rental.properties.edit', [$app, $property]) }}">{{ $property->title }}</a></li>
     <li class="active">Amenities</li>
 @endsection
 
@@ -19,59 +17,65 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <form name="add-property-form" method="post" action="{{ route('estate.rental.property.amenities.update') }}"
+            <form name="add-property-form" method="post"
+                  action="{{ route('rental.properties.amenities.store', [$app, $property]) }}"
                   enctype="application/x-www-form-urlencoded"
                   autocomplete="off">
-
-                @include('partials.alerts.default')
+                {{ csrf_field() }}
 
                 @include('partials.alerts.validation')
 
-                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-
-                <input type="hidden" name="id" id="id" value="{{ $property->id }}">
-
-
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="form-group{{ $errors->has('amenity') ? 'has-error' : '' }}">
-                            <p><label>Property amenities:</label></p>
+                        <!-- amenities -->
+                        @foreach($amenities as $amenity)
+                            <div class="form-group{{ $errors->has('amenity') ? 'has-error' : '' }}">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <label class="checkbox-inline" title="">
+                                            <h4>@if(isset($property) and $property->amenable($amenity))
+                                                    <input type="checkbox" name="amenity[]"
+                                                           id="amenity_{{ $amenity->id }}"
+                                                           class="amenity" value="{{ $amenity->id }}" checked>
+                                                @else
+                                                    <input type="checkbox" name="amenity[]"
+                                                           id="amenity_{{ $amenity->id }}"
+                                                           class="amenity" value="{{ $amenity->id }}">
+                                                @endif
+                                                {{ $amenity->title }}</h4>
+                                        </label>
+                                        <div>{!! $amenity->description !!}</div>
+                                        <ul class="list-inline">
+                                            @if(isset($property) and $property->amenable($amenity))
+                                                <li>Added on:
+                                                    <time>{{ $property->amenity($amenity)->pivot->created_at->diffForHumans() }}</time>
+                                                </li>
 
-                            @foreach($amenities->chunk(4) as $row)
-                                <div class="row">
-                                    @foreach($row as $amenity)
-                                        <div class="col-md-3">
-                                            <label class="checkbox-inline" title="{{ $amenity->description }}">
-                                                <input type="checkbox" name="amenity[]" id="amenity_{{ $amenity->id }}"
-                                                       class="amenity"
-                                                       value="{{ $amenity->id }}"
-                                                @foreach($property->amenities as $added)
-                                                    @if($added->status == 1)
-                                                        {{ $added->amenity_id == $amenity->id ? 'checked' : '' }}
-                                                            @endif
-                                                        @endforeach
-                                                >
-                                                {{ $amenity->title }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                                                @if(isset($property->amenity($amenity)->pivot->deleted_at))
+                                                    <li>Removed on:
+                                                        <time>{{ $property->amenity($amenity)->pivot->deleted_at->diffForHumans() }}</time>
+                                                    </li>
+                                                @endif
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
-                            @endforeach
-                            @if($errors->has('amenity'))
-                                <p class="text-danger">
-                                    <strong>{{ $errors->first('amenity') }}</strong>
-                                </p>
-                            @endif
-                        </div>
+                            </div>
+                            <hr>
+                        @endforeach
+                        @if($errors->has('amenity'))
+                            <p class="text-danger">
+                                <strong>{{ $errors->first('amenity') }}</strong>
+                            </p>
+                        @endif
                     </div>
                 </div>
-                <!-- /amenities -->
 
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="box">
                             <button type="submit" name="btnUpdateProperty" role="button"
-                                    class="btn btn-primary" {{ $app->subscribed != 1 ? 'disabled' : '' }}>Save
+                                    class="btn btn-primary" {{ !$app->subscribed != 1 ? 'disabled' : '' }}>Save
                             </button>
                         </div>
                     </div>
