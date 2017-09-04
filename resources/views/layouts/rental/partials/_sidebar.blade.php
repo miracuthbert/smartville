@@ -58,11 +58,11 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('rental.billings.create', [$app]) }}">Add billing
+                        <a href="{{ route('rental.bills.services.create', [$app]) }}">Add billing
                             service</a>
                     </li>
                     <li>
-                        <a href="{{ route('rental.billings', [$app, 'sort' => 'all']) }}">Billing Services</a>
+                        <a href="{{ route('rental.bills.services.index', [$app, 'sort' => 'all']) }}">Billing Services</a>
                     </li>
                 </ul><!-- /.nav-second-level -->
             </li><!-- /billing -->
@@ -73,16 +73,16 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('rental.groups.create', [$app]) }}">Add property group</a>
+                        <a href="{{ route('rental.properties.groups.create', [$app]) }}">Add property group</a>
                     </li>
                     <li>
-                        <a href="{{ route('rental.groups.index', [$app, 'sort' => 'all']) }}">Groups</a>
+                        <a href="{{ route('rental.properties.groups.index', [$app]) }}">Property Groups</a>
                     </li>
                     <li>
-                        <a href="{{ route('rental.property.create', [$app]) }}">Add property</a>
+                        <a href="{{ route('rental.properties.create', [$app]) }}">Add property</a>
                     </li>
                     <li>
-                        <a href="{{ route('rental.properties.index', [$app, 'sort' => 'all']) }}">Properties</a>
+                        <a href="{{ route('rental.properties.index', [$app]) }}">Properties</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
