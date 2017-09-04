@@ -15,7 +15,14 @@ class PropertyAmenity extends Model
      *
      * @var array
      */
-    protected $fillable = ['amenity_id, property_id, status'];
+    protected $fillable = ['amenity_id', 'property_id', 'status', 'deleted_at'];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Get amenity details

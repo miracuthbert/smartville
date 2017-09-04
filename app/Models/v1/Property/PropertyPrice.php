@@ -9,6 +9,8 @@ class PropertyPrice extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = [];
+
     /**
      * Get Price Property
      */
