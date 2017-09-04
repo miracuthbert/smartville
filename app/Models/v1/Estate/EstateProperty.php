@@ -47,17 +47,6 @@ class EstateProperty extends Model
     }
 
     /**
-     * @param Amenity $amenity
-     * @return mixed
-     *
-     * TODO: Move method to Amenity model to prevent query duplicates.
-     */
-    public function amenity(Amenity $amenity)
-    {
-        return $this->amenities()->wherePivot('amenity_id', $amenity->id)->withTimestamps()->first();
-    }
-
-    /**
      * Get Property Features
      */
     public function features()

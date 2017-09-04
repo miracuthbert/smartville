@@ -44,18 +44,14 @@
                                                 @endif
                                                 {{ $amenity->title }}</h4>
                                         </label>
+
                                         <div>{!! $amenity->description !!}</div>
+                                        <br>
                                         <ul class="list-inline">
                                             @if(isset($property) and $property->amenable($amenity))
-                                                <li>Added on:
-                                                    <time>{{ $property->amenity($amenity)->pivot->created_at->diffForHumans() }}</time>
+                                                <li>Added
+                                                    <time class="text-muted">{{ $amenity->property($property)->pivot->created_at->diffForHumans() }}</time>
                                                 </li>
-
-                                                @if(isset($property->amenity($amenity)->pivot->deleted_at))
-                                                    <li>Removed on:
-                                                        <time>{{ $property->amenity($amenity)->pivot->deleted_at->diffForHumans() }}</time>
-                                                    </li>
-                                                @endif
                                             @endif
                                         </ul>
                                     </div>

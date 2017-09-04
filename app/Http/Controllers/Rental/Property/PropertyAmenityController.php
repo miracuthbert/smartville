@@ -27,17 +27,15 @@ class PropertyAmenityController extends Controller
      * @param EstateProperty $property
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, CompanyApp $app, $property)
+    public function index(Request $request, CompanyApp $app, EstateProperty $property)
     {
-        $property = EstateProperty::with('amenities')->findOrFail($property);
-
         //authorize
         $this->authorize('update', $app);
 
         return view('rental.properties.amenities.index')
             ->with('app', $app)
             ->with('property_price', $property->price)
-            ->with('amenities', $app->amenities()->where('status', 1)->get())
+            ->with('amenities', $app->amenities()->with(['properties'])->where('status', 1)->get())
             ->with('groups', $app->groups()->where('status', 1)->get())
             ->with('property', $property);
     }

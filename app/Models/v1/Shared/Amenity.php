@@ -3,6 +3,7 @@
 namespace App\Models\v1\Shared;
 
 use App\Models\v1\Company\CompanyApp;
+use App\Models\v1\Estate\EstateProperty;
 use App\Models\v1\Property\PropertyAmenity;
 use App\Traits\Eloquent\OrderableTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,7 @@ class Amenity extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * Get Amenity App
+     * Get Amenity App.
      */
     public function app()
     {
@@ -27,6 +28,17 @@ class Amenity extends Model
      */
     public function properties()
     {
-        return $this->hasMany(PropertyAmenity::class, 'amenity_id', 'id');
+        return $this->belongsToMany(EstateProperty::class, 'property_amenities', 'amenity_id', 'property_id')->withTimestamps();
+    }
+
+    /**
+     * Get Amenity Property.
+     *
+     * @param EstateProperty $property
+     * @return mixed
+     */
+    public function property(EstateProperty $property)
+    {
+        return $this->properties()->wherePivot('property_id', $property->id)->withTimestamps()->first();
     }
 }
