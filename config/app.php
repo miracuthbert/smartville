@@ -166,9 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Cashier\CashierServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Monarobase\CountryList\CountryListServiceProvider::class,
         PragmaRX\Countries\ServiceProvider::class,
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
@@ -237,7 +235,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Countries' => Monarobase\CountryList\CountryListFacade::class,
         'ExtCountries' => PragmaRX\Countries\Facade::class,
 
     ],
