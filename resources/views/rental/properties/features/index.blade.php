@@ -195,7 +195,7 @@
                                     <a href="{{ route('rental.properties.features.index', [$app, $property, 'sort' => "active"]) }}">Active</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('rental.properties.features.index', [$app, $property, '$sort' => "disabled"]) }}">Disabled</a>
+                                    <a href="{{ route('rental.properties.features.index', [$app, $property, 'sort' => "disabled"]) }}">Disabled</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('rental.properties.features.index', [$app, $property, 'sort' => "trash"]) }}">In
