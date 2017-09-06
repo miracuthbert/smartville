@@ -3,7 +3,7 @@
 @section('title', 'Add Billing Service')
 
 @section('breadcrumb')
-    <li>Billing</li>
+    <li><a href="{{ route('rental.bills.services.index', [$app]) }}">Billing</a></li>
     <li>Add Billing Service</li>
 @endsection
 
@@ -191,7 +191,7 @@
 
                 <div class="form-group">
                     <button type="submit" name="btnAddBill" role="button"
-                            class="btn btn-success" {{ $app->subscribed != 0 ? 'disabled' : '' }}>
+                            class="btn btn-success" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
                         Save
                     </button>
                 </div>
