@@ -3,7 +3,7 @@
 @section('title', 'Add Property Group')
 
 @section('breadcrumb')
-    <li>Property Groups</li>
+    <li><a href="{{ route('rental.properties.groups.index', [$app]) }}">Property Groups</a></li>
     <li class="active">Add Property Group</li>
 @endsection
 
