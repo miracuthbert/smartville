@@ -40,7 +40,7 @@ class AmenityController extends Controller
         if (isset($sort) && $sort == 'trashed') {
             $amenities = $app->amenities()->onlyTrashed()->latestDelete()->paginate();
         } else {
-            $amenities = $app->amenities()->paginate();
+            $amenities = $app->amenities()->latestFirst()->paginate();
         }
 
         return view('rental.amenities.index')

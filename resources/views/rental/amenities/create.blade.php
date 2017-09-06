@@ -3,7 +3,7 @@
 @section('title', 'Add Amenity')
 
 @section('breadcrumb')
-    <li>Amenities</li>
+    <li><a href="{{ route('rental.amenities.index', [$app]) }}">Amenities</a></li>
     <li class="active">Add</li>
 @endsection
 
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" name="btnAddAmenity" role="button" class="btn btn-success btn-sm">Save
+                    <button type="submit" name="btnAddAmenity" role="button" class="btn btn-success btn-sm" {{ $app->subscribed != 1 ? 'disabled' : '' }}>Save
                     </button>
                 </div>
             </form>
