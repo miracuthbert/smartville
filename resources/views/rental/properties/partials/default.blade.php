@@ -29,7 +29,9 @@
                     @endif
                 </td>
                 <td>{{ $property->property_type == null ? 'none' : $property->type->title }}</td>
-                <td>{{ $property->size }} <small>sq.feet</small></td>
+                <td>{{ $property->size }}
+                    <small>sq.feet</small>
+                </td>
                 <td>{{ $property->price->price }}</td>
                 <td>
                     <span data-toggle="tooltip"
@@ -54,6 +56,31 @@
                                     <i class="fa fa-remove"></i>
                                 </a>
                             @endif
+                            <div class="btn-group">
+                                <div class="{{ $loop->last ? 'dropup' : 'dropdown' }}">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" id="propertyMenu{{ $property->id }}">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="propertyMenu{{ $property->id }}">
+                                        <li>
+                                            <a href="{{ route('rental.properties.amenities.index', [$app, $property]) }}">
+                                                Property Amenities
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('rental.properties.features.index', [$app, $property]) }}">
+                                                Property Features
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('rental.properties.gallery.index', [$app, $property]) }}">
+                                                Property Galleries
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         @else
                             <a href="{{ route('rental.properties.restore', [$app, $property]) }}"
                                role="button"

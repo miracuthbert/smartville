@@ -7,9 +7,7 @@
     <li class="active">Add Property</li>
 @endsection
 
-@section('page-header')
-    Add Property
-@endsection
+@section('page-header', 'Add Property')
 
 @section('content')
 
@@ -396,7 +394,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <button type="submit" name="btnAddProperty" role="button"
-                                    class="btn btn-success btn-lg" {{ !$app->subscribed != 1 ? 'disabled' : '' }}>
+                                    class="btn btn-success btn-lg" {{ $app->subscribed != 1 ? 'disabled' : '' }}>
                                 Add Property
                             </button>
                         </div><!-- /.col-lg-12 -->

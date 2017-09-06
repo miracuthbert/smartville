@@ -21,15 +21,15 @@
             <ul class="dropdown-menu pull-right">
                 <li class="dropdown-header">Switch layout to</li>
                 <li>
-                    <a href="{{ route('rental.properties.index', ['id' => $app->id, 'sort' => 'all', 'layout' => 'grid']) }}">
+                    <a href="{{ route('rental.properties.index', [$app, 'layout' => 'grid']) }}">
                         <i class="glyphicon glyphicon-th-large"></i>
                         Grid View
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('rental.properties.index', ['id' => $app->id, 'sort' => 'all']) }}">
+                    <a href="{{ route('rental.properties.index', [$app]) }}">
                         <i class="fa fa-list"></i>
-                        List View
+                        Table View
                     </a>
                 </li>
                 <li role="separator" class="divider"></li>
@@ -58,7 +58,7 @@
                 Properties ({{ isset($sort) ? title_case($sort) : 'All' }}) : {{ $properties->total() }}
             </p>
             <div class="clearfix">
-                {{ $properties->links() }}
+                {{ $properties->appends(['sort' => $sort, 'layout' => $layout])->links() }}
             </div>
         @else
             <p class="lead">No {{ isset($sort) ? title_case($sort) . ' ' : ' ' }}properties found.</p>
